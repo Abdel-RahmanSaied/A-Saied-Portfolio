@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { Github, ExternalLink, Code, Database, Globe, Smartphone } from "lucide-react";
+import Image from 'next/image';
+
 
 type Project = {
   title: string;
@@ -128,7 +130,7 @@ export default function PortfolioPage() {
                 >
                   {/* Project Image */}
                   {project.image && (
-                    <img
+                    <Image 
                       src={project.image}
                       alt={`${project.title} preview`}
                       className="absolute inset-0 w-full h-full object-cover opacity-10"

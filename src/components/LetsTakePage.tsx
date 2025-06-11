@@ -5,11 +5,11 @@ export default function LetsTakePage() {
     <div className="min-h-screen bg-slate-950 text-white px-4 py-20">
       <div className="max-w-4xl mx-auto text-center space-y-10">
         <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-          Let’s Take The Next Step Together
+          Let&apos;s Take The Next Step Together
         </h1>
         <p className="text-lg text-slate-300">
-          Whether you're looking to build a high-performing backend system, craft a scalable architecture,
-          or need guidance for your development team — I'm here to help you achieve your goals.
+          Whether you&apos;re looking to build a high-performing backend system, craft a scalable architecture,
+          or need guidance for your development team — I&apos;m here to help you achieve your goals.
         </p>
 
         <div className="mt-12 space-y-6">

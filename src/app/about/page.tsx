@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { 
-  Briefcase, 
   Code, 
   GraduationCap, 
   Mail, 
@@ -15,20 +14,20 @@ import {
   Users,
   TrendingUp,
   Download,
-  Send
 } from "lucide-react";
 
 import Link from "next/link";
 
 export default function AboutPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const { scrollYProgress } = useScroll();
-  const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
+  // const { scrollYProgress } = useScroll();
+  // const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
 
   useEffect(() => {
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
+
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
@@ -163,7 +162,7 @@ export default function AboutPage() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 1 }}
             >
-              I'm <span className="font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Abdel-Rahman Mohamed Saied</span> — 
+              I&apos;m <span className="font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Abdel-Rahman Mohamed Saied</span> — 
               Software Team Lead & Senior Software Engineer specializing in building scalable systems and leading impactful teams.
             </motion.p>
 
@@ -363,7 +362,7 @@ export default function AboutPage() {
                 </h2>
               </div>
               <div className="pl-4 border-l-2 border-emerald-500/50">
-                <h3 className="text-xl font-semibold text-white mb-2">Bachelor's Degree in Computer Science</h3>
+                <h3 className="text-xl font-semibold text-white mb-2">Bachelor&apos;s Degree in Computer Science</h3>
                 <p className="text-emerald-400 font-medium mb-2">Higher Technological Institute</p>
                 <p className="text-slate-300">Graduated with an A+ in final project and overall good grade</p>
               </div>
@@ -382,10 +381,10 @@ export default function AboutPage() {
               <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-cyan-500/5" />
               <div className="relative z-10">
                 <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                  Let's Connect
+                Let&apos;s Connect
                 </h2>
                 <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
-                  I'm open to freelance opportunities, collaborations, or just a good tech talk!
+                  I&apos;m open to freelance opportunities, collaborations, or just a good tech talk!
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">

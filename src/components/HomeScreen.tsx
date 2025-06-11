@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { 
   ChevronDown, 
   Code2, 
@@ -15,14 +15,14 @@ import {
   Linkedin,
   Mail,
   MessageCircleMore,
-  Download,
+  
   Play,
-  Star,
-  CheckCircle,
-  Globe,
-  Server,
-  Layers,
-  Shield
+//   Star,
+//   CheckCircle,
+//   Globe,
+//   Server,
+//   Layers,
+//   Shield
 } from "lucide-react";
 import Link from "next/link";
 
@@ -34,21 +34,6 @@ export default function HomeScreen() {
 
   const heroY = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentService((prev) => (prev + 1) % services.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
 
   const services = [
     {
@@ -76,6 +61,28 @@ export default function HomeScreen() {
       gradient: "from-orange-500 to-red-500"
     }
   ];
+  
+  <div className="text-center text-white text-xl my-10">
+  {services[currentService].title}
+</div>
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentService((prev) => (prev + 1) % services.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [services.length]);
+
+
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
 
   const stats = [
     { number: "4+", label: "Years Experience", icon: <TrendingUp className="w-6 h-6" /> },
@@ -161,7 +168,7 @@ export default function HomeScreen() {
                 </span>
                 <br />
                 <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
-                  Tomorrow's
+                  Tomorrow&apos;s
                 </span>
                 <br />
                 <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
@@ -243,7 +250,7 @@ export default function HomeScreen() {
                 { icon: <Mail className="w-6 h-6" />, href: "mailto:abdelrahman.saied@asasit.com", label: "Email" },
                 { icon: <MessageCircleMore className="w-6 h-6" />, href: "https://wa.me/966558046143", label: "WhatsApp" }
 
-              ].map((social, idx) => (
+              ].map((social) => (
                 <motion.a
                   key={social.label}
                   href={social.href}
@@ -376,7 +383,7 @@ export default function HomeScreen() {
               Featured Work
             </h2>
             <p className="text-xl text-slate-300 max-w-3xl mx-auto">
-              Some of the impactful projects I've led and contributed to
+              Some of the impactful projects I&apos;ve led and contributed to
             </p>
           </motion.div>
 
@@ -476,7 +483,7 @@ export default function HomeScreen() {
                 Ready to Build Something Amazing?
               </h2>
               <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
-                Let's discuss how I can help scale your backend systems and lead your development initiatives to success.
+                Let&apos;s discuss how I can help scale your backend systems and lead your development initiatives to success.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
@@ -488,7 +495,7 @@ export default function HomeScreen() {
     whileTap={{ scale: 0.95 }}
   >
     <span className="flex items-center gap-3">
-      Let's Talk
+      Let&apos;s Talk
       <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
     </span>
   </motion.button>
