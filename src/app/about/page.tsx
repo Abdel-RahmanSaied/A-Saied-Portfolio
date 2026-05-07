@@ -1,454 +1,404 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { 
-  Code, 
-  GraduationCap, 
-  Mail, 
-  Linkedin, 
-  Star,
-  ArrowRight,
-  Zap,
-  Target,
-  Users,
-  TrendingUp,
-  Download,
+import {
+  Code, GraduationCap, Mail, Linkedin,
+  Star, ArrowRight, Zap, Target, Users, TrendingUp, Download,
 } from "lucide-react";
-
 import Link from "next/link";
+import GlowCard from "@/components/GlowCard";
 
-export default function AboutPage() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  // const { scrollYProgress } = useScroll();
-  // const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
+const timelineData = [
+  {
+    date: "2024 – Present",
+    title: "Senior Software Engineer – Team Lead",
+    company: "ASAS IT",
+    icon: <Users className="w-4 h-4" />,
+    details: [
+      "Led development of Twiscope, processing 5M+ daily data points",
+      "Architected scalable backend with real-time pipelines and Celery",
+      "Integrated ML models for trend prediction and anomaly detection",
+      "Reduced latency by 25%, boosted daily throughput to 5M+ operations",
+      "Mentored engineers and enforced security-first development practices",
+    ],
+  },
+  {
+    date: "2023 – 2024",
+    title: "Senior Software Engineer – Python Developer",
+    company: "ASAS IT",
+    icon: <Code className="w-4 h-4" />,
+    details: [
+      "Led advanced Python application development across multiple products",
+      "Aligned technical direction with business objectives and stakeholder needs",
+    ],
+  },
+  {
+    date: "2022 – 2023",
+    title: "Software Engineer – Backend Developer",
+    company: "ClouDev Solutions",
+    icon: <Zap className="w-4 h-4" />,
+    details: [
+      "Enhanced cloud-based systems and automated operational workflows",
+      "Reduced downtime through proactive monitoring and maintenance",
+    ],
+  },
+  {
+    date: "2022 – 2023",
+    title: "Software Engineer",
+    company: "Prime Consulting Office (PCO)",
+    icon: <Target className="w-4 h-4" />,
+    details: [
+      "Built tailored client solutions to improve operational efficiency",
+      "Applied modern development methodologies across delivery lifecycle",
+    ],
+  },
+  {
+    date: "2020 – 2022",
+    title: "Software Engineer – Desktop Developer",
+    company: "Co-Source",
+    icon: <TrendingUp className="w-4 h-4" />,
+    details: [
+      "Led end-to-end desktop application development lifecycle",
+      "Delivered complete SDLC from planning through production deployment",
+    ],
+  },
+];
+
+const skillGroups = [
+  { label: "Backend",  items: ["Python", "Django", "FastAPI", "DRF", "Go", "Node.js", "Celery"] },
+  { label: "Data",     items: ["PostgreSQL", "Redis", "MongoDB", "Elasticsearch", "PostGIS", "Kibana"] },
+  { label: "DevOps",   items: ["Docker", "AWS", "GCP", "Nginx", "CI/CD", "Linux", "GitHub Actions"] },
+  { label: "Security", items: ["DAST", "SAST", "SARIF", "Sigstore", "Fendix"] },
+  { label: "Mobile",   items: ["Flutter", "Dart", "Firebase"] },
+  { label: "Tools",    items: ["Git", "REST APIs", "WebSockets", "Kubernetes"] },
+];
+
+// ── Animated counter ─────────────────────────────────────────
+function AnimatedCounter({
+  end, prefix = "", suffix = "",
+}: { end: number; prefix?: string; suffix?: string }) {
+  const [count, setCount] = useState(0);
+  const ref   = useRef<HTMLDivElement>(null);
+  const fired = useRef(false);
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  const timelineData = [
-    {
-      date: "2024 – Present",
-      title: "Senior Software Engineer – Software Team Lead",
-      company: "ASAS IT",
-      icon: <Users className="w-5 h-5" />,
-      gradient: "from-purple-500 to-pink-500",
-      details: [
-        "Led development of Twiscope, processing 2M+ daily data points",
-        "Architected scalable backend with real-time pipelines",
-        "Integrated ML models for trend prediction",
-        "Optimized performance: 25% latency reduction, 5M+ daily throughput",
-        "Enhanced team performance and platform security",
-        "Improved user engagement through stakeholder collaboration"
-      ]
-    },
-    {
-      date: "2023 – 2024",
-      title: "Senior Software Engineer – Python Developer",
-      company: "ASAS IT",
-      icon: <Code className="w-5 h-5" />,
-      gradient: "from-blue-500 to-cyan-500",
-      details: [
-        "Led advanced Python application development",
-        "Aligned technical direction with business objectives"
-      ]
-    },
-    {
-      date: "2022 – 2023",
-      title: "Software Engineer – Backend Developer",
-      company: "ClouDev-Solutions",
-      icon: <Zap className="w-5 h-5" />,
-      gradient: "from-green-500 to-emerald-500",
-      details: [
-        "Enhanced cloud-based systems and workflows",
-        "Reduced downtimes through proactive maintenance"
-      ]
-    },
-    {
-      date: "2022 – 2023",
-      title: "Software Engineer",
-      company: "Prime Consulting Office (PCO)",
-      icon: <Target className="w-5 h-5" />,
-      gradient: "from-orange-500 to-red-500",
-      details: [
-        "Built tailored client solutions for operational efficiency",
-        "Applied modern development methodologies"
-      ]
-    },
-    {
-      date: "2020 – 2022",
-      title: "Software Engineer – Desktop Application Developer",
-      company: "Co-Source",
-      icon: <TrendingUp className="w-5 h-5" />,
-      gradient: "from-indigo-500 to-purple-500",
-      details: [
-        "Led end-to-end desktop application development",
-        "Delivered complete SDLC from planning to deployment"
-      ]
-    }
-  ];
-
-  const techStack = [
-    { name: "Python", level: 95 },
-    { name: "Django", level: 90 },
-    { name: "DRF", level: 88 },
-    { name: "FastAPI", level: 85 },
-    { name: "Node.js", level: 80 },
-    { name: "PostgreSQL", level: 85 },
-    { name: "Redis", level: 82 },
-    { name: "MongoDB", level: 78 },
-    { name: "Docker", level: 88 },
-    { name: "AWS", level: 85 },
-    { name: "Linux", level: 90 },
-    { name: "CI/CD", level: 87 },
-    { name: "GitHub Actions", level: 85 },
-    { name: "Celery", level: 80 },
-    { name: "Nginx", level: 83 }
-  ];
-
-  const achievements = [
-    { icon: <TrendingUp className="w-6 h-6" />, value: "30%", label: "Performance Improvement" },
-    { icon: <Zap className="w-6 h-6" />, value: "40%", label: "Deployment Time Reduction" },
-    { icon: <Target className="w-6 h-6" />, value: "5M+", label: "Daily Data Points" },
-    { icon: <Star className="w-6 h-6" />, value: "4+", label: "Years Experience" }
-  ];
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !fired.current) {
+          fired.current = true;
+          const duration  = 1500;
+          const startTime = performance.now();
+          const tick = (now: number) => {
+            const p  = Math.min((now - startTime) / duration, 1);
+            const ep = 1 - Math.pow(1 - p, 3);
+            setCount(Math.round(ep * end));
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [end]);
 
   return (
-    <div className="relative bg-slate-950 text-white min-h-screen overflow-hidden">
-      {/* Animated Background */}
-      <div className="fixed inset-0 opacity-30">
-        <div 
-          className="absolute w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"
-          style={{
-            left: mousePosition.x - 192,
-            top: mousePosition.y - 192,
-            transition: 'all 0.3s ease-out'
-          }}
-        />
-        <div className="absolute top-1/4 right-1/4 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
-      </div>
+    <div ref={ref} className="tabular-nums">
+      {prefix}{count}{suffix}
+    </div>
+  );
+}
 
-      <main className="relative z-10 px-6 py-20">
-        <div className="max-w-6xl mx-auto space-y-32">
+const achievements = [
+  { icon: <TrendingUp className="w-5 h-5" />, end: 30, suffix: "%", label: "Performance Improvement" },
+  { icon: <Zap className="w-5 h-5" />,        end: 40, suffix: "%", label: "Deployment Speedup" },
+  { icon: <Target className="w-5 h-5" />,     end: 5,  suffix: "M+", label: "Daily Data Points" },
+  { icon: <Star className="w-5 h-5" />,       end: 6,  suffix: "+",  label: "Years Experience" },
+];
 
-          {/* Hero Section */}
-          <motion.section 
-            className="text-center space-y-8"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-          >
-            <motion.div
-              className="relative inline-block"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <h1 className="text-7xl md:text-8xl font-black bg-gradient-to-r from-white via-purple-200 to-cyan-200 bg-clip-text text-transparent">
-                Who Am I?
-              </h1>
-              <div className="absolute -inset-4 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 blur-2xl -z-10 rounded-full" />
-            </motion.div>
-            
-            <motion.p 
-              className="text-xl md:text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 1 }}
-            >
-              I&apos;m <span className="font-bold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Abdel-Rahman Mohamed Saied</span> — 
-              Software Team Lead & Senior Software Engineer specializing in building scalable systems and leading impactful teams.
-            </motion.p>
+const inView = {
+  hidden: { opacity: 0, y: 14 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] } },
+};
 
-            {/* Achievement Cards */}
-            <motion.div 
-              className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.8 }}
-            >
-              {achievements.map((achievement, idx) => (
-                <motion.div
-                  key={idx}
-                  className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10 hover:border-purple-500/50 transition-all duration-300"
-                  whileHover={{ scale: 1.05, y: -5 }}
-                >
-                  <div className="text-purple-400 mb-3 flex justify-center">
-                    {achievement.icon}
-                  </div>
-                  <div className="text-2xl font-bold text-white mb-1">{achievement.value}</div>
-                  <div className="text-sm text-slate-400">{achievement.label}</div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.section>
+export default function AboutPage() {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-          {/* Professional Summary */}
-          <motion.section
-            className="relative"
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="bg-gradient-to-br from-slate-900/80 to-slate-800/80 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/10 shadow-2xl">
-              <h2 className="text-4xl font-bold mb-8 bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                Professional Summary
-              </h2>
-              <p className="text-lg text-slate-300 leading-relaxed">
-                With over 4 years of experience in the software industry, I specialize in building scalable, robust backend systems using Python and Django. 
-                I have successfully led the development of critical applications, improving system performance by up to 30%. My expertise in DevOps and cloud 
-                technologies has optimized CI/CD pipelines, reducing deployment time by 40%. As a team lead, I focus on aligning development practices with 
-                organizational goals, ensuring smooth project execution and improved system reliability.
+  useEffect(() => {
+    const fn = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY });
+    window.addEventListener("mousemove", fn, { passive: true });
+    return () => window.removeEventListener("mousemove", fn);
+  }, []);
+
+  return (
+    <div className="relative bg-zinc-950 text-zinc-100 min-h-screen overflow-hidden">
+      {/* Ambient cursor light */}
+      <div
+        className="pointer-events-none fixed w-80 h-80 bg-white/[0.015] rounded-full blur-3xl transition-all duration-700 ease-out"
+        style={{ left: mousePos.x - 160, top: mousePos.y - 160 }}
+      />
+
+      <main className="relative z-10 max-w-5xl mx-auto px-6 py-24 space-y-24">
+
+        {/* ── Hero ──────────────────────────────────────────────── */}
+        <motion.section
+          className="text-center max-w-3xl mx-auto"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65 }}
+        >
+          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-4">About</p>
+          <h1 className="text-4xl sm:text-5xl font-black text-white mb-6 leading-tight">Who am I?</h1>
+          <p className="text-zinc-500 leading-relaxed mb-10 text-sm sm:text-base">
+            I&apos;m{" "}
+            <span className="font-semibold text-zinc-200">Abdel-Rahman Mohamed Saied</span> — Senior
+            Software Engineer & Team Lead specializing in scalable backend systems, real-time data
+            pipelines, and open-source security tooling.
+          </p>
+
+          {/* Achievement cards with animated counters */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {achievements.map((a, i) => (
+              <motion.div
+                key={a.label}
+                className="p-5 rounded-2xl border border-zinc-800 bg-zinc-900/40 hover:border-zinc-700 transition-all duration-300"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 + i * 0.07, duration: 0.45 }}
+                whileHover={{ y: -3 }}
+              >
+                <div className="text-zinc-600 flex justify-center mb-2">{a.icon}</div>
+                <div className="text-2xl font-black text-white mb-0.5">
+                  <AnimatedCounter end={a.end} suffix={a.suffix} />
+                </div>
+                <div className="text-xs text-zinc-600">{a.label}</div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* ── Summary ───────────────────────────────────────────── */}
+        <motion.section
+          initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
+        >
+          <GlowCard className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-8 md:p-10">
+            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-3">Summary</p>
+            <h2 className="text-xl font-bold text-white mb-5">Professional Overview</h2>
+            <div className="space-y-4 text-zinc-500 leading-relaxed text-sm">
+              <p>
+                Senior Software Engineer and Team Lead with 6+ years of experience architecting
+                production-grade backend systems across seven industries — from social intelligence
+                platforms and hospitality management to AI-driven services and cybersecurity tooling.
+              </p>
+              <p>
+                My primary stack is <span className="text-zinc-300 font-medium">Python and Django</span>,
+                used to build systems processing 5M+ data points daily, multi-tenant hotel reservations,
+                geospatial trip management, and talent marketplace platforms. I also engineer in{" "}
+                <span className="text-zinc-300 font-medium">Go</span>, having designed and shipped Fendix
+                — an open-source hybrid DAST + SAST API security scanner that reduced false positives by
+                ~70% through correlated-findings logic and ships as a single signed binary.
+              </p>
+              <p>
+                As a team lead, I align engineering decisions with business outcomes: improving system
+                performance by 30%, cutting deployment cycles by 40%, and integrating ML models for
+                real-time trend detection and sentiment analysis. I operate across the full spectrum —
+                from API design and async pipelines to cloud infrastructure, security tooling, and
+                mobile backends.
               </p>
             </div>
-          </motion.section>
+          </GlowCard>
+        </motion.section>
 
-          {/* Tech Stack with Progress Bars */}
-          <motion.section
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-              Tech Stack & Expertise
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {techStack.map((tech, idx) => (
+        {/* ── Tech Stack ────────────────────────────────────────── */}
+        <motion.section
+          initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
+        >
+          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-3">Stack</p>
+          <h2 className="text-xl font-bold text-white mb-8">Tech Stack & Expertise</h2>
+
+          <div className="space-y-5">
+            {skillGroups.map((group, gi) => (
+              <motion.div
+                key={group.label}
+                className="flex flex-col sm:flex-row sm:items-center gap-3"
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: gi * 0.07, duration: 0.4 }}
+              >
+                <span className="text-xs font-semibold uppercase tracking-widest text-zinc-700 sm:w-20 shrink-0">
+                  {group.label}
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {group.items.map((t) => (
+                    <motion.span
+                      key={t}
+                      className="px-3 py-1.5 rounded-lg border border-zinc-800 bg-zinc-900/60 text-zinc-500 text-sm font-medium hover:border-zinc-600 hover:text-zinc-300 transition-all duration-200 cursor-default"
+                      whileHover={{ y: -1, scale: 1.03 }}
+                    >
+                      {t}
+                    </motion.span>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* ── Timeline ──────────────────────────────────────────── */}
+        <motion.section
+          initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
+        >
+          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-3">Journey</p>
+          <h2 className="text-xl font-bold text-white mb-12">Professional Experience</h2>
+
+          <div className="relative">
+            <div className="absolute left-5 top-2 bottom-2 w-px bg-zinc-800 hidden sm:block" />
+            <div className="space-y-6">
+              {timelineData.map((entry, i) => (
                 <motion.div
-                  key={tech.name}
-                  className="bg-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10 hover:border-purple-500/50 transition-all duration-300"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  key={i}
+                  className="sm:pl-16 relative"
+                  initial={{ opacity: 0, x: -12 }}
+                  whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1, duration: 0.5 }}
-                  whileHover={{ scale: 1.02 }}
+                  transition={{ delay: i * 0.08, duration: 0.45 }}
                 >
-                  <div className="flex justify-between items-center mb-3">
-                    <span className="font-semibold text-white">{tech.name}</span>
-                    <span className="text-sm text-purple-400">{tech.level}%</span>
-                  </div>
-                  <div className="w-full bg-slate-700 rounded-full h-2">
-                    <motion.div
-                      className="bg-gradient-to-r from-purple-500 to-cyan-500 h-2 rounded-full"
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${tech.level}%` }}
-                      viewport={{ once: true }}
-                      transition={{ delay: idx * 0.1 + 0.5, duration: 0.8, ease: "easeOut" }}
-                    />
-                  </div>
+                  <div className="absolute left-[18px] top-5 w-3 h-3 rounded-full bg-zinc-700 ring-4 ring-zinc-950 hidden sm:block" />
+
+                  <motion.div
+                    className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6 hover:border-zinc-700 transition-all duration-300"
+                    whileHover={{ y: -2 }}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="p-2 rounded-lg bg-zinc-800 shrink-0 text-zinc-400">
+                        {entry.icon}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-zinc-100 text-sm mb-0.5">{entry.title}</h3>
+                        <div className="flex flex-wrap gap-x-3 mb-4 text-xs">
+                          <span className="text-zinc-400 font-medium">{entry.company}</span>
+                          <span className="text-zinc-700">·</span>
+                          <span className="text-zinc-600">{entry.date}</span>
+                        </div>
+                        <ul className="space-y-1.5">
+                          {entry.details.map((d, j) => (
+                            <motion.li
+                              key={j}
+                              className="flex items-start gap-2 text-xs text-zinc-600"
+                              initial={{ opacity: 0, x: -6 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              viewport={{ once: true }}
+                              transition={{ delay: 0.04 * j, duration: 0.35 }}
+                            >
+                              <ArrowRight className="w-3 h-3 text-zinc-700 mt-0.5 shrink-0" />
+                              {d}
+                            </motion.li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </motion.div>
                 </motion.div>
               ))}
             </div>
-          </motion.section>
+          </div>
+        </motion.section>
 
-          {/* Experience Timeline */}
-          <motion.section
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-4xl font-bold text-center mb-16 bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-              Professional Journey
-            </h2>
-            
-            <div className="relative">
-              {/* Timeline line */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-purple-500 via-cyan-500 to-purple-500 opacity-50" />
-              
-              {timelineData.map((entry, idx) => {
-                const isLeft = idx % 2 === 0;
-                return (
-                  <motion.div
-                    key={idx}
-                    className={`relative flex ${isLeft ? 'justify-start' : 'justify-end'} mb-16`}
-                    initial={{ opacity: 0, x: isLeft ? -100 : 100 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: idx * 0.2, duration: 0.8 }}
-                  >
-                    <div className={`w-full max-w-md ${isLeft ? 'pr-8' : 'pl-8'}`}>
-                      <motion.div
-                        className="bg-gradient-to-br from-slate-900/90 to-slate-800/90 backdrop-blur-xl rounded-2xl p-8 border border-white/10 shadow-xl hover:shadow-2xl transition-all duration-300"
-                        whileHover={{ scale: 1.02, y: -5 }}
-                      >
-                        <div className="flex items-center gap-3 mb-4">
-                          <div className={`p-2 rounded-lg bg-gradient-to-r ${entry.gradient}`}>
-                            {entry.icon}
-                          </div>
-                          <div>
-                            <h3 className="font-bold text-white text-lg">{entry.title}</h3>
-                            <p className="text-purple-400 font-semibold">{entry.company}</p>
-                          </div>
-                        </div>
-                        <p className="text-sm text-slate-400 mb-4">{entry.date}</p>
-                        <ul className="space-y-2">
-                          {entry.details.map((detail, i) => (
-                            <li key={i} className="text-slate-300 text-sm flex items-start gap-2">
-                              <ArrowRight className="w-3 h-3 text-purple-400 mt-1 flex-shrink-0" />
-                              {detail}
-                            </li>
-                          ))}
-                        </ul>
-                      </motion.div>
-                    </div>
-                    
-                    {/* Timeline dot */}
-                    <div className="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full border-4 border-slate-950 z-10" />
-                  </motion.div>
-                );
-              })}
+        {/* ── Why Me ────────────────────────────────────────────── */}
+        <motion.section
+          initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
+        >
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-8 md:p-10">
+            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-3">Why Me</p>
+            <h2 className="text-xl font-bold text-white mb-7">Why Work With Me?</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {[
+                "Proven ability to lead high-impact projects and deliver results under tight deadlines",
+                "Strong balance between deep technical excellence and team mentorship",
+                "Deep experience with scalable systems, modern DevOps, and cloud infrastructure",
+                "Strategic thinker with a hands-on approach to building meaningful software",
+              ].map((point, i) => (
+                <motion.div
+                  key={i}
+                  className="flex items-start gap-3 p-4 rounded-xl border border-zinc-800 bg-zinc-900/30 hover:border-zinc-700 transition-all duration-300"
+                  initial={{ opacity: 0, y: 6 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.07, duration: 0.4 }}
+                  whileHover={{ y: -2 }}
+                >
+                  <Star className="w-3.5 h-3.5 text-zinc-500 shrink-0 mt-0.5" />
+                  <p className="text-xs text-zinc-500 leading-relaxed">{point}</p>
+                </motion.div>
+              ))}
             </div>
-          </motion.section>
+          </div>
+        </motion.section>
 
-          {/* Why Work With Me */}
-          <motion.section
-            className="relative"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="bg-gradient-to-br from-purple-900/30 to-cyan-900/30 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-purple-500/20">
-              <h2 className="text-4xl font-bold mb-8 text-center bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                Why Work With Me?
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {[
-                  "Proven ability to lead high-impact projects and drive results under tight deadlines",
-                  "Strong balance between technical excellence and team mentorship",
-                  "Deep experience with scalable systems, modern DevOps, and cloud infrastructure",
-                  "Strategic thinker with a hands-on approach to building meaningful software products"
-                ].map((point, idx) => (
-                  <motion.div
-                    key={idx}
-                    className="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/10"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: idx * 0.1, duration: 0.5 }}
-                  >
-                    <Star className="w-5 h-5 text-yellow-400 mt-1 flex-shrink-0" />
-                    <p className="text-slate-300">{point}</p>
-                  </motion.div>
-                ))}
+        {/* ── Education ─────────────────────────────────────────── */}
+        <motion.section
+          initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
+        >
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-8 md:p-10">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2.5 rounded-xl bg-zinc-800 text-zinc-300">
+                <GraduationCap className="w-5 h-5" />
               </div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600">Education</p>
             </div>
-          </motion.section>
+            <h3 className="text-base font-bold text-white mb-1">
+              Bachelor&apos;s Degree in Computer Science
+            </h3>
+            <p className="text-zinc-500 font-medium text-sm mb-2">Higher Technological Institute</p>
+            <p className="text-zinc-600 text-sm">Graduated with an A+ in final project and overall good grade.</p>
+          </div>
+        </motion.section>
 
-          {/* Education */}
-          <motion.section
-            className="relative"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="bg-gradient-to-br from-slate-900/80 to-slate-800/80 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/10 shadow-2xl">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="p-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500">
-                  <GraduationCap className="w-6 h-6" />
-                </div>
-                <h2 className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-                  Education
-                </h2>
-              </div>
-              <div className="pl-4 border-l-2 border-emerald-500/50">
-                <h3 className="text-xl font-semibold text-white mb-2">Bachelor&apos;s Degree in Computer Science</h3>
-                <p className="text-emerald-400 font-medium mb-2">Higher Technological Institute</p>
-                <p className="text-slate-300">Graduated with an A+ in final project and overall good grade</p>
-              </div>
-            </div>
-          </motion.section>
-
-          {/* Contact Section */}
-          <motion.section
-            className="text-center relative"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="bg-gradient-to-br from-purple-900/50 to-cyan-900/50 backdrop-blur-xl rounded-3xl p-12 border border-purple-500/30 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-cyan-500/5" />
-              <div className="relative z-10">
-                <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                Let&apos;s Connect
-                </h2>
-                <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
-                  I&apos;m open to freelance opportunities, collaborations, or just a good tech talk!
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-                  {/* <motion.a
-                    href="mailto:abdelrahman.saied@asasit.com"
-                    className="flex items-center gap-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 px-8 py-4 rounded-full text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Mail className="w-5 h-5" />
-                    Email Me
-                  </motion.a> */}
-
-                  {/* Final Section: Download CV + Get in Touch */}
-          <motion.section
-            className="text-center relative"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mt-12">
+        {/* ── CTA ───────────────────────────────────────────────── */}
+        <motion.section
+          className="text-center"
+          initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
+        >
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-10 md:p-14">
+            <h2 className="text-2xl font-bold text-white mb-3">Let&apos;s Connect</h2>
+            <p className="text-zinc-500 mb-8 max-w-md mx-auto text-sm leading-relaxed">
+              Open to freelance opportunities, collaborations, or just a good tech conversation.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
               <Link href="/lets-talk">
                 <motion.button
-                  className="group flex items-center gap-3 border-2 border-slate-600 hover:border-purple-500 px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:bg-purple-500/10"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-2 px-7 py-3 bg-zinc-100 hover:bg-white text-zinc-900 text-sm font-semibold rounded-xl transition-colors duration-200 w-full sm:w-auto"
+                  whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
                 >
-                  <Mail className="w-5 h-5 group-hover:animate-pulse" />
-                  Get in Touch
+                  <Mail className="w-4 h-4" /> Get in Touch
                 </motion.button>
               </Link>
               <motion.a
-                href="/assets/Abdelrahman_Saied_resume.pdf"
-                download={true}
-                className="group flex items-center gap-3 border-2 border-slate-600 hover:border-purple-500 px-10 py-4 rounded-full text-lg font-semibold transition-all duration-300 hover:bg-purple-500/10"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                href="https://www.linkedin.com/in/abdel-rahman-saied"
+                target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-2 px-7 py-3 border border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:text-zinc-200 text-sm font-semibold rounded-xl transition-all duration-200 hover:bg-zinc-800/40 w-full sm:w-auto"
+                whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
               >
-                <Download className="w-5 h-5 group-hover:animate-bounce" />
-                Download CV
+                <Linkedin className="w-4 h-4" /> LinkedIn
+              </motion.a>
+              <motion.a
+                href="/assets/Abdelrahman_Saied_resume.pdf"
+                download
+                className="flex items-center gap-2 px-7 py-3 border border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:text-zinc-200 text-sm font-semibold rounded-xl transition-all duration-200 hover:bg-zinc-800/40 w-full sm:w-auto"
+                whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+              >
+                <Download className="w-4 h-4" /> Download CV
               </motion.a>
             </div>
-          </motion.section>
-                  
-                  <motion.a
-                    href="https://www.linkedin.com/in/abdel-rahman-saied"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 bg-gradient-to-r from-cyan-600 to-cyan-700 hover:from-cyan-700 hover:to-cyan-800 px-8 py-4 rounded-full text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Linkedin className="w-5 h-5" />
-                    LinkedIn
-                  </motion.a>
+          </div>
+        </motion.section>
 
-                  
-                </div>
-              </div>
-            </div>
-          </motion.section>
-
-        </div>
       </main>
     </div>
   );

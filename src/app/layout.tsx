@@ -1,9 +1,11 @@
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import CursorFollower from "@/components/CursorFollower";
+import ScrollProgress from "@/components/ScrollProgress";
 
 export const metadata = {
-  title: "AbdelRahman | Portfolio",
-  description: "About Abdelrahman Mohamed Saied",
+  title: "Abdel-Rahman Saied | Backend Architect & Team Lead",
+  description: "Senior Software Engineer & Team Lead specializing in scalable backend systems, real-time data pipelines, and API security tooling.",
 };
 
 export default function RootLayout({
@@ -13,9 +15,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-slate-950 text-white">
+      <body className="bg-zinc-950 text-zinc-100">
+        <ScrollProgress />
+        <CursorFollower />
         <Navbar />
-        <div className="pt-20">{children}</div> {/* عشان يبعد عن الـ navbar */}
+        <div className="pt-16">{children}</div>
       </body>
     </html>
   );
