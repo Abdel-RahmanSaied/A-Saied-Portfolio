@@ -6,6 +6,10 @@ import ScrollProgress from "@/components/ScrollProgress";
 export const metadata = {
   title: "Abdel-Rahman Saied | Backend Architect & Team Lead",
   description: "Senior Software Engineer & Team Lead specializing in scalable backend systems, real-time data pipelines, and API security tooling.",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+  },
 };
 
 export default function RootLayout({
