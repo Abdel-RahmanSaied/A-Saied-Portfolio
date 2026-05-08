@@ -19,6 +19,218 @@ export type Post = {
 
 export const posts: Post[] = [
   {
+    slug:     "django-caching-performance",
+    title:    "Caching for Performance: Speed Up Your Django App with the Built-In Caching Framework",
+    date:     "2024-01-10",
+    readTime: "6 min read",
+    tags:     ["Django", "Redis", "Performance", "Backend"],
+    summary:
+      "Django ships with a powerful caching framework that most developers underuse. Here's how to apply it correctly — from per-view caching to fine-grained object caching — with lessons from a system that cut latency 25% purely through cache strategy.",
+    content: [
+      {
+        type: "p",
+        text: "Most Django performance conversations go straight to database query optimization — adding indexes, using select_related, avoiding N+1s. That's important, but there's a layer above it that's often more impactful and faster to ship: caching. Django's built-in caching framework is mature, flexible, and works with any backend. The question is knowing when and how to apply it.",
+      },
+      {
+        type: "p",
+        text: "In Twiscope — a platform processing 5M+ social data events daily — a targeted caching strategy using Redis cut API latency by 25% without a single database schema change. Here's the framework and the approach.",
+      },
+      {
+        type: "h2",
+        text: "Django's caching backends",
+      },
+      {
+        type: "p",
+        text: "Django supports multiple cache backends out of the box. The right choice depends on your infrastructure and requirements.",
+      },
+      {
+        type: "list",
+        items: [
+          "LocMemCache — in-process memory cache, fast but per-process and not shared across workers. Good for development only.",
+          "FileBasedCache — stores cache on disk. Persistent across restarts but slow. Rarely the right choice for web apps.",
+          "MemcachedCache — fast, distributed, purpose-built for caching. No persistence, no complex data structures.",
+          "RedisCache (django-redis) — fast, distributed, persistent if needed, supports complex types. The default choice for most production Django apps.",
+        ],
+      },
+      {
+        type: "code",
+        lang: "python",
+        code: `# settings.py — Redis cache configuration
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "SOCKET_CONNECT_TIMEOUT": 5,
+            "SOCKET_TIMEOUT": 5,
+            "IGNORE_EXCEPTIONS": True,  # degrade gracefully if Redis is down
+        },
+        "KEY_PREFIX": "myapp",
+        "TIMEOUT": 300,  # 5 minutes default TTL
+    }
+}`,
+      },
+      {
+        type: "h2",
+        text: "Level 1: Per-view caching",
+      },
+      {
+        type: "p",
+        text: "The fastest win is caching entire view responses. If a view returns the same response for any unauthenticated user within a time window, cache the whole thing.",
+      },
+      {
+        type: "code",
+        lang: "python",
+        code: `from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+from django.views import View
+
+# Function-based view
+@cache_page(60 * 15)  # cache for 15 minutes
+def trending_hashtags(request):
+    # expensive DB aggregation
+    trends = Hashtag.objects.annotate(
+        count=Count("mentions")
+    ).order_by("-count")[:20]
+    return JsonResponse({"trends": list(trends.values())})
+
+
+# Class-based view
+@method_decorator(cache_page(60 * 15), name="dispatch")
+class TrendingView(View):
+    def get(self, request):
+        ...`,
+      },
+      {
+        type: "p",
+        text: "Per-view caching works well for public, read-heavy endpoints where the response is identical for all users. It breaks down for authenticated views where the response varies per user — caching those leaks data between users.",
+      },
+      {
+        type: "h2",
+        text: "Level 2: Template fragment caching",
+      },
+      {
+        type: "p",
+        text: "When only part of a page is expensive to render, cache the fragment rather than the entire response. Django's template engine has a built-in cache tag for this.",
+      },
+      {
+        type: "code",
+        lang: "html",
+        code: `{% load cache %}
+
+{# Cache this block for 10 minutes, keyed by platform name #}
+{% cache 600 platform_stats platform.name %}
+  <div class="stats-panel">
+    <span>{{ platform.total_mentions }}</span>
+    <span>{{ platform.top_influencer }}</span>
+  </div>
+{% endcache %}`,
+      },
+      {
+        type: "h2",
+        text: "Level 3: Low-level cache API",
+      },
+      {
+        type: "p",
+        text: "For fine-grained control — caching the result of a single expensive function, not an entire view — use the low-level cache API directly. This is what made the biggest difference in Twiscope.",
+      },
+      {
+        type: "code",
+        lang: "python",
+        code: `from django.core.cache import cache
+
+def get_top_influencers(platform: str, limit: int = 10) -> list:
+    cache_key = f"top_influencers:{platform}:{limit}"
+    result = cache.get(cache_key)
+
+    if result is not None:
+        return result
+
+    # Expensive aggregation query
+    result = (
+        Influencer.objects
+        .filter(platform=platform, is_active=True)
+        .annotate(engagement=Sum("post__engagement_score"))
+        .order_by("-engagement")
+        .values("id", "username", "engagement")[:limit]
+    )
+    result = list(result)  # evaluate the queryset
+
+    cache.set(cache_key, result, timeout=60)  # 60 second TTL
+    return result`,
+      },
+      {
+        type: "callout",
+        text: "The 25% latency reduction in Twiscope came from caching exactly this pattern — trending keywords and top influencers by platform were being queried thousands of times per hour with near-identical results. A 60-second TTL eliminated 90% of those database hits with no meaningful staleness for users.",
+      },
+      {
+        type: "h2",
+        text: "Cache invalidation: the hard part",
+      },
+      {
+        type: "p",
+        text: "There are only two hard things in computer science: cache invalidation and naming things. Django gives you tools for both patterns — TTL-based expiry and explicit invalidation.",
+      },
+      {
+        type: "code",
+        lang: "python",
+        code: `from django.core.cache import cache
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+@receiver(post_save, sender=Influencer)
+def invalidate_influencer_cache(sender, instance, **kwargs):
+    # Clear all cached influencer lists for this platform
+    pattern = f"top_influencers:{instance.platform}:*"
+    cache.delete_pattern(pattern)  # requires django-redis
+
+
+# Or use versioned cache keys — increment version on write
+def get_cache_version(platform: str) -> int:
+    return cache.get(f"version:{platform}", default=1)
+
+def bump_cache_version(platform: str):
+    cache.incr(f"version:{platform}", delta=1)`,
+      },
+      {
+        type: "h2",
+        text: "What not to cache",
+      },
+      {
+        type: "list",
+        items: [
+          "User-specific data without per-user cache keys — you'll leak data between users",
+          "Data that changes on every write if your write rate is high — the cache will be invalidated immediately anyway",
+          "Small, fast queries — the cache lookup overhead can exceed the query time for simple primary key lookups",
+          "Anything security-sensitive (tokens, passwords, permissions) — wrong TTL decisions have serious consequences",
+        ],
+      },
+      {
+        type: "h2",
+        text: "Monitoring cache effectiveness",
+      },
+      {
+        type: "p",
+        text: "A cache you can't measure is a cache you can't optimize. Track hit rate, miss rate, and eviction rate. With Redis, these are available via INFO stats. A hit rate below 80% usually means your keys are too specific or your TTL is too short.",
+      },
+      {
+        type: "code",
+        lang: "bash",
+        code: `# Redis cache stats
+redis-cli INFO stats | grep -E "keyspace_hits|keyspace_misses"
+
+# Hit rate = hits / (hits + misses)
+# Target: > 80% for hot-path caches`,
+      },
+      {
+        type: "p",
+        text: "Django's caching framework is one of the highest-leverage performance tools available. The API is simple, the impact is immediate, and unlike database optimizations it requires no schema changes or migrations. Start with your most expensive repeated queries — the ones called on every page load or every API response — and work down from there.",
+      },
+    ],
+  },
+
+  {
     slug:     "false-positive-problem",
     title:    "Why Both Scanners Must Agree: The Insight Behind Fendix",
     date:     "2025-03-12",
