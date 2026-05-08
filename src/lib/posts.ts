@@ -231,6 +231,284 @@ redis-cli INFO stats | grep -E "keyspace_hits|keyspace_misses"
   },
 
   {
+    slug:     "backend-depths-techniques",
+    title:    "A Journey into Backend Depths: 8 Techniques You Must Know",
+    date:     "2024-10-18",
+    readTime: "8 min read",
+    tags:     ["Backend", "Distributed Systems", "Architecture", "Security"],
+    summary:
+      "Backend development is much bigger than just writing APIs. Here are 8 areas every backend engineer must understand to reach real professionalism — from distributed systems and consistency models to serverless and disaster recovery.",
+    content: [
+      {
+        type: "p",
+        text: "Backend is always considered the backbone of any application. If you work as a backend developer and want to reach professionalism, you must know that the matter is much bigger than just APIs. After years of building production systems across hospitality, transportation, social intelligence, and security — here are the 8 areas that separate a solid backend engineer from a great one.",
+      },
+      {
+        type: "h2",
+        text: "1. Distributed Systems",
+      },
+      {
+        type: "p",
+        text: "Once your system spans more than one machine, you're dealing with distributed systems — and the rules change. The CAP theorem tells you that in a distributed system you can only guarantee two of three properties: Consistency, Availability, and Partition Tolerance. In practice, partition tolerance is non-negotiable (networks fail), so you're choosing between strong consistency and high availability.",
+      },
+      {
+        type: "list",
+        items: [
+          "Sharding: splitting data across multiple nodes to distribute read/write load — each node owns a subset of the data",
+          "Replication: copying data across nodes for redundancy and read scaling — primary-replica being the most common pattern",
+          "CAP theorem: understand which guarantees your system needs before choosing your database",
+        ],
+      },
+      {
+        type: "h2",
+        text: "2. Consistency vs. Performance",
+      },
+      {
+        type: "p",
+        text: "Strong consistency — every read sees the latest write — is expensive. For many use cases, eventual consistency is acceptable: all nodes will converge to the same state, but reads may temporarily see stale data. The engineering challenge is knowing which data requires strong consistency (financial transactions, inventory counts) and which can tolerate eventual consistency (user feed, analytics aggregates).",
+      },
+      {
+        type: "callout",
+        text: "Technologies worth understanding: CRDTs (data structures that merge conflict-free across nodes), Kafka and RabbitMQ for async event propagation, and read replicas for offloading analytical queries from primary databases.",
+      },
+      {
+        type: "h2",
+        text: "3. Caching",
+      },
+      {
+        type: "p",
+        text: "Caching is one of the highest-leverage performance tools available. Redis and Memcached are the standard choices for distributed caching. The technical challenge isn't setting up the cache — it's invalidation: knowing when to expire or evict data to avoid serving stale results.",
+      },
+      {
+        type: "list",
+        items: [
+          "TTL-based expiry: simplest approach, works well for data that becomes stale on a predictable schedule",
+          "Event-driven invalidation: invalidate cache entries when the underlying data changes via signals or message queues",
+          "Versioned cache keys: increment a version counter on write, build the version into the cache key — old entries expire naturally",
+        ],
+      },
+      {
+        type: "h2",
+        text: "4. Security",
+      },
+      {
+        type: "p",
+        text: "Security is not a feature you add at the end — it's a property you design in from the start. Three areas are non-negotiable for any production backend:",
+      },
+      {
+        type: "list",
+        items: [
+          "OAuth2 and JWT: understand the difference between authentication (who are you?) and authorization (what can you do?), and when to use JWT vs. server-side sessions",
+          "Encryption in transit: TLS everywhere, no exceptions — including internal service-to-service communication",
+          "Password hashing: bcrypt or Argon2, never SHA-256 or MD5 — the work factor must make brute force computationally expensive",
+        ],
+      },
+      {
+        type: "h2",
+        text: "5. Microservices",
+      },
+      {
+        type: "p",
+        text: "Microservices trade deployment simplicity for operational flexibility. Before adopting them, understand the cost: network calls replace function calls, distributed tracing becomes necessary, and you now have a fleet of services to deploy and monitor. When they're the right choice, containers and Kubernetes handle deployment and scaling, while gRPC provides efficient, typed service-to-service communication.",
+      },
+      {
+        type: "callout",
+        text: "Don't start with microservices. Start with a well-structured monolith. Extract services only when you have a clear scaling or team-ownership reason to do so — not because microservices feel more professional.",
+      },
+      {
+        type: "h2",
+        text: "6. Monitoring & Observability",
+      },
+      {
+        type: "p",
+        text: "A system you can't observe is a system you can't debug in production. The three pillars of observability are metrics, logs, and traces.",
+      },
+      {
+        type: "list",
+        items: [
+          "Metrics (Prometheus + Grafana): numeric measurements over time — request rate, error rate, latency percentiles, queue depth",
+          "Logs: structured logs (JSON) searchable by field, not grep-based text search",
+          "Distributed tracing (Jaeger, OpenTelemetry): follow a single request across multiple services — essential for debugging latency in microservice architectures",
+        ],
+      },
+      {
+        type: "h2",
+        text: "7. Disaster Recovery",
+      },
+      {
+        type: "p",
+        text: "Backups you've never tested are not backups — they're hopes. A real disaster recovery plan has two numbers: RPO (Recovery Point Objective, how much data you can afford to lose) and RTO (Recovery Time Objective, how long recovery can take). Both must be tested regularly against real restore procedures, not assumed based on backup completion logs.",
+      },
+      {
+        type: "h2",
+        text: "8. Serverless",
+      },
+      {
+        type: "p",
+        text: "Serverless (AWS Lambda, Google Cloud Functions, Azure Functions) removes infrastructure management but introduces its own constraints: cold starts, execution time limits, and statelessness. It's an excellent fit for event-driven, bursty workloads and poor fit for long-running processes or latency-sensitive hot paths. Understanding these trade-offs is what separates engineers who deploy serverless successfully from those who fight it.",
+      },
+      {
+        type: "p",
+        text: "None of these areas is a one-week course. Each is a career-long discipline. But the engineers who understand all eight — not just the ones they've personally needed so far — are the ones who can look at an architecture and see the risks before they become incidents.",
+      },
+    ],
+  },
+
+  {
+    slug:     "serverless-architecture-limits",
+    title:    "Serverless Architecture & Limits: The Real Behind-the-Scenes",
+    date:     "2024-11-05",
+    readTime: "5 min read",
+    tags:     ["Serverless", "AWS Lambda", "Cloud", "Architecture"],
+    summary:
+      "Serverless offers real flexibility and automatic scaling — but it comes with constraints most tutorials skip. Here's what cold starts, execution limits, and statelessness actually mean in practice, and how to work around them.",
+    content: [
+      {
+        type: "p",
+        text: "Serverless computing has a marketing problem. The pitch — 'no servers to manage, infinite scale, pay only for what you use' — is accurate but incomplete. Every architectural pattern has trade-offs, and serverless trade-offs are specific and non-obvious. Understanding them is the difference between a successful serverless deployment and a system that embarrasses you in production.",
+      },
+      {
+        type: "h2",
+        text: "What serverless actually means",
+      },
+      {
+        type: "p",
+        text: "Serverless doesn't mean no servers — it means you don't manage them. Your function runs in a container that your cloud provider spins up on demand, executes, and tears down. AWS Lambda, Azure Functions, and Google Cloud Functions all follow this model. You write the function; the provider handles provisioning, scaling, and maintenance.",
+      },
+      {
+        type: "p",
+        text: "The pricing model is a genuine advantage: you pay per invocation and per millisecond of execution time, not for idle capacity. For bursty, event-driven workloads, this is dramatically cheaper than keeping servers warm 24/7.",
+      },
+      {
+        type: "h2",
+        text: "Challenge 1: Cold starts",
+      },
+      {
+        type: "p",
+        text: "When a function hasn't been invoked recently, the provider needs to spin up a new container before executing it. This initialization latency — the cold start — can range from 100ms to several seconds depending on the runtime and function size.",
+      },
+      {
+        type: "list",
+        items: [
+          "Python and Node.js have faster cold starts than Java or .NET due to lighter runtime initialization",
+          "Large deployment packages (heavy dependencies) make cold starts worse — keep your function packages lean",
+          "VPC-attached Lambda functions have longer cold starts due to network interface provisioning",
+        ],
+      },
+      {
+        type: "code",
+        lang: "python",
+        code: `# Bad: importing heavy libraries inside the handler (re-imported on every cold start)
+def handler(event, context):
+    import pandas as pd          # slow import
+    import numpy as np           # slow import
+    # ... process event
+
+
+# Good: module-level imports are cached after first cold start
+import json
+from utils import process_event  # lightweight utility
+
+def handler(event, context):
+    return process_event(event)`,
+      },
+      {
+        type: "callout",
+        text: "For latency-sensitive endpoints, use Provisioned Concurrency on AWS Lambda — it keeps a pool of initialized containers always warm, eliminating cold starts at the cost of paying for idle capacity. Use it selectively on hot paths, not across the board.",
+      },
+      {
+        type: "h2",
+        text: "Challenge 2: Execution time limits",
+      },
+      {
+        type: "p",
+        text: "AWS Lambda has a maximum execution time of 15 minutes. Azure Functions default to 5 minutes (configurable up to 60). This hard limit means serverless is simply not the right tool for long-running processes — batch jobs, large file processing, ML training.",
+      },
+      {
+        type: "p",
+        text: "The solution is decomposition: break large tasks into smaller units that each complete within the limit, then chain them with event triggers or step functions.",
+      },
+      {
+        type: "code",
+        lang: "python",
+        code: `# Instead of one large Lambda that times out:
+def process_large_file(event, context):
+    records = load_all_records()  # might be 100k records — times out
+    for record in records:
+        process(record)
+
+
+# Use chunked processing with SQS:
+def chunk_and_enqueue(event, context):
+    record_ids = get_all_record_ids()
+    # Split into batches of 100, enqueue each batch
+    for batch in chunks(record_ids, size=100):
+        sqs.send_message(
+            QueueUrl=QUEUE_URL,
+            MessageBody=json.dumps({"ids": batch})
+        )
+
+def process_batch(event, context):
+    # Each invocation handles one batch — well within time limit
+    for record in event["Records"]:
+        batch = json.loads(record["body"])
+        for id in batch["ids"]:
+            process_record(id)`,
+      },
+      {
+        type: "h2",
+        text: "Challenge 3: Statelessness",
+      },
+      {
+        type: "p",
+        text: "Serverless functions are stateless by design. Each invocation may run on a different container instance. Any state stored in memory between invocations is unreliable — it may or may not be there on the next call.",
+      },
+      {
+        type: "p",
+        text: "This is a feature, not a bug — statelessness is what enables infinite horizontal scaling. But it requires a mindset shift: all persistent state must live in external storage.",
+      },
+      {
+        type: "list",
+        items: [
+          "DynamoDB or RDS for persistent data — low-latency lookups, reliable across invocations",
+          "S3 for temporary file storage — pass file references (keys) between functions, not file contents",
+          "ElastiCache (Redis) for shared session state or temporary coordination between function instances",
+        ],
+      },
+      {
+        type: "h2",
+        text: "When serverless is the right choice",
+      },
+      {
+        type: "list",
+        items: [
+          "Event-driven processing: S3 uploads, SQS messages, webhook receivers — functions trigger on events and terminate",
+          "Bursty, unpredictable traffic: serverless scales to zero during quiet periods and to thousands of instances during spikes",
+          "Scheduled tasks: cron-style triggers for lightweight periodic jobs",
+          "API backends with variable load: cost-effective when traffic patterns are uneven",
+        ],
+      },
+      {
+        type: "h2",
+        text: "When serverless is the wrong choice",
+      },
+      {
+        type: "list",
+        items: [
+          "Latency-critical hot paths where cold starts are unacceptable and provisioned concurrency cost exceeds a kept-warm server",
+          "Long-running processes that exceed execution limits and resist chunking",
+          "Stateful protocols like WebSockets (use API Gateway WebSocket APIs carefully — there are limitations)",
+          "High-volume, consistent traffic where always-on compute is cheaper than per-invocation billing",
+        ],
+      },
+      {
+        type: "p",
+        text: "Serverless is a powerful tool with a specific fit. Use it where its constraints align with your workload characteristics, and don't force it where they don't. The engineers who get the most out of serverless are the ones who understand its limits as clearly as its benefits.",
+      },
+    ],
+  },
+
+  {
     slug:     "false-positive-problem",
     title:    "Why Both Scanners Must Agree: The Insight Behind Fendix",
     date:     "2025-03-12",
