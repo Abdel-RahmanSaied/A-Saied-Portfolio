@@ -8,12 +8,18 @@ export function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
 }
 
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+}
+
 export default async function OgImage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const post = getPost(slug);
 
-  const title = post?.title ?? "Blog | Abdel-Rahman Saied";
-  const tags  = post?.tags ?? [];
+  const title    = post?.title    ?? "Blog | Abdel-Rahman Saied";
+  const tags     = post?.tags     ?? [];
+  const date     = post?.date     ? formatDate(post.date) : "";
+  const readTime = post?.readTime ?? "";
 
   return new ImageResponse(
     (
@@ -25,7 +31,7 @@ export default async function OgImage({ params }: { params: Promise<{ slug: stri
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          padding: "72px 80px",
+          padding: "64px 80px",
           fontFamily: "system-ui, sans-serif",
           position: "relative",
         }}
@@ -63,43 +69,59 @@ export default async function OgImage({ params }: { params: Promise<{ slug: stri
           </span>
         </div>
 
-        {/* Middle: Title */}
-        <div
-          style={{
-            fontSize: title.length > 60 ? "44px" : "52px",
-            fontWeight: 900,
-            color: "#ffffff",
-            lineHeight: 1.1,
-            letterSpacing: "-1.5px",
-            maxWidth: "960px",
-          }}
-        >
-          {title}
-        </div>
-
-        {/* Bottom: Tags + author */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        {/* Middle: Tags + Title */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          {/* Tags */}
           <div style={{ display: "flex", gap: "10px" }}>
             {tags.slice(0, 4).map((tag) => (
               <div
                 key={tag}
                 style={{
-                  padding: "6px 14px",
-                  border: "1px solid #27272a",
+                  padding: "6px 16px",
+                  border: "1px solid #3f3f46",
                   borderRadius: "999px",
-                  color: "#52525b",
-                  fontSize: "13px",
-                  fontWeight: 600,
-                  letterSpacing: "0.5px",
+                  color: "#71717a",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  letterSpacing: "1.5px",
+                  textTransform: "uppercase",
                 }}
               >
                 {tag}
               </div>
             ))}
           </div>
-          <div style={{ color: "#3f3f46", fontSize: "15px", fontWeight: 500 }}>
-            Abdel-Rahman Saied
+
+          {/* Title */}
+          <div
+            style={{
+              fontSize: title.length > 55 ? "46px" : "54px",
+              fontWeight: 900,
+              color: "#ffffff",
+              lineHeight: 1.1,
+              letterSpacing: "-1.5px",
+              maxWidth: "980px",
+            }}
+          >
+            {title}
           </div>
+        </div>
+
+        {/* Bottom: Date · Read time · Author */}
+        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          {date && (
+            <span style={{ color: "#52525b", fontSize: "16px", fontWeight: 500 }}>{date}</span>
+          )}
+          {date && readTime && (
+            <span style={{ color: "#27272a", fontSize: "16px" }}>·</span>
+          )}
+          {readTime && (
+            <span style={{ color: "#52525b", fontSize: "16px", fontWeight: 500 }}>{readTime}</span>
+          )}
+          {readTime && (
+            <span style={{ color: "#27272a", fontSize: "16px" }}>·</span>
+          )}
+          <span style={{ color: "#52525b", fontSize: "16px", fontWeight: 500 }}>Abdel-Rahman Saied</span>
         </div>
       </div>
     ),
