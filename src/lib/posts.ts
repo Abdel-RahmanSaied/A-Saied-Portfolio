@@ -19,6 +19,329 @@ export type Post = {
 
 export const posts: Post[] = [
   {
+    slug:     "scaling-sentiment-api",
+    title:    "Scaling a Sentiment Analysis API: From 100% CPU to Production-Ready",
+    date:     "2025-03-15",
+    readTime: "10 min read",
+    tags:     ["Python", "FastAPI", "NLP", "Machine Learning", "Backend"],
+    summary:
+      "Two uvicorn workers pegged two CPU cores at 100% for 4+ hours on our Arabic NLP service. Here are the five fixes that cut RAM by 1.5 GB per worker and set the path toward 5–7x faster inference — without touching the API.",
+    content: [
+      {
+        type: "p",
+        text: "One morning I opened htop on one of our EC2 instances and saw something that should never happen in a healthy service: two CPU cores completely saturated, running at 100% for over four hours straight. The culprit was a FastAPI-based sentiment analysis API powered by CAMeL-Lab Arabic NLP models. This is the story of what I found, what I fixed, and the path toward making it truly production-ready.",
+      },
+      {
+        type: "list",
+        items: [
+          "Core 1: 100% — fully saturated",
+          "Core 2: 99.4% — fully saturated",
+          "Core 0: 0.6% — sitting idle",
+          "Core 3: 3.9% — sitting idle",
+        ],
+      },
+      {
+        type: "h2",
+        text: "The Stack",
+      },
+      {
+        type: "code",
+        lang: "text",
+        code: `FastAPI + Uvicorn
+CAMeL-Lab Arabic sentiment model (PyTorch)
+nlptown/bert-base-multilingual-uncased-sentiment (bonus model we didn't need)
+AWS EC2 — 4 vCPUs, 15.4 GB RAM
+Docker`,
+      },
+      {
+        type: "h2",
+        text: "What Was Actually Wrong",
+      },
+      {
+        type: "h3",
+        text: "Problem 1: The GIL Trap",
+      },
+      {
+        type: "p",
+        text: "The first question I asked: why are only 2 of my 4 cores being used? The answer is Python's GIL (Global Interpreter Lock). A single Python process can only use one CPU core at a time for CPU-bound work — like ML inference. When you run uvicorn with 2 workers, you get 2 processes, each pinned to one core. The other 2 cores sit idle.",
+      },
+      {
+        type: "code",
+        lang: "bash",
+        code: `# What I had
+uvicorn sentiment_api:app --workers 2
+
+# What I should have had (at minimum)
+uvicorn sentiment_api:app --workers 3  # 3 cores for inference, 1 for OS/Docker`,
+      },
+      {
+        type: "p",
+        text: "But simply adding workers wasn't the real fix — because each worker was loading 2.56 GB of model data into RAM. Doubling workers would double RAM consumption. I needed to fix the root issues first.",
+      },
+      {
+        type: "h3",
+        text: "Problem 2: A Model We Didn't Actually Need",
+      },
+      {
+        type: "p",
+        text: "Inside the service I found this loading on startup — always, unconditionally:",
+      },
+      {
+        type: "code",
+        lang: "python",
+        code: `from transformers import pipeline
+
+# Loaded on startup — always
+nlptown_pipeline = pipeline(
+    "text-classification",
+    model="nlptown/bert-base-multilingual-uncased-sentiment"
+)`,
+      },
+      {
+        type: "p",
+        text: "The nlptown model was consuming ~670 MB of RAM per worker even though 90% of requests only needed the CAMeL-Lab model. It was there from an early experiment and never removed.",
+      },
+      {
+        type: "callout",
+        text: "Fix: Remove it entirely, or lazy-load it only when explicitly requested. RAM saved per worker: ~670 MB.",
+      },
+      {
+        type: "h3",
+        text: "Problem 3: Models Loading in __init__, Not in Lifespan",
+      },
+      {
+        type: "p",
+        text: "This is the subtle one that most tutorials get wrong. When models load in __init__, if HuggingFace is slow or the network blips, your FastAPI process crashes before it can respond to any request — not even a 503. The load balancer gets nothing back.",
+      },
+      {
+        type: "code",
+        lang: "python",
+        code: `# The wrong way
+class SentimentService:
+    def __init__(self):
+        self.model = AutoModelForSequenceClassification.from_pretrained("CAMeL-Lab/...")
+        self.tokenizer = AutoTokenizer.from_pretrained("CAMeL-Lab/...")`,
+      },
+      {
+        type: "code",
+        lang: "python",
+        code: `# The right way — FastAPI lifespan
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    app.state.model = AutoModelForSequenceClassification.from_pretrained(
+        settings.MODEL_ID,
+        revision=settings.MODEL_REVISION,  # Pin to a commit SHA
+        torch_dtype=torch.float16,         # Cut RAM usage by ~40%
+    )
+    yield
+    # Shutdown — cleanup here
+    del app.state.model
+
+app = FastAPI(lifespan=lifespan)`,
+      },
+      {
+        type: "list",
+        items: [
+          "Return 503 instead of crashing during model load failures",
+          "Readiness and liveness probes work correctly",
+          "Clean shutdown frees GPU/CPU memory",
+          "torch_dtype=float16 cuts RAM usage by ~40% with minimal accuracy impact",
+        ],
+      },
+      {
+        type: "h3",
+        text: "Problem 4: No Version Pinning",
+      },
+      {
+        type: "code",
+        lang: "python",
+        code: `# HuggingFace can update this model silently at any time
+AutoModelForSequenceClassification.from_pretrained("CAMeL-Lab/camel-bert-arabic-sentiment")
+
+# Pinned to a specific commit — reproducible, auditable
+AutoModelForSequenceClassification.from_pretrained(
+    "CAMeL-Lab/camel-bert-arabic-sentiment",
+    revision="a3f9d2c",  # commit SHA or tag
+)`,
+      },
+      {
+        type: "p",
+        text: "On an OSINT platform where prediction accuracy matters, you need to know exactly which model version produced which output. HuggingFace can silently update models — pinning a revision guarantees reproducibility across deploys.",
+      },
+      {
+        type: "h3",
+        text: "Problem 5: No HuggingFace Cache Volume",
+      },
+      {
+        type: "p",
+        text: "Every time a Docker container restarted, it re-downloaded the models from scratch. On a 1.2 GB model, that's 30+ seconds of cold start time on every deploy.",
+      },
+      {
+        type: "code",
+        lang: "yaml",
+        code: `# docker-compose.yml
+services:
+  sentiment-api:
+    volumes:
+      - hf-cache:/root/.cache/huggingface
+volumes:
+  hf-cache:`,
+      },
+      {
+        type: "callout",
+        text: "Cold start improvement: ~30 seconds → under 3 seconds. One line of docker-compose config.",
+      },
+      {
+        type: "h2",
+        text: "The Quick Wins Summary",
+      },
+      {
+        type: "list",
+        items: [
+          "Remove unused nlptown model — 30 min effort — ~670 MB RAM saved per worker",
+          "Add HuggingFace cache volume — 5 min effort — eliminates 30s cold start on restart",
+          "torch_dtype=float16 — 10 min effort — ~850 MB RAM saved, +10–20% inference speed",
+          "Move model loading to FastAPI lifespan — 1–2 hrs — proper 503 on load failure, clean shutdown",
+          "Pin model revision — 15 min — reproducible predictions, no silent model drift",
+        ],
+      },
+      {
+        type: "p",
+        text: "Implementing all five took less than a day and cut RAM consumption per worker by over 1.5 GB.",
+      },
+      {
+        type: "h2",
+        text: "The Real Scaling Path",
+      },
+      {
+        type: "h3",
+        text: "Stage 1: Multiple Workers (Baseline)",
+      },
+      {
+        type: "code",
+        lang: "text",
+        code: `2 uvicorn workers → 2 CPU cores used
+~5 GB RAM
+Latency: 800ms–1.2s per request`,
+      },
+      {
+        type: "h3",
+        text: "Stage 2: Optimized Workers (After Quick Wins)",
+      },
+      {
+        type: "code",
+        lang: "text",
+        code: `3 uvicorn workers → 3 CPU cores used
+~3.5 GB RAM
+Latency: 600–900ms per request`,
+      },
+      {
+        type: "h3",
+        text: "Stage 3: ONNX Runtime (The Next Step)",
+      },
+      {
+        type: "p",
+        text: "PyTorch is great for training, but for inference in production, ONNX Runtime delivers 5–7x latency improvement. The API stays identical — same FastAPI endpoints, same request/response format. Only the inference engine changes underneath.",
+      },
+      {
+        type: "code",
+        lang: "python",
+        code: `# Export to ONNX once
+from optimum.exporters.onnx import main_export
+
+main_export(
+    model_name_or_path="CAMeL-Lab/camel-bert-arabic-sentiment",
+    output="./onnx_model/",
+    task="text-classification",
+)
+
+# Load with ONNX Runtime
+from optimum.onnxruntime import ORTModelForSequenceClassification
+
+model = ORTModelForSequenceClassification.from_pretrained("./onnx_model/")`,
+      },
+      {
+        type: "code",
+        lang: "text",
+        code: `ONNX Runtime inference
+~1.5 GB RAM (vs 2.56 GB with PyTorch)
+Latency: 100–200ms per request
+Improvement: 5–7x`,
+      },
+      {
+        type: "h3",
+        text: "Stage 4: Go + ONNX (Maximum Throughput)",
+      },
+      {
+        type: "p",
+        text: "For maximum throughput, replace the Python service with Go running the ONNX model directly via onnxruntime-go bindings. Go's goroutines handle concurrent requests far more efficiently than Python's worker-per-request model.",
+      },
+      {
+        type: "code",
+        lang: "go",
+        code: `func (s *SentimentService) Predict(ctx context.Context, text string) (*SentimentResult, error) {
+    tokens := s.tokenizer.Encode(text)
+    output, err := s.session.Run(tokens)
+    if err != nil {
+        return nil, err
+    }
+    return parseSentiment(output), nil
+}`,
+      },
+      {
+        type: "code",
+        lang: "text",
+        code: `Go + ONNX
+~800 MB RAM
+Latency: 30–80ms per request
+Concurrency: goroutines, not processes — 10x the concurrent requests on the same hardware`,
+      },
+      {
+        type: "h2",
+        text: "What I Actually Recommend",
+      },
+      {
+        type: "p",
+        text: "Don't skip straight to Go + ONNX. The ROI curve is non-linear:",
+      },
+      {
+        type: "code",
+        lang: "text",
+        code: `Quick wins (1 day)       → 2x RAM improvement, better reliability
+ONNX Runtime (1–2 days)  → 5–7x latency improvement
+Go + ONNX (1–2 weeks)    → maximum throughput, complex migration`,
+      },
+      {
+        type: "p",
+        text: "If your current bottleneck is RAM or cold starts, do the quick wins. If your bottleneck is latency, move to ONNX Runtime in Python first — the migration is straightforward with optimum. Only go the Go route if you're hitting concurrency limits that ONNX Python can't solve.",
+      },
+      {
+        type: "h2",
+        text: "Key Takeaways",
+      },
+      {
+        type: "list",
+        items: [
+          "Identify your real bottleneck first — is it RAM, latency, or concurrency? The fix is different for each",
+          "The GIL is not your enemy if you use processes — but each process costs RAM, so optimize model loading before scaling workers",
+          "ONNX Runtime is the fastest win for inference latency — the API doesn't change, only the engine",
+          "Version-pin your models — especially on production systems where reproducibility and auditability matter",
+          "Lifespan beats __init__ — always load models in FastAPI lifespan for proper error handling and clean shutdown",
+        ],
+      },
+      {
+        type: "divider",
+      },
+      {
+        type: "p",
+        text: "This article is based on real production experience building Twiscope, an Arabic OSINT intelligence platform. The sentiment analysis service processes Arabic social media content at scale.",
+      },
+    ],
+  },
+  {
     slug:     "django-caching-performance",
     title:    "Caching for Performance: Speed Up Your Django App with the Built-In Caching Framework",
     date:     "2024-01-10",
