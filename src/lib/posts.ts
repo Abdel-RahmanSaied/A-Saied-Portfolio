@@ -1059,6 +1059,13 @@ def process_event(self, event_data):
           "Invest in replay tooling earlier — the ability to replay historical events through updated processing logic is invaluable and we built it six months too late",
         ],
       },
+      {
+        type: "divider",
+      },
+      {
+        type: "callout",
+        text: "This architecture powers Twiscope — an Arabic OSINT social intelligence platform processing 5M+ data points daily across Twitter, Instagram, YouTube, TikTok, and news sources. Full case study at /case-studies/twiscope",
+      },
     ],
   },
 
@@ -1185,6 +1192,13 @@ WHERE ST_Contains(r.boundary, ST_Point(lng, lat))
       {
         type: "p",
         text: "For MURI's use case — real-time driver proximity, service region polygons, and route-aware queries — PostGIS was the right choice. The 85x query speedup under load wasn't theoretical; we measured it. If you're building any system where users ask spatial questions against dynamic data, PostGIS is worth the setup time.",
+      },
+      {
+        type: "divider",
+      },
+      {
+        type: "callout",
+        text: "These techniques were applied in building MURI — a multi-role transportation platform with real-time geospatial routing, WebSocket live tracking, and role-scoped booking flows for riders, drivers, and admins. Full case study at /case-studies/muri",
       },
     ],
   },
