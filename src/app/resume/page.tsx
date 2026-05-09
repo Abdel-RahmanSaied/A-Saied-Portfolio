@@ -18,10 +18,18 @@ const experience = [
       "Engineered Twiscope — a social intelligence platform ingesting 5M+ data points/day across 5 major social networks using Django, Celery, and Redis pipelines",
       "Architected Sanad AI — a FastAPI + OpenAI + Elasticsearch assistant that surfaces real-time insights and anomaly alerts within the Twiscope ecosystem",
       "Built MURI — a multi-role transportation platform featuring PostGIS geospatial routing, WebSocket live tracking, and role-scoped booking flows for riders, drivers, and admins",
-      "Delivered Hayyak — a multi-tenant hotel management system integrating Opera PMS (OHIP) via Celery retry queues with DLQ fallback, dual payment gateway failover, and Firebase push notifications",
-      "Shipped Maxpeak — an Egypt-to-Saudi talent marketplace with a 3-stage AI vetting pipeline, bilingual (AR/EN) UX, and a contractual quality-replacement guarantee",
       "Reduced system latency by 25% and cut deployment cycle time by 40% through CI/CD restructuring and async task optimization",
       "Mentored engineers on distributed systems design, async patterns, and security-first practices; led weekly architecture reviews",
+    ],
+  },
+  {
+    title: "Freelance Software Engineer",
+    company: "Independent",
+    period: "2023 – Present",
+    highlights: [
+      "Delivered Hayyak — a multi-tenant hotel management system integrating Opera PMS (OHIP) via Celery retry queues with DLQ fallback, dual payment gateway failover, and Firebase push notifications",
+      "Shipped Maxpeak — an Egypt-to-Saudi talent marketplace with a 3-stage AI vetting pipeline, bilingual (AR/EN) UX, and a contractual quality-replacement guarantee",
+      "Designed and built Check-In — a Flutter-based mobile attendance system with real-time tracking deployed at check-in.sa",
     ],
   },
   {

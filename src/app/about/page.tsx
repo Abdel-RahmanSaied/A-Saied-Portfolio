@@ -19,10 +19,19 @@ const timelineData = [
       "Engineered Twiscope — social intelligence platform ingesting 5M+ data points/day across 5 networks using Django, Celery, and Redis",
       "Architected Sanad AI (FastAPI + OpenAI + Elasticsearch) for real-time insight and anomaly surfacing inside Twiscope",
       "Built MURI — multi-role transport platform with PostGIS routing, WebSocket live tracking, and role-scoped booking flows",
-      "Delivered Hayyak — multi-tenant hotel system with OHIP (Opera PMS) integration, dual payment failover, and Firebase notifications",
-      "Shipped Maxpeak — Egypt-to-Saudi talent marketplace with a 3-stage AI vetting pipeline and bilingual UX",
       "Reduced system latency by 25% and deployment cycle time by 40% through CI/CD restructuring and async optimization",
       "Mentored engineers on distributed systems and security-first practices; led weekly architecture reviews",
+    ],
+  },
+  {
+    date: "2023 – Present",
+    title: "Freelance Software Engineer",
+    company: "Independent",
+    icon: <Star className="w-4 h-4" />,
+    details: [
+      "Delivered Hayyak — multi-tenant hotel system with OHIP (Opera PMS) integration, dual payment gateway failover, and Firebase push notifications",
+      "Shipped Maxpeak — Egypt-to-Saudi talent marketplace with a 3-stage AI vetting pipeline and bilingual (AR/EN) UX",
+      "Designed Check-In — Flutter-based mobile attendance system with real-time tracking, deployed at check-in.sa",
     ],
   },
   {
