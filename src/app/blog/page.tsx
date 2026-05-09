@@ -43,7 +43,7 @@ export default function BlogPage() {
 
         {/* Posts */}
         <div className="space-y-4">
-          {posts.map((post, i) => (
+          {[...posts].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map((post, i) => (
             <motion.div
               key={post.slug}
               initial={{ opacity: 0, y: 20 }}

@@ -21,7 +21,7 @@ export const posts: Post[] = [
   {
     slug:     "scaling-sentiment-api",
     title:    "Scaling a Sentiment Analysis API: From 100% CPU to Production-Ready",
-    date:     "2025-03-15",
+    date:     "2026-05-01",
     readTime: "10 min read",
     tags:     ["Python", "FastAPI", "NLP", "Machine Learning", "Backend"],
     summary:
