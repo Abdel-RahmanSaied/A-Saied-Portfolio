@@ -52,6 +52,7 @@ const timelineData = [
     company: "ClouDev Solutions",
     icon: <Zap className="w-4 h-4" />,
     details: [
+      "Shipped Gymawy — a gym and fitness platform with membership management, booking flows, and coach scheduling backed by a Django REST API",
       "Built and maintained REST APIs serving multiple client-facing web and mobile applications using Django and Node.js",
       "Automated AWS operational workflows, eliminating manual steps from deployment and environment provisioning pipelines",
       "Implemented monitoring and alerting that reduced mean time to detection (MTTD) for production incidents",

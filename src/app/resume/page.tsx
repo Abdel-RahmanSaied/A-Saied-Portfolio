@@ -48,6 +48,7 @@ const experience = [
     company: "ClouDev Solutions",
     period: "2022 – 2023",
     highlights: [
+      "Shipped Gymawy — a gym and fitness platform with membership management, booking flows, and coach scheduling backed by a Django REST API",
       "Built and maintained REST APIs serving multiple client-facing web and mobile applications using Django and Node.js",
       "Automated cloud operational workflows on AWS, eliminating manual steps from deployment and environment provisioning pipelines",
       "Implemented proactive monitoring and alerting that reduced mean time to detection (MTTD) for production incidents",
