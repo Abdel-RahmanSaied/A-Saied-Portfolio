@@ -11,6 +11,19 @@ export const metadata = {
     icon: "/icon.svg",
     shortcut: "/icon.svg",
   },
+  openGraph: {
+    title: "Abdel-Rahman Saied | Backend Architect & Team Lead",
+    description: "Senior Software Engineer & Team Lead specializing in scalable backend systems, real-time data pipelines, and API security tooling.",
+    url: "https://www.asaied.dev",
+    siteName: "asaied.dev",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Abdel-Rahman Saied | Backend Architect & Team Lead",
+    description: "Senior Software Engineer & Team Lead specializing in scalable backend systems, real-time data pipelines, and API security tooling.",
+  },
 };
 
 export default function RootLayout({
