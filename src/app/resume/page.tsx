@@ -15,13 +15,13 @@ const experience = [
     company: "ASAS IT",
     period: "2024 – Present",
     highlights: [
-      "Lead development of Twiscope — social intelligence platform processing 5M+ data points daily across 5 platforms",
-      "Architected Sanad AI: FastAPI + OpenAI + Elasticsearch assistant integrated into the Twiscope ecosystem",
-      "Built MURI — multi-role transportation platform with PostGIS geospatial routing and real-time WebSocket tracking",
-      "Delivered Hayyak — multi-tenant hotel management system with Opera PMS (OHIP) and dual payment gateway integration",
-      "Shipped Maxpeak — Egypt-to-Saudi talent marketplace with 3-stage AI vetting pipeline",
-      "Mentored engineers on distributed systems, async patterns, and security-first practices",
-      "Reduced system latency by 25% and cut deployment cycles by 40% via CI/CD optimization",
+      "Engineered Twiscope — a social intelligence platform ingesting 5M+ data points/day across 5 major social networks using Django, Celery, and Redis pipelines",
+      "Architected Sanad AI — a FastAPI + OpenAI + Elasticsearch assistant that surfaces real-time insights and anomaly alerts within the Twiscope ecosystem",
+      "Built MURI — a multi-role transportation platform featuring PostGIS geospatial routing, WebSocket live tracking, and role-scoped booking flows for riders, drivers, and admins",
+      "Delivered Hayyak — a multi-tenant hotel management system integrating Opera PMS (OHIP) via Celery retry queues with DLQ fallback, dual payment gateway failover, and Firebase push notifications",
+      "Shipped Maxpeak — an Egypt-to-Saudi talent marketplace with a 3-stage AI vetting pipeline, bilingual (AR/EN) UX, and a contractual quality-replacement guarantee",
+      "Reduced system latency by 25% and cut deployment cycle time by 40% through CI/CD restructuring and async task optimization",
+      "Mentored engineers on distributed systems design, async patterns, and security-first practices; led weekly architecture reviews",
     ],
   },
   {
@@ -29,9 +29,10 @@ const experience = [
     company: "ASAS IT",
     period: "2023 – 2024",
     highlights: [
-      "Led advanced Python application development across multiple products",
-      "Aligned technical direction with business objectives and stakeholder needs",
-      "Introduced code review standards and testing practices that reduced production bugs by 30%",
+      "Led Python/Django backend development across multiple concurrent product streams, owning API design, data modeling, and service boundaries",
+      "Drove technical direction in alignment with product roadmaps, translating business requirements into scalable architectural decisions",
+      "Established code review standards and automated test coverage gates, reducing production incident rate by 30%",
+      "Onboarded and ramped up junior engineers through structured technical sessions on Django internals, async task design, and REST best practices",
     ],
   },
   {
@@ -39,9 +40,10 @@ const experience = [
     company: "ClouDev Solutions",
     period: "2022 – 2023",
     highlights: [
-      "Enhanced cloud-based systems and automated operational workflows",
-      "Reduced downtime through proactive monitoring and incident response",
-      "Built and maintained REST APIs serving multiple client-facing applications",
+      "Built and maintained REST APIs serving multiple client-facing web and mobile applications using Django and Node.js",
+      "Automated cloud operational workflows on AWS, eliminating manual steps from deployment and environment provisioning pipelines",
+      "Implemented proactive monitoring and alerting that reduced mean time to detection (MTTD) for production incidents",
+      "Optimized database queries and caching strategies, contributing to measurable reductions in p95 API response times",
     ],
   },
   {
@@ -49,8 +51,9 @@ const experience = [
     company: "Prime Consulting Office (PCO)",
     period: "2022 – 2023",
     highlights: [
-      "Built tailored client solutions to improve operational efficiency",
-      "Applied modern development methodologies across the full delivery lifecycle",
+      "Delivered custom backend solutions for consulting clients across retail, logistics, and professional services verticals",
+      "Translated client business requirements into RESTful API contracts and technical specifications",
+      "Operated in short agile cycles, consistently meeting milestone commitments across multi-client engagements",
     ],
   },
   {
@@ -58,8 +61,9 @@ const experience = [
     company: "Co-Source",
     period: "2020 – 2022",
     highlights: [
-      "Led end-to-end desktop application development lifecycle",
-      "Delivered complete SDLC from planning through production deployment",
+      "Designed and shipped cross-platform desktop applications in Python, owning the full SDLC from requirements through production deployment",
+      "Built internal tooling that automated repetitive business workflows, reducing manual processing time for end users",
+      "Extended and stabilized legacy desktop codebases, improving reliability and shipping new features for enterprise clients",
     ],
   },
 ];

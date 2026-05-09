@@ -16,11 +16,13 @@ const timelineData = [
     company: "ASAS IT",
     icon: <Users className="w-4 h-4" />,
     details: [
-      "Led development of Twiscope, processing 5M+ daily data points",
-      "Architected scalable backend with real-time pipelines and Celery",
-      "Integrated ML models for trend prediction and anomaly detection",
-      "Reduced latency by 25%, boosted daily throughput to 5M+ operations",
-      "Mentored engineers and enforced security-first development practices",
+      "Engineered Twiscope — social intelligence platform ingesting 5M+ data points/day across 5 networks using Django, Celery, and Redis",
+      "Architected Sanad AI (FastAPI + OpenAI + Elasticsearch) for real-time insight and anomaly surfacing inside Twiscope",
+      "Built MURI — multi-role transport platform with PostGIS routing, WebSocket live tracking, and role-scoped booking flows",
+      "Delivered Hayyak — multi-tenant hotel system with OHIP (Opera PMS) integration, dual payment failover, and Firebase notifications",
+      "Shipped Maxpeak — Egypt-to-Saudi talent marketplace with a 3-stage AI vetting pipeline and bilingual UX",
+      "Reduced system latency by 25% and deployment cycle time by 40% through CI/CD restructuring and async optimization",
+      "Mentored engineers on distributed systems and security-first practices; led weekly architecture reviews",
     ],
   },
   {
@@ -29,8 +31,10 @@ const timelineData = [
     company: "ASAS IT",
     icon: <Code className="w-4 h-4" />,
     details: [
-      "Led advanced Python application development across multiple products",
-      "Aligned technical direction with business objectives and stakeholder needs",
+      "Led Python/Django development across multiple concurrent product streams, owning API design, data modeling, and service boundaries",
+      "Drove technical direction aligned with product roadmaps, translating business requirements into scalable architectural decisions",
+      "Established code review standards and test coverage gates that reduced production incident rate by 30%",
+      "Onboarded junior engineers through structured sessions on Django internals, async task design, and REST best practices",
     ],
   },
   {
@@ -39,8 +43,10 @@ const timelineData = [
     company: "ClouDev Solutions",
     icon: <Zap className="w-4 h-4" />,
     details: [
-      "Enhanced cloud-based systems and automated operational workflows",
-      "Reduced downtime through proactive monitoring and maintenance",
+      "Built and maintained REST APIs serving multiple client-facing web and mobile applications using Django and Node.js",
+      "Automated AWS operational workflows, eliminating manual steps from deployment and environment provisioning pipelines",
+      "Implemented monitoring and alerting that reduced mean time to detection (MTTD) for production incidents",
+      "Optimized database queries and caching strategies, cutting p95 API response times measurably",
     ],
   },
   {
@@ -49,8 +55,9 @@ const timelineData = [
     company: "Prime Consulting Office (PCO)",
     icon: <Target className="w-4 h-4" />,
     details: [
-      "Built tailored client solutions to improve operational efficiency",
-      "Applied modern development methodologies across delivery lifecycle",
+      "Delivered custom backend solutions for clients across retail, logistics, and professional services verticals",
+      "Translated client requirements into RESTful API contracts and technical specifications",
+      "Operated in short agile cycles, consistently meeting milestone commitments across multi-client engagements",
     ],
   },
   {
@@ -59,8 +66,9 @@ const timelineData = [
     company: "Co-Source",
     icon: <TrendingUp className="w-4 h-4" />,
     details: [
-      "Led end-to-end desktop application development lifecycle",
-      "Delivered complete SDLC from planning through production deployment",
+      "Designed and shipped cross-platform desktop applications in Python, owning full SDLC from requirements through production",
+      "Built internal tooling that automated repetitive business workflows, reducing manual processing time for end users",
+      "Extended and stabilized legacy desktop codebases, improving reliability and shipping new features for enterprise clients",
     ],
   },
 ];
