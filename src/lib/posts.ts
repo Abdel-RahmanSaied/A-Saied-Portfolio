@@ -834,7 +834,7 @@ def process_batch(event, context):
   {
     slug:     "false-positive-problem",
     title:    "Why Both Scanners Must Agree: The Insight Behind Fendix",
-    date:     "2025-03-12",
+    date:     "2026-04-15",
     readTime: "6 min read",
     tags:     ["Security", "Go", "Open Source"],
     summary:
@@ -1065,7 +1065,7 @@ def process_event(self, event_data):
   {
     slug:     "when-to-use-postgis",
     title:    "PostGIS vs. Plain Coordinates: A Real-World Comparison from Building MURI",
-    date:     "2024-11-15",
+    date:     "2025-08-14",
     readTime: "5 min read",
     tags:     ["PostgreSQL", "GIS", "Backend"],
     summary:
