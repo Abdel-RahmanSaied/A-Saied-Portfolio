@@ -135,7 +135,7 @@ export default function ResumePage() {
               <Github className="w-3.5 h-3.5" /> github.com/Abdel-RahmanSaied
             </a>
             <span className="flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5" /> Riyadh, Saudi Arabia · Open to onsite in Reyadh & remote & relocation
+              <MapPin className="w-3.5 h-3.5" /> Riyadh, Saudi Arabia | Open to On-site Opportunities in Riyadh, Remote Roles, and International Relocation
             </span>
           </div>
         </motion.div>
