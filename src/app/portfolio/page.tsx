@@ -60,10 +60,10 @@ const projects: Project[] = [
   },
   {
     title: "MURI",
-    tagline: "Mobility & Trip Management Platform",
+    tagline: "Student Transportation Platform",
     description:
-      "Multi-role transportation platform with geospatial routing via PostGIS, real-time trip tracking over WebSockets, and role-based access for clients, drivers, and administrators. Package-based subscription management, AWS S3 media storage, email notifications, and full Arabic/English localization.",
-    techStack: ["Django 4.2", "PostGIS", "Redis", "Celery", "WebSockets", "PostgreSQL", "AWS S3"],
+      "Student transportation platform serving three roles — client, driver, and admin — each with a dedicated app (Flutter Student & Driver apps, Angular 19 admin dashboard). Modular Django API with PostGIS geospatial routing, package-based subscriptions, HyperPay payments, driver wallet accounting, Firebase push, and real-time trip tracking.",
+    techStack: ["Django 4.2", "Flutter", "Angular 19", "PostGIS", "Redis", "Celery", "HyperPay", "Firebase", "PostgreSQL", "AWS S3"],
     live: "https://muri.sa/",
     category: "Backend",
   },

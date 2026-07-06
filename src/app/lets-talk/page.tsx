@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, Linkedin, Github, MessageCircleMore, ArrowUpRight, Clock, Briefcase, Zap } from "lucide-react";
+import { Mail, Linkedin, Github, MessageCircleMore, Twitter, ArrowUpRight, Clock, Briefcase, Zap } from "lucide-react";
 import GlowCard from "@/components/GlowCard";
 
 const contacts = [
@@ -10,7 +10,7 @@ const contacts = [
     label: "Email",
     value: "abdelrahman.saied@asasit.com",
     href: "mailto:abdelrahman.saied@asasit.com",
-    desc: "Best for project inquiries",
+    desc: "Best for role and architecture conversations",
   },
   {
     icon: <Linkedin className="w-5 h-5" />,
@@ -18,6 +18,13 @@ const contacts = [
     value: "abdel-rahman-saied",
     href: "https://www.linkedin.com/in/abdel-rahman-saied",
     desc: "Professional background & updates",
+  },
+  {
+    icon: <Twitter className="w-5 h-5" />,
+    label: "X",
+    value: "@asaied_dev",
+    href: "https://x.com/asaied_dev",
+    desc: "Public updates and product notes",
   },
   {
     icon: <MessageCircleMore className="w-5 h-5" />,
@@ -36,19 +43,19 @@ const contacts = [
 ];
 
 const availableFor = [
-  { icon: <Briefcase className="w-4 h-4" />,         label: "Freelance Projects" },
-  { icon: <Zap className="w-4 h-4" />,               label: "Architecture Reviews" },
-  { icon: <MessageCircleMore className="w-4 h-4" />, label: "Technical Consultation" },
-  { icon: <Clock className="w-4 h-4" />,             label: "Speaking Engagements" },
+  { icon: <Briefcase className="w-4 h-4" />,         label: "Senior Backend Roles" },
+  { icon: <Zap className="w-4 h-4" />,               label: "Technical Lead Roles" },
+  { icon: <MessageCircleMore className="w-4 h-4" />, label: "Staff Backend Roles" },
+  { icon: <Clock className="w-4 h-4" />,             label: "Architecture Advisory" },
 ];
 
 const canHelpWith = [
-  "Scalable backend systems with Python & Django",
-  "Real-time data pipelines and analytics platforms",
-  "API security scanning (DAST + SAST)",
-  "DevOps, CI/CD, and cloud infrastructure (AWS)",
-  "Team leadership and engineering mentorship",
-  "ML integration into production services",
+  "Distributed backend systems with Python, Django, FastAPI, Redis, and PostGIS",
+  "AI infrastructure and production ML integration",
+  "High-throughput data pipelines and analytics platforms",
+  "Reliability, observability, CI/CD, and cloud delivery",
+  "Hands-on technical leadership for senior engineering teams",
+  "Security-first API platforms and developer tooling",
 ];
 
 export default function LetsTalkPage() {
@@ -74,7 +81,7 @@ export default function LetsTalkPage() {
             Contact
           </motion.p>
           <h1 className="text-4xl sm:text-5xl font-black text-white mb-5 leading-tight">
-            Let&apos;s build something
+            Let&apos;s talk about
             <br />
             <motion.span
               className="text-zinc-500 inline-block"
@@ -82,7 +89,7 @@ export default function LetsTalkPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.25, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
             >
-              together
+              technical leadership
             </motion.span>
           </h1>
           <motion.p
@@ -91,8 +98,9 @@ export default function LetsTalkPage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.5 }}
           >
-            Whether you need a senior engineer, a technical co-founder, or just want to talk shop —
-            I&apos;m happy to connect. Pick your preferred channel below.
+            I&apos;m focused on Senior Backend, Technical Lead, Staff Backend, AI infrastructure,
+            and distributed systems roles where architecture ownership and hands-on delivery both matter.
+            Pick your preferred channel below.
           </motion.p>
         </motion.div>
 

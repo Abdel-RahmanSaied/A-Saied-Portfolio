@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowRight, Github, Linkedin, Mail, MessageCircleMore,
+  ArrowRight, Github, Linkedin, Mail, MessageCircleMore, Twitter,
   Shield, Database, Server, Cloud, ExternalLink, ChevronDown,
   Building2, Car, BarChart3, Lock, BrainCircuit, Briefcase, Smartphone, Terminal,
 } from "lucide-react";
@@ -14,7 +14,7 @@ import GlowCard from "./GlowCard";
 const NetworkCanvas = dynamic(() => import("./NetworkCanvas"), { ssr: false });
 
 // ── Rotating role text ───────────────────────────────────────
-const ROLES = ["Backend Architect", "Team Lead", "Security Engineer", "Data Engineer"];
+const ROLES = ["Technical Lead", "Staff Backend Engineer", "Systems Architect", "AI Infrastructure Lead"];
 
 function RotatingRole() {
   const [idx, setIdx] = useState(0);
@@ -41,7 +41,12 @@ function RotatingRole() {
 }
 
 // ── Animated counter ─────────────────────────────────────────
-function AnimatedCounter({ end, prefix = "", suffix = "" }: { end: number; prefix?: string; suffix?: string }) {
+function AnimatedCounter({
+  end,
+  prefix = "",
+  suffix = "",
+  decimals = 0,
+}: { end: number; prefix?: string; suffix?: string; decimals?: number }) {
   const [count, setCount] = useState(0);
   const ref   = useRef<HTMLSpanElement>(null);
   const fired = useRef(false);
@@ -58,7 +63,7 @@ function AnimatedCounter({ end, prefix = "", suffix = "" }: { end: number; prefi
           const tick = (now: number) => {
             const p  = Math.min((now - startTime) / duration, 1);
             const ep = 1 - Math.pow(1 - p, 3);
-            setCount(Math.round(ep * end));
+            setCount(Number((ep * end).toFixed(decimals)));
             if (p < 1) requestAnimationFrame(tick);
           };
           requestAnimationFrame(tick);
@@ -71,7 +76,16 @@ function AnimatedCounter({ end, prefix = "", suffix = "" }: { end: number; prefi
     return () => observer.disconnect();
   }, [end]);
 
-  return <span ref={ref}>{prefix}{count}{suffix}</span>;
+  return (
+    <span ref={ref}>
+      {prefix}
+      {count.toLocaleString("en-US", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+      })}
+      {suffix}
+    </span>
+  );
 }
 
 // ── Word-by-word reveal ──────────────────────────────────────
@@ -139,12 +153,19 @@ const inView = {
 
 export default function HomeScreen() {
 
-  const stats = [
-    { end: 6,  prefix: "",  suffix: "+",  label: "Years Experience" },
-    { end: 10, prefix: "",  suffix: "+",  label: "Systems Shipped" },
-    { end: 5,  prefix: "",  suffix: "M+", label: "Data Points / Day" },
-    { end: 70, prefix: "~", suffix: "%",  label: "Noise Reduction" },
-    { end: 5,  prefix: "",  suffix: "+",  label: "Industries" },
+  const stats: {
+    end: number;
+    prefix: string;
+    suffix: string;
+    label: string;
+    decimals?: number;
+  }[] = [
+    { end: 5,    prefix: "", suffix: "M+", label: "Records / Day" },
+    { end: 13,   prefix: "", suffix: "",   label: "Engineers Led" },
+    { end: 99.9, prefix: "", suffix: "%",  label: "Uptime", decimals: 1 },
+    { end: 3,    prefix: "", suffix: "x",  label: "Throughput Gain" },
+    { end: 40,   prefix: "", suffix: "%",  label: "Faster Deploys" },
+    { end: 25,   prefix: "", suffix: "%",  label: "Latency Reduction" },
   ];
 
   const featuredProjects = [
@@ -172,10 +193,10 @@ export default function HomeScreen() {
   ];
 
   const services = [
-    { icon: <Server className="w-5 h-5" />,   title: "Backend Engineering", desc: "Scalable Python & Django APIs handling millions of daily operations" },
-    { icon: <Database className="w-5 h-5" />, title: "Data Engineering",    desc: "High-throughput pipelines, real-time analytics, and ML integration" },
-    { icon: <Cloud className="w-5 h-5" />,    title: "DevOps & Cloud",      desc: "AWS, Docker, Nginx, CI/CD — faster deploys, fewer incidents" },
-    { icon: <Shield className="w-5 h-5" />,   title: "Security Tooling",    desc: "DAST + SAST scanning with correlated findings and zero noise" },
+    { icon: <Server className="w-5 h-5" />,   title: "Distributed Backend Systems", desc: "Python, Django, queues, data models, and APIs built for operational load" },
+    { icon: <Database className="w-5 h-5" />, title: "AI & Data Infrastructure",     desc: "High-throughput pipelines, search, ML integration, and real-time analytics" },
+    { icon: <Cloud className="w-5 h-5" />,    title: "Product Architecture",         desc: "Service boundaries, deployment flow, reliability targets, and technical trade-offs" },
+    { icon: <Shield className="w-5 h-5" />,   title: "Technical Leadership",         desc: "Architecture reviews, mentorship, security habits, and delivery alignment" },
   ];
 
   const techGroups = [
@@ -201,7 +222,7 @@ export default function HomeScreen() {
     { title: "Fendix",              tagline: "Hybrid DAST + SAST Scanner",        category: "Security",  live: "https://fendix.dev",       tech: ["Go", "Docker", "SARIF"] },
     { title: "Maxpeak",             tagline: "Elite Talent Marketplace",           category: "Backend",   live: "http://maxpeak.net/",      tech: ["Django 4.2", "React 18", "Redis"] },
     { title: "Sanad AI",            tagline: "Twiscope AI Assistant",             category: "AI / ML",   live: undefined,                  tech: ["FastAPI", "OpenAI", "Elasticsearch"] },
-    { title: "MURI",                tagline: "Mobility & Trip Platform",          category: "Backend",   live: "https://muri.sa/",         tech: ["Django", "PostGIS", "Celery"] },
+    { title: "MURI",                tagline: "Student Transportation Platform",   category: "Backend",   live: "https://muri.sa/",         tech: ["Django", "Flutter", "Angular", "PostGIS"] },
     { title: "Check-In",            tagline: "Attendance & Check-In System",      category: "Mobile",    live: "https://check-in.sa/",     tech: ["Flutter", "Dart"] },
     { title: "Hayyak",              tagline: "Hotel Management & Reservation",    category: "Backend",   live: undefined,                  tech: ["Django 5.1", "Opera PMS", "Celery"] },
     { title: "Shmoos",              tagline: "Accommodation System Integration",  category: "Backend",   live: undefined,                  tech: ["FastAPI", "GCP", "Docker"] },
@@ -212,6 +233,7 @@ export default function HomeScreen() {
   const socials = [
     { icon: <Github className="w-4 h-4" />,            href: "https://github.com/Abdel-RahmanSaied",           label: "GitHub" },
     { icon: <Linkedin className="w-4 h-4" />,          href: "https://www.linkedin.com/in/abdel-rahman-saied", label: "LinkedIn" },
+    { icon: <Twitter className="w-4 h-4" />,           href: "https://x.com/asaied_dev",                       label: "X" },
     { icon: <Mail className="w-4 h-4" />,              href: "mailto:abdelrahman.saied@asasit.com",            label: "Email" },
     { icon: <MessageCircleMore className="w-4 h-4" />, href: "https://wa.me/966558046143",                     label: "WhatsApp" },
   ];
@@ -234,7 +256,7 @@ export default function HomeScreen() {
           <motion.div variants={fadeUp} custom={0} className="mb-8">
             <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-zinc-700/60 bg-zinc-900/70 backdrop-blur-sm text-zinc-400 text-xs font-medium">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              Open to new opportunities
+              Open to Technical Lead / Staff Backend roles
             </span>
           </motion.div>
 
@@ -253,7 +275,7 @@ export default function HomeScreen() {
             custom={2}
             className="text-xs font-semibold text-zinc-600 uppercase tracking-[0.22em] mb-6 flex items-center justify-center gap-2 flex-wrap"
           >
-            Senior Software Engineer
+            Technical Lead / Staff Backend Engineer
             <span className="text-zinc-800">·</span>
             <RotatingRole />
           </motion.p>
@@ -263,8 +285,9 @@ export default function HomeScreen() {
             custom={3}
             className="text-base sm:text-lg text-zinc-500 max-w-xl mx-auto leading-relaxed mb-10"
           >
-            I build scalable backend systems, real-time data pipelines, and security tools —
-            software that handles millions of operations daily.
+            I own distributed backend systems, AI infrastructure, and product architecture from
+            technical strategy through production operations — leading teams while staying close
+            to the code, the data, and the customer impact.
           </motion.p>
 
           <motion.div
@@ -272,13 +295,13 @@ export default function HomeScreen() {
             custom={4}
             className="flex flex-col sm:flex-row gap-3 justify-center mb-9"
           >
-            <Link href="/portfolio">
+            <Link href="/case-studies">
               <motion.button
                 className="flex items-center justify-center gap-2 px-7 py-3 bg-zinc-100 hover:bg-white text-zinc-900 text-sm font-semibold rounded-xl transition-colors duration-200 w-full sm:w-auto"
                 whileHover={{ scale: 1.04, y: -1 }}
                 whileTap={{ scale: 0.97 }}
               >
-                View My Work <ArrowRight className="w-4 h-4" />
+                Read Engineering Case Studies <ArrowRight className="w-4 h-4" />
               </motion.button>
             </Link>
             <Link href="/lets-talk">
@@ -287,7 +310,7 @@ export default function HomeScreen() {
                 whileHover={{ scale: 1.04, y: -1 }}
                 whileTap={{ scale: 0.97 }}
               >
-                Let&apos;s Talk
+                Discuss Technical Lead Roles
               </motion.button>
             </Link>
           </motion.div>
@@ -332,38 +355,106 @@ export default function HomeScreen() {
       <TechMarquee />
 
       {/* ── Manifesto ─────────────────────────────────────────── */}
-      <section className="py-24 px-6">
-        <div className="max-w-4xl mx-auto">
-          <motion.p
-            className="text-xs font-semibold uppercase tracking-widest text-zinc-700 mb-6"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            Philosophy
-          </motion.p>
-          <blockquote className="text-2xl sm:text-3xl md:text-[2.5rem] font-bold text-zinc-300 leading-tight">
-            <WordReveal
-              text="The best systems are invisible to the user and exhausting for the attacker."
-              className="text-zinc-300"
-            />
-          </blockquote>
-          <motion.p
-            className="mt-8 text-sm text-zinc-700"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-          >
-            — What I optimize for in every system I architect.
-          </motion.p>
-        </div>
+      <section className="py-28 px-6 relative overflow-hidden">
+        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-zinc-700/40 to-transparent" />
+        <div className="absolute left-1/2 top-1/2 w-[42rem] h-[42rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.025] blur-3xl pointer-events-none" />
+        <motion.div
+          className="max-w-5xl mx-auto"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          variants={inView}
+        >
+          <GlowCard className="relative overflow-hidden rounded-[2rem] border border-zinc-800 bg-zinc-950/90 shadow-2xl shadow-black/60" glowSize={620}>
+            <div className="absolute inset-0 bg-[linear-gradient(135deg,#ffffff0d,transparent_34%),radial-gradient(circle_at_85%_20%,#ffffff12,transparent_26%),radial-gradient(circle_at_15%_90%,#22c55e12,transparent_24%)] pointer-events-none" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff07_1px,transparent_1px),linear-gradient(to_bottom,#ffffff07_1px,transparent_1px)] bg-[size:36px_36px] opacity-30 pointer-events-none" />
+
+            <div className="relative grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] min-h-[440px]">
+              <div className="p-8 sm:p-10 md:p-12 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-3 mb-7">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_24px_rgba(52,211,153,0.8)]" />
+                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-zinc-500">
+                      Engineering Operating Model
+                    </p>
+                  </div>
+
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-[1.03] tracking-tight mb-6">
+                    Build systems the team can trust under pressure.
+                  </h2>
+
+                  <p className="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-xl">
+                    My best work sits at the boundary between product and infrastructure: turning ambiguous
+                    requirements into service boundaries, queues, data models, observability, and delivery habits
+                    that hold when traffic grows.
+                  </p>
+                </div>
+
+                <div className="mt-9 flex flex-wrap gap-2">
+                  {["Reliability first", "Observable by default", "Simple under pressure", "Hands-on leadership"].map((principle, i) => (
+                    <motion.span
+                      key={principle}
+                      className="px-3 py-1.5 rounded-full border border-zinc-700/70 bg-zinc-900/80 text-xs font-semibold text-zinc-300"
+                      initial={{ opacity: 0, y: 8 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.18 + i * 0.05, duration: 0.35 }}
+                    >
+                      {principle}
+                    </motion.span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="relative border-t lg:border-t-0 lg:border-l border-zinc-800 bg-zinc-900/30 p-8 sm:p-10 md:p-12">
+                <div className="absolute top-8 right-8 text-[10px] font-mono uppercase tracking-widest text-zinc-700">
+                  prod-readiness loop
+                </div>
+
+                <div className="mt-10 space-y-3">
+                  {[
+                    { icon: <Server className="w-4 h-4" />, title: "Own the boundary", body: "APIs, domains, queues, permissions" },
+                    { icon: <Database className="w-4 h-4" />, title: "Measure the system", body: "Latency, queue depth, errors, cost" },
+                    { icon: <Cloud className="w-4 h-4" />, title: "Simplify operations", body: "Deployments, runbooks, recovery paths" },
+                    { icon: <Shield className="w-4 h-4" />, title: "Lead through evidence", body: "Reviews, incidents, trade-offs, docs" },
+                  ].map((item, i) => (
+                    <motion.div
+                      key={item.title}
+                      className="group relative flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-950/70 p-4 hover:border-zinc-600 hover:bg-zinc-900/80 transition-all duration-300"
+                      initial={{ opacity: 0, x: 18 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.12 + i * 0.08, duration: 0.45 }}
+                      whileHover={{ x: -3 }}
+                    >
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-800 text-zinc-400 group-hover:text-white group-hover:bg-zinc-700 transition-colors">
+                        {item.icon}
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-semibold text-zinc-200">{item.title}</h3>
+                        <p className="text-xs text-zinc-600 mt-0.5">{item.body}</p>
+                      </div>
+                      <span className="ml-auto text-[10px] font-mono text-zinc-800">0{i + 1}</span>
+                    </motion.div>
+                  ))}
+                </div>
+
+                <Link
+                  href="/engineering-philosophy"
+                  className="group mt-7 inline-flex w-full items-center justify-between rounded-2xl border border-zinc-700 bg-zinc-100 px-5 py-3 text-sm font-bold text-zinc-950 hover:bg-white transition-colors"
+                >
+                  Read the full philosophy
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            </div>
+          </GlowCard>
+        </motion.div>
       </section>
 
       {/* ── Stats ─────────────────────────────────────────────── */}
       <section className="py-14 px-6 border-t border-zinc-800/40">
-        <div className="max-w-5xl mx-auto grid grid-cols-3 md:grid-cols-5 gap-8 text-center">
+        <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 text-center">
           {stats.map((s, i) => (
             <motion.div
               key={s.label}
@@ -373,7 +464,7 @@ export default function HomeScreen() {
               transition={{ delay: i * 0.1, duration: 0.5 }}
             >
               <div className="text-3xl sm:text-4xl font-black text-white mb-1 tabular-nums">
-                <AnimatedCounter end={s.end} prefix={s.prefix} suffix={s.suffix} />
+                <AnimatedCounter end={s.end} prefix={s.prefix} suffix={s.suffix} decimals={s.decimals} />
               </div>
               <div className="text-xs text-zinc-600 font-medium uppercase tracking-wider">{s.label}</div>
             </motion.div>
@@ -393,7 +484,7 @@ export default function HomeScreen() {
                 <span className="text-zinc-800 mr-2">01</span>Featured Work
               </p>
               <h2 className="text-2xl sm:text-3xl font-bold text-white">
-                <WordReveal text="Projects I've built & shipped" />
+                <WordReveal text="Systems I've owned and scaled" />
               </h2>
             </div>
             <Link href="/portfolio" className="hidden sm:flex items-center gap-1.5 text-xs text-zinc-600 hover:text-zinc-300 transition-colors group">
@@ -659,7 +750,7 @@ export default function HomeScreen() {
               <span className="text-zinc-800 mr-2">04</span>Expertise
             </p>
             <h2 className="text-2xl sm:text-3xl font-bold text-white">
-              <WordReveal text="What I do" />
+                <WordReveal text="Where I create leverage" />
             </h2>
           </motion.div>
 
@@ -748,11 +839,11 @@ export default function HomeScreen() {
               <span className="text-zinc-800 mr-2">06</span>Let&apos;s work together
             </p>
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-5">
-              Got a project in mind?
+              Hiring for senior backend leadership?
             </h2>
             <p className="text-zinc-500 mb-10 leading-relaxed max-w-lg mx-auto text-sm">
-              Whether it&apos;s scaling a backend, leading a team, or shipping a security-first tool —
-              I&apos;m ready to help you build it right.
+              I&apos;m best suited for roles where backend architecture, AI infrastructure, and
+              hands-on technical leadership need to move together.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link href="/lets-talk">
@@ -761,16 +852,16 @@ export default function HomeScreen() {
                   whileHover={{ scale: 1.04, y: -1 }}
                   whileTap={{ scale: 0.97 }}
                 >
-                  Get in Touch
+                  Discuss Technical Lead Roles
                 </motion.button>
               </Link>
-              <Link href="/about">
+              <Link href="/engineering-philosophy">
                 <motion.button
                   className="px-8 py-3 border border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:text-zinc-200 text-sm font-semibold rounded-xl transition-all duration-200 hover:bg-zinc-800/40 w-full sm:w-auto"
                   whileHover={{ scale: 1.04, y: -1 }}
                   whileTap={{ scale: 0.97 }}
                 >
-                  About Me
+                  Engineering Philosophy
                 </motion.button>
               </Link>
             </div>

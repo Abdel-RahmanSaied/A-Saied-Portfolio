@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import {
-  Code, GraduationCap, Mail, Linkedin,
+  Code, GraduationCap, Mail, Linkedin, Twitter,
   Star, ArrowRight, Zap, Target, Users, TrendingUp, Download,
 } from "lucide-react";
 import Link from "next/link";
@@ -18,7 +18,7 @@ const timelineData = [
     details: [
       "Engineered Twiscope — social intelligence platform ingesting 5M+ data points/day across 5 networks using Django, Celery, and Redis",
       "Architected Sanad AI (FastAPI + OpenAI + Elasticsearch) for real-time insight and anomaly surfacing inside Twiscope",
-      "Built MURI — multi-role transport platform with PostGIS routing, WebSocket live tracking, and role-scoped booking flows",
+      "Built MURI — student transportation platform serving client, driver, and admin roles via dedicated Flutter and Angular apps, with PostGIS routing and WebSocket live tracking",
       "Reduced system latency by 25% and deployment cycle time by 40% through CI/CD restructuring and async optimization",
       "Mentored engineers on distributed systems and security-first practices; led weekly architecture reviews",
     ],
@@ -171,12 +171,13 @@ export default function AboutPage() {
           transition={{ duration: 0.65 }}
         >
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-4">About</p>
-          <h1 className="text-4xl sm:text-5xl font-black text-white mb-6 leading-tight">Who am I?</h1>
+          <h1 className="text-4xl sm:text-5xl font-black text-white mb-6 leading-tight">How I build.</h1>
           <p className="text-zinc-500 leading-relaxed mb-10 text-sm sm:text-base">
             I&apos;m{" "}
-            <span className="font-semibold text-zinc-200">Abdel-Rahman Mohamed Saied</span> — Senior
-            Software Engineer & Team Lead specializing in scalable backend systems, real-time data
-            pipelines, and open-source security tooling.
+            <span className="font-semibold text-zinc-200">Abdel-Rahman Mohamed Saied</span> — a
+            Technical Lead and Staff-level Backend Engineer whose path started with desktop apps,
+            moved into backend platforms, and grew into owning production systems, distributed
+            data flows, engineering teams, and AI-powered products.
           </p>
 
           {/* Achievement cards with animated counters */}
@@ -209,24 +210,26 @@ export default function AboutPage() {
             <h2 className="text-xl font-bold text-white mb-5">Professional Overview</h2>
             <div className="space-y-4 text-zinc-500 leading-relaxed text-sm">
               <p>
-                Senior Software Engineer and Team Lead with 6+ years of experience architecting
-                production-grade backend systems across seven industries — from social intelligence
-                platforms and hospitality management to AI-driven services and cybersecurity tooling.
+                I began by shipping desktop software end to end, where reliability was visible in
+                every user workflow. That foundation shaped how I later approached backend systems:
+                start with clear domain boundaries, keep operations observable, and design for the
+                people who will maintain the system after launch.
               </p>
               <p>
-                My primary stack is <span className="text-zinc-300 font-medium">Python and Django</span>,
-                used to build systems processing 5M+ data points daily, multi-tenant hotel reservations,
-                geospatial trip management, and talent marketplace platforms. I also engineer in{" "}
-                <span className="text-zinc-300 font-medium">Go</span>, having designed and shipped Fendix
-                — an open-source hybrid DAST + SAST API security scanner that reduced false positives by
-                ~70% through correlated-findings logic and ships as a single signed binary.
+                Over the last 6+ years, that scope expanded into production-grade platforms across
+                social intelligence, transportation, hospitality, AI, cybersecurity, and talent
+                marketplaces. My primary stack is{" "}
+                <span className="text-zinc-300 font-medium">Python and Django</span>, used for systems
+                processing 5M+ records daily, geospatial trip management, multi-tenant hotel operations,
+                and high-throughput async workflows. I also engineer in{" "}
+                <span className="text-zinc-300 font-medium">Go</span>, including Fendix, an open-source
+                DAST + SAST scanner built around correlated findings and zero telemetry.
               </p>
               <p>
-                As a team lead, I align engineering decisions with business outcomes: improving system
-                performance by 30%, cutting deployment cycles by 40%, and integrating ML models for
-                real-time trend detection and sentiment analysis. I operate across the full spectrum —
-                from API design and async pipelines to cloud infrastructure, security tooling, and
-                mobile backends.
+                Today my strongest work is at the intersection of backend architecture, product
+                ownership, and hands-on technical leadership: leading 13 engineers, improving
+                throughput by 3x, reducing latency by 25%, cutting deployment cycles by 40%, and
+                turning AI capabilities into production features with measurable business value.
               </p>
             </div>
           </GlowCard>
@@ -386,7 +389,8 @@ export default function AboutPage() {
           <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-10 md:p-14">
             <h2 className="text-2xl font-bold text-white mb-3">Let&apos;s Connect</h2>
             <p className="text-zinc-500 mb-8 max-w-md mx-auto text-sm leading-relaxed">
-              Open to freelance opportunities, collaborations, or just a good tech conversation.
+              Open to Senior Backend, Technical Lead, and Staff Backend roles where architecture,
+              reliability, and team execution matter.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
               <Link href="/lets-talk">
@@ -404,6 +408,14 @@ export default function AboutPage() {
                 whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
               >
                 <Linkedin className="w-4 h-4" /> LinkedIn
+              </motion.a>
+              <motion.a
+                href="https://x.com/asaied_dev"
+                target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-2 px-7 py-3 border border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:text-zinc-200 text-sm font-semibold rounded-xl transition-all duration-200 hover:bg-zinc-800/40 w-full sm:w-auto"
+                whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+              >
+                <Twitter className="w-4 h-4" /> X
               </motion.a>
               <motion.a
                 href="/assets/Abdelrahman_Saied_resume.pdf"

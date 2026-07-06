@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Download, Mail, Linkedin, Github, MapPin, ExternalLink, ArrowRight } from "lucide-react";
+import { Download, Mail, Linkedin, Github, Twitter, MapPin, ExternalLink, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 const inView = {
@@ -17,7 +17,7 @@ const experience = [
     highlights: [
       "Engineered Twiscope — a social intelligence platform ingesting 5M+ data points/day across 5 major social networks using Django, Celery, and Redis pipelines",
       "Architected Sanad AI — a FastAPI + OpenAI + Elasticsearch assistant that surfaces real-time insights and anomaly alerts within the Twiscope ecosystem",
-      "Built MURI — a multi-role transportation platform featuring PostGIS geospatial routing, WebSocket live tracking, and role-scoped booking flows for riders, drivers, and admins",
+      "Built MURI — a student transportation platform with dedicated apps for client, driver, and admin roles, featuring PostGIS geospatial routing, WebSocket live tracking, and subscription-gated booking",
       "Reduced system latency by 25% and cut deployment cycle time by 40% through CI/CD restructuring and async task optimization",
       "Mentored engineers on distributed systems design, async patterns, and security-first practices; led weekly architecture reviews",
     ],
@@ -86,12 +86,18 @@ const skills: { label: string; items: string[] }[] = [
   { label: "Mobile",     items: ["Flutter", "Firebase"] },
 ];
 
-const projects = [
-  { name: "Twiscope",  desc: "5M+ data points/day social intelligence platform",       live: "https://twiscope.net/" },
-  { name: "Fendix",    desc: "Open-source hybrid DAST + SAST API scanner — ~70% fewer false positives", live: "https://fendix.dev", github: "https://github.com/Abdel-RahmanSaied/Fendix" },
-  { name: "MURI",      desc: "Multi-role transportation platform with PostGIS routing", live: "https://muri.sa/" },
-  { name: "Maxpeak",   desc: "Egypt→Saudi talent marketplace with 3-stage AI vetting", live: "http://maxpeak.net/" },
-  { name: "Check-In",  desc: "Mobile attendance system — Flutter & Dart",              live: "https://check-in.sa/" },
+const projects: {
+  name: string;
+  desc: string;
+  caseStudy?: string;
+  live?: string;
+  github?: string;
+}[] = [
+  { name: "Twiscope",  desc: "5M+ records/day social intelligence platform", caseStudy: "/case-studies/twiscope", live: "https://twiscope.net/" },
+  { name: "Fendix",    desc: "Open-source hybrid DAST + SAST API scanner — ~70% fewer false positives", caseStudy: "/case-studies/fendix", live: "https://fendix.dev", github: "https://github.com/Abdel-RahmanSaied/Fendix" },
+  { name: "MURI",      desc: "Student transportation — client, driver, and admin roles with PostGIS routing", caseStudy: "/case-studies/muri", live: "https://muri.sa/" },
+  { name: "Maxpeak",   desc: "Egypt-to-Saudi talent marketplace with 3-stage AI vetting", caseStudy: "/case-studies/maxpeak", live: "http://maxpeak.net/" },
+  { name: "Check-In",  desc: "Mobile attendance system — Flutter & Dart", live: "https://check-in.sa/" },
 ];
 
 export default function ResumePage() {
@@ -112,7 +118,7 @@ export default function ResumePage() {
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-3">Resume</p>
               <h1 className="text-4xl sm:text-5xl font-black text-white mb-2 leading-tight">Abdel-Rahman<br />Saied</h1>
-              <p className="text-zinc-400 font-medium text-sm">Senior Software Engineer · Team Lead</p>
+              <p className="text-zinc-400 font-medium text-sm">Technical Lead · Staff Backend Engineer</p>
             </div>
             <a
               href="/assets/Abdelrahman_Saied_resume.pdf"
@@ -134,6 +140,9 @@ export default function ResumePage() {
             <a href="https://github.com/Abdel-RahmanSaied" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-zinc-300 transition-colors">
               <Github className="w-3.5 h-3.5" /> github.com/Abdel-RahmanSaied
             </a>
+            <a href="https://x.com/asaied_dev" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-zinc-300 transition-colors">
+              <Twitter className="w-3.5 h-3.5" /> x.com/asaied_dev
+            </a>
             <span className="flex items-center gap-1.5">
               <MapPin className="w-3.5 h-3.5" /> Riyadh, Saudi Arabia | Open to On-site Opportunities in Riyadh, Remote Roles, and International Relocation
             </span>
@@ -146,11 +155,11 @@ export default function ResumePage() {
           <motion.section initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
             <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-4 pb-2 border-b border-zinc-800">Summary</h2>
             <p className="text-zinc-400 text-sm leading-relaxed">
-              Senior Software Engineer and Team Lead with 6+ years of experience architecting production-grade backend
-              systems across seven industries — social intelligence, hospitality, transportation, cybersecurity, AI/ML,
-              talent marketplaces, and mobile. Primary stack is Python and Django; also engineers in Go (Fendix — open-source
-              DAST + SAST scanner) and Flutter. Proven track record leading teams, reducing latency by 25%, cutting deployment
-              cycles by 40%, and shipping systems that handle millions of daily operations.
+              Technical Lead and Staff-level Backend Engineer with 6+ years owning production systems across
+              social intelligence, transportation, hospitality, cybersecurity, AI infrastructure, talent marketplaces,
+              and mobile products. I lead teams while staying hands-on with Python, Django, FastAPI, Go, PostGIS,
+              Redis/Celery, and cloud delivery. Evidence includes 5M+ records processed per day, 13 engineers led,
+              99.9% uptime, 3x throughput improvement, 25% lower latency, and 40% faster deployments.
             </p>
           </motion.section>
 
@@ -231,6 +240,11 @@ export default function ResumePage() {
                     <span className="text-xs text-zinc-500">{p.desc}</span>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
+                    {p.caseStudy && (
+                      <Link href={p.caseStudy} className="text-zinc-600 hover:text-zinc-300 transition-colors" aria-label={`${p.name} case study`}>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    )}
                     {p.github && (
                       <a href={p.github} target="_blank" rel="noopener noreferrer" className="text-zinc-600 hover:text-zinc-300 transition-colors">
                         <Github className="w-3.5 h-3.5" />
@@ -265,19 +279,19 @@ export default function ResumePage() {
             initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
           >
             <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-8 text-center">
-              <h3 className="text-lg font-bold text-white mb-2">Want to see the work in depth?</h3>
-              <p className="text-zinc-500 text-sm mb-6">Detailed case studies, architecture diagrams, and decision breakdowns.</p>
+              <h3 className="text-lg font-bold text-white mb-2">Evaluating technical leadership fit?</h3>
+              <p className="text-zinc-500 text-sm mb-6">Start with the case studies for architecture decisions, constraints, and production outcomes.</p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Link href="/case-studies">
                   <motion.button className="flex items-center gap-2 px-6 py-2.5 bg-zinc-100 hover:bg-white text-zinc-900 text-sm font-semibold rounded-xl transition-colors w-full sm:w-auto justify-center"
                     whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                    Case Studies <ArrowRight className="w-4 h-4" />
+                    Read Case Studies <ArrowRight className="w-4 h-4" />
                   </motion.button>
                 </Link>
                 <Link href="/lets-talk">
                   <motion.button className="flex items-center gap-2 px-6 py-2.5 border border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:text-zinc-200 text-sm font-semibold rounded-xl transition-all w-full sm:w-auto justify-center"
                     whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                    <Mail className="w-4 h-4" /> Get in Touch
+                    <Mail className="w-4 h-4" /> Discuss Roles
                   </motion.button>
                 </Link>
               </div>

@@ -1198,7 +1198,7 @@ WHERE ST_Contains(r.boundary, ST_Point(lng, lat))
       },
       {
         type: "callout",
-        text: "These techniques were applied in building MURI — a multi-role transportation platform with real-time geospatial routing, WebSocket live tracking, and role-scoped booking flows for riders, drivers, and admins. Full case study at /case-studies/muri",
+        text: "These techniques were applied in building MURI — a student transportation platform with dedicated apps for client, driver, and admin roles, PostGIS geospatial routing, and real-time trip tracking. Full case study at /case-studies/muri",
       },
     ],
   },

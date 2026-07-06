@@ -1,33 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Abdel-Rahman Saied Portfolio
+
+A Next.js portfolio for Abdel-Rahman Saied, positioned around Technical Lead and Staff Backend Engineer work: distributed backend systems, AI infrastructure, product architecture, reliability, and hands-on engineering leadership.
+
+The site includes project pages, engineering case studies, a resume, contact paths, and an engineering philosophy page. It is built with the Next.js App Router, React, TypeScript, Tailwind CSS, Framer Motion, and lucide-react icons.
 
 ## Getting Started
 
-First, run the development server:
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Useful Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run dev
+```
 
-## Learn More
+## Content Areas
 
-To learn more about Next.js, take a look at the following resources:
+- `src/components/HomeScreen.tsx` contains the homepage positioning and featured work.
+- `src/app/case-studies/` contains engineering case studies and their index.
+- `src/app/engineering-philosophy/page.tsx` describes the operating principles behind architecture and leadership decisions.
+- `src/app/resume/page.tsx` provides the web resume.
+- `src/app/lets-talk/page.tsx` contains contact paths.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The app is designed for deployment on Vercel or any platform that supports Next.js.
 
 ## Deploy on Vercel
 

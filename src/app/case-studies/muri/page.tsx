@@ -61,11 +61,13 @@ function DecisionCard({ number, title, body, delay = 0 }: { number: string; titl
 }
 
 const archNodes = [
-  { label: "Client · Driver · Admin Apps", sub: "Role-based entry points with separate permission scopes", icon: <Users className="w-4 h-4" /> },
-  { label: "Django REST API", sub: "Business logic, authentication (Knox), data validation", icon: <Server className="w-4 h-4" /> },
-  { label: "PostGIS + PostgreSQL", sub: "Geospatial routing, region management, trip records", icon: <MapPin className="w-4 h-4" /> },
-  { label: "Redis + Celery", sub: "Message broker, async task queue, hot-path caching", icon: <Database className="w-4 h-4" /> },
-  { label: "WebSocket Layer", sub: "Real-time trip tracking pushed to client and driver apps", icon: <Wifi className="w-4 h-4" /> },
+  { label: "Student App (Flutter)", sub: "Client role — subscriptions, trips, live tracking, payments", icon: <Users className="w-4 h-4" /> },
+  { label: "Driver App (Flutter)", sub: "Driver role — trip acceptance, navigation, wallet & earnings", icon: <Users className="w-4 h-4" /> },
+  { label: "Admin Dashboard (Angular 19)", sub: "Administrator role — users, vehicles, regions, payments, ops", icon: <Users className="w-4 h-4" /> },
+  { label: "Django REST API", sub: "Modular UsersModules (client / driver / admin), JWT auth, DRF", icon: <Server className="w-4 h-4" /> },
+  { label: "PostGIS + PostgreSQL", sub: "Geospatial routing, region polygons, trip records", icon: <MapPin className="w-4 h-4" /> },
+  { label: "Redis + Celery", sub: "Task queue, caching, subscription sync, payment webhooks", icon: <Database className="w-4 h-4" /> },
+  { label: "Real-time Layer", sub: "Firebase push + WebSocket trip updates to client and driver apps", icon: <Wifi className="w-4 h-4" /> },
 ];
 
 function ArchDiagram() {
@@ -85,9 +87,9 @@ function ArchDiagram() {
               <p className="font-semibold text-zinc-200 text-sm">{node.label}</p>
               <p className="text-xs text-zinc-600 mt-0.5">{node.sub}</p>
             </div>
-            {i === 3 && (
+            {i === 5 && (
               <div className="ml-auto flex items-center gap-2 text-xs text-zinc-700">
-                <span className="border border-zinc-800 rounded px-2 py-0.5 font-mono">+ AWS S3</span>
+                <span className="border border-zinc-800 rounded px-2 py-0.5 font-mono">+ HyperPay</span>
               </div>
             )}
           </motion.div>
@@ -109,8 +111,8 @@ function ArchDiagram() {
         viewport={{ once: true }}
         transition={{ delay: 0.5, duration: 0.45 }}
       >
-        <p className="text-xs font-semibold text-zinc-600 uppercase tracking-widest mb-1">AWS S3 (async)</p>
-        <p className="text-xs text-zinc-600">Media storage — driver documents, profile images — handled as Celery tasks, never blocking the request cycle</p>
+        <p className="text-xs font-semibold text-zinc-600 uppercase tracking-widest mb-1">Payments + AWS S3 (async)</p>
+        <p className="text-xs text-zinc-600">HyperPay gateway with webhook reconciliation, driver wallet accounting, and S3 media uploads — all off the request cycle via Celery</p>
       </motion.div>
     </div>
   );
@@ -123,7 +125,7 @@ const inView = {
 
 export default function MuriCaseStudy() {
   const outcomes = [
-    { icon: <Users className="w-5 h-5" />,   value: "3",       label: "User roles in one system",       sub: "Client · Driver · Admin — fully isolated permissions" },
+    { icon: <Users className="w-5 h-5" />,   value: "3",       label: "User roles",                     sub: "Client · Driver · Admin — fully isolated permissions" },
     { icon: <MapPin className="w-5 h-5" />,   value: "PostGIS", label: "Geospatial engine",              sub: "Region-aware routing with native geo-query performance" },
     { icon: <Wifi className="w-5 h-5" />,     value: "<1s",     label: "Trip status update delivery",    sub: "WebSocket push vs. polling" },
     { icon: <Cloud className="w-5 h-5" />,    value: "2",       label: "Languages supported",            sub: "Full Arabic and English localization (i18n)" },
@@ -153,8 +155,9 @@ export default function MuriCaseStudy() {
             </div>
             <h1 className="text-5xl sm:text-6xl font-black text-white mb-6 leading-tight">Building MURI</h1>
             <p className="text-zinc-400 text-lg leading-relaxed max-w-2xl mb-10">
-              How I architected a multi-role transportation platform with geospatial routing, real-time trip
-              tracking, and package-based subscription management — deployed and live at muri.sa.
+              How I architected a student transportation platform serving three roles — client, driver, and
+              admin — each with its own app, backed by a modular Django API with PostGIS routing, subscription
+              packages, and real-time trip tracking. Live at muri.sa.
             </p>
             <div className="flex items-center gap-4 flex-wrap">
               <a href="https://muri.sa/" target="_blank" rel="noopener noreferrer"
@@ -170,20 +173,27 @@ export default function MuriCaseStudy() {
         <section>
           <SectionLabel number="01" label="The Problem" />
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-8">
-            <WordReveal text="Three user types. One coherent system." />
+            <WordReveal text="Client, driver, admin — one platform." />
           </h2>
           <div className="space-y-4 text-zinc-500 text-sm leading-relaxed">
             <motion.p initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
-              Transportation platforms look simple on the surface — a passenger books, a driver accepts, the trip happens.
-              The complexity is in the seams: how do you give three completely different user types — clients, drivers,
-              and administrators — a single backend that enforces the right rules for each without tangling the logic?
+              MURI is a student transportation platform. On the surface it looks simple — a client books a trip,
+              a driver accepts it, an admin oversees operations. The complexity is in the seams: three completely
+              different user types, each needing their own experience, all sharing one backend that enforces the
+              right rules without tangling the logic.
             </motion.p>
-            <motion.p initial="hidden" whileInView="show" viewport={{ once: true }} variants={{ ...inView, show: { ...inView.show, transition: { delay: 0.1, duration: 0.55 } } }}>
+            <motion.p initial="hidden" whileInView="show" viewport={{ once: true }} variants={{ ...inView, show: { ...inView.show, transition: { delay: 0.08, duration: 0.55 } } }}>
+              Each role gets a dedicated application: the Student App (Flutter) for clients, the Driver App
+              (Flutter) for drivers, and the Admin Dashboard (Angular 19) for administrators. The Django backend
+              mirrors this split — separate modules under <code className="text-zinc-400">UsersModules/</code> for
+              client, driver, and administrator, each with its own serializers, views, and permission classes.
+            </motion.p>
+            <motion.p initial="hidden" whileInView="show" viewport={{ once: true }} variants={{ ...inView, show: { ...inView.show, transition: { delay: 0.16, duration: 0.55 } } }}>
               MURI added a further dimension: subscription packages. Clients don&apos;t pay per trip — they buy packages.
               This means trip availability is gated by subscription state, expiry, and remaining quota — all of which
               must be checked atomically to avoid race conditions when two requests arrive simultaneously.
             </motion.p>
-            <motion.p initial="hidden" whileInView="show" viewport={{ once: true }} variants={{ ...inView, show: { ...inView.show, transition: { delay: 0.2, duration: 0.55 } } }}>
+            <motion.p initial="hidden" whileInView="show" viewport={{ once: true }} variants={{ ...inView, show: { ...inView.show, transition: { delay: 0.24, duration: 0.55 } } }}>
               And throughout, the system needs to answer geographic questions in real time: which drivers are within range?
               What regions are serviced? What is the estimated route? A plain latitude/longitude column in PostgreSQL
               cannot answer these efficiently at scale.
@@ -197,11 +207,12 @@ export default function MuriCaseStudy() {
             <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-3">Core requirements</p>
             <ul className="space-y-2">
               {[
-                "Isolated permission scopes for clients, drivers, and administrators",
-                "Geospatial queries for driver availability and region management",
+                "Three role-specific apps (Student, Driver, Admin) backed by one modular Django API",
+                "Isolated permission scopes for client, driver, and administrator user types",
+                "Geospatial queries for driver availability and service region management",
                 "Subscription-gated trip booking with atomic quota checks",
-                "Real-time trip status pushed to both client and driver without polling",
-                "Full Arabic and English localization across all user-facing content",
+                "HyperPay payments, driver wallet accounting, and Firebase push notifications",
+                "Full Arabic and English localization across all apps and the admin dashboard",
               ].map((req, i) => (
                 <motion.li key={i} className="flex items-start gap-2 text-xs text-zinc-500"
                   initial={{ opacity: 0, x: -6 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
@@ -217,12 +228,13 @@ export default function MuriCaseStudy() {
         <section>
           <SectionLabel number="02" label="Architecture" />
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
-            <WordReveal text="Five layers. Role-aware at every level." />
+            <WordReveal text="Three apps. One API. Clear data flow." />
           </h2>
           <motion.p className="text-zinc-500 text-sm leading-relaxed mb-10 max-w-xl"
             initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
-            The system is organized into modular Django apps — one per role and concern — sharing a single
-            PostGIS-enabled database with a clear async layer for tasks and real-time updates.
+            Each role gets its own frontend; the Django backend is organized into modular apps — one per role
+            and concern — sharing a single PostGIS-enabled database with Celery for async work and Firebase for
+            push delivery.
           </motion.p>
           <ArchDiagram />
         </section>
@@ -237,8 +249,8 @@ export default function MuriCaseStudy() {
             <DecisionCard number="01" title="PostGIS over plain lat/lng columns"
               body="Storing coordinates as two float columns works until you need to query 'find all drivers within 5km'. That query becomes a full table scan with manual Haversine math. PostGIS gives us native spatial indexes, proximity queries in a single SQL call, and region polygon support — all without a separate geospatial service."
               delay={0} />
-            <DecisionCard number="02" title="Modular app structure by role, not by feature"
-              body="The alternative — a single 'users' model with a role field — leads to spaghetti permissions. Separating client, driver, and administrator into distinct Django apps meant each had its own serializers, viewsets, and permission classes. Onboarding a new role never touches existing code."
+            <DecisionCard number="02" title="One Django module per role — mirrored in the frontends"
+              body="The backend splits client, driver, and administrator into distinct Django apps under UsersModules/, each with its own models, serializers, views, and permission classes. The frontends mirror this: Student App and Driver App (Flutter, clean architecture) and Admin Dashboard (Angular 19) each talk only to their role-scoped API surface."
               delay={0.07} />
             <DecisionCard number="03" title="WebSocket push for trip tracking"
               body="Polling every 2 seconds for driver location means 30 requests per minute per active trip. At modest scale this becomes expensive. WebSocket connections stay open for the duration of the trip, pushing location updates server-side. Driver location is updated via Celery → Redis → WebSocket channel group."

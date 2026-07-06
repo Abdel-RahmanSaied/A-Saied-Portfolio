@@ -43,7 +43,7 @@ const cases = [
     category: "Mobility & Trip Management",
     title: "MURI",
     description:
-      "How I designed a multi-role transportation platform with geospatial routing via PostGIS, real-time WebSocket trip tracking, and subscription-gated booking — deployed and live at muri.sa.",
+      "How I designed a student transportation platform around three distinct roles — client, driver, and admin — each with dedicated Flutter or Angular surfaces, backed by a modular Django API with PostGIS routing and subscription packages. Live at muri.sa.",
     icon: <ArrowRight className="w-5 h-5" />,
     stats: [
       { value: "3",       label: "User roles" },
@@ -51,7 +51,7 @@ const cases = [
       { value: "<1s",     label: "Trip updates" },
       { value: "2",       label: "Languages" },
     ],
-    tags: ["Django", "PostGIS", "Redis", "Celery", "WebSockets", "AWS S3"],
+    tags: ["Django", "Flutter", "Angular", "PostGIS", "Redis", "Celery", "HyperPay", "Firebase"],
     readTime: "9 min read",
   },
   {
@@ -130,13 +130,13 @@ export default function CaseStudiesPage() {
         >
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-4">Case Studies</p>
           <h1 className="text-4xl sm:text-5xl font-black text-white mb-6 leading-tight">
-            How the systems
+            Engineering decisions
             <br />
-            <span className="text-zinc-500">were built.</span>
+            <span className="text-zinc-500">behind shipped systems.</span>
           </h1>
           <p className="text-zinc-500 leading-relaxed text-sm max-w-lg">
-            Not just what was built — the problems, the trade-offs, the architecture decisions,
-            and the outcomes. Two projects. Full depth.
+            Five case studies focused on architecture, constraints, trade-offs, production
+            outcomes, and the leadership decisions behind systems that reached real users.
           </p>
         </motion.div>
 

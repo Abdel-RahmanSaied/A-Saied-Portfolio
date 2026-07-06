@@ -11,6 +11,7 @@ const navItems = [
   { name: "About",         href: "/about" },
   { name: "Portfolio",     href: "/portfolio" },
   { name: "Case Studies",  href: "/case-studies" },
+  { name: "Philosophy",    href: "/engineering-philosophy" },
   { name: "Blog",          href: "/blog" },
   { name: "Resume",        href: "/resume" },
   { name: "Let's Talk",    href: "/lets-talk" },
