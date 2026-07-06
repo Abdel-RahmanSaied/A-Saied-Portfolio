@@ -19,6 +19,221 @@ export type Post = {
 
 export const posts: Post[] = [
   {
+    slug:     "observability-before-optimization",
+    title:    "Why Observability Comes Before Optimization",
+    date:     "2026-07-06",
+    readTime: "8 min read",
+    tags:     ["Observability", "Backend", "Reliability", "Architecture", "Leadership"],
+    summary:
+      "Optimizing without observability is guessing with confidence. Before adding workers, rewriting services, or changing databases, you need to know where time, errors, queue pressure, and cost actually come from.",
+    content: [
+      {
+        type: "p",
+        text: "Most performance work starts too late in the process. The API feels slow, a queue looks backed up, CPU is high, or a user complains. The immediate instinct is to optimize: add workers, cache something, rewrite a hot path, move work to Go, or scale the database. Sometimes that works. More often, it moves the bottleneck somewhere else because nobody measured the system before changing it.",
+      },
+      {
+        type: "p",
+        text: "The lesson I keep relearning in production systems is simple: observability comes before optimization. Not because dashboards are beautiful. Because without visibility, optimization is just a series of confident guesses.",
+      },
+      {
+        type: "callout",
+        text: "If you cannot explain where latency, errors, queue pressure, and cost come from, you are not ready to optimize. You are ready to instrument.",
+      },
+      {
+        type: "h2",
+        text: "The Optimization Trap",
+      },
+      {
+        type: "p",
+        text: "The dangerous part about backend optimization is that every fix sounds reasonable in isolation. Add Redis caching. Increase Celery concurrency. Add indexes. Split a service. Move CPU-heavy work to Go. Use Elasticsearch. Add read replicas. All of these can be correct, but only in response to the right bottleneck.",
+      },
+      {
+        type: "p",
+        text: "If the database is slow because of missing indexes, adding Celery workers increases database pressure. If the queue is backed up because an external API is timing out, adding more workers may trigger rate limits faster. If p95 latency is bad because of one expensive permission check, rewriting the whole endpoint is wasted effort.",
+      },
+      {
+        type: "h2",
+        text: "What Observability Must Answer",
+      },
+      {
+        type: "p",
+        text: "A production backend does not need every possible dashboard on day one. It needs enough visibility to answer the questions that decide engineering action.",
+      },
+      {
+        type: "list",
+        items: [
+          "Latency: where does request time actually go — app code, database, cache, network, external API, serialization?",
+          "Errors: which failures are user-facing, retryable, external, validation-related, or caused by our own code?",
+          "Queue pressure: are tasks waiting because workers are saturated, tasks are slow, retries are exploding, or downstream services are failing?",
+          "Throughput: how many requests, jobs, records, or events can the system process before it degrades?",
+          "Cost: which workload is consuming compute, database, cache, storage, or third-party API spend?",
+        ],
+      },
+      {
+        type: "h2",
+        text: "Start With Four Signals",
+      },
+      {
+        type: "p",
+        text: "For most backend systems, I want four signals before I trust any optimization plan: request latency, error rate, queue depth, and saturation. These are simple, but together they tell you whether the system is slow, broken, overloaded, or waiting on something else.",
+      },
+      {
+        type: "code",
+        lang: "text",
+        code: `Minimum useful production view
+
+HTTP:
+  - request count by endpoint
+  - p50 / p95 / p99 latency by endpoint
+  - 4xx / 5xx error rate
+
+Database:
+  - slow queries
+  - connection pool usage
+  - lock wait time
+
+Queue:
+  - queue depth
+  - task runtime
+  - retry count
+  - failure reason
+
+Infrastructure:
+  - CPU / memory
+  - container restarts
+  - external API latency`,
+      },
+      {
+        type: "h2",
+        text: "Example: Celery Queue Pressure",
+      },
+      {
+        type: "p",
+        text: "Imagine a Celery queue starts falling behind during ingestion spikes. The naive fix is to increase worker concurrency. That might be correct, but only if workers are actually CPU-bound or waiting for available slots. If tasks are slow because every job performs three database writes and an external API call, more workers can make the system worse.",
+      },
+      {
+        type: "p",
+        text: "The useful question is not 'how do we make Celery faster?' The useful question is 'where does task time go?' That changes the debugging path completely.",
+      },
+      {
+        type: "code",
+        lang: "python",
+        code: `# Useful task instrumentation pattern
+import time
+import logging
+
+logger = logging.getLogger(__name__)
+
+def timed_step(name, fn):
+    start = time.perf_counter()
+    try:
+        return fn()
+    finally:
+        duration_ms = round((time.perf_counter() - start) * 1000, 2)
+        logger.info("task_step_completed", extra={
+            "step": name,
+            "duration_ms": duration_ms,
+        })
+
+def process_event(event):
+    validated = timed_step("validate", lambda: validate_event(event))
+    enriched = timed_step("enrich", lambda: enrich_event(validated))
+    saved = timed_step("store", lambda: store_event(enriched))
+    timed_step("notify", lambda: maybe_notify(saved))`,
+      },
+      {
+        type: "p",
+        text: "Once you have that data, the optimization may be very different from the first guess. Maybe validation is cheap, enrichment is slow, storage is fine, and notifications are timing out. In that case, the fix is not more workers. It might be a timeout, a circuit breaker, a separate queue, or moving notification work behind a lower-priority pipeline.",
+      },
+      {
+        type: "h2",
+        text: "Observability Makes Trade-Offs Honest",
+      },
+      {
+        type: "p",
+        text: "Staff-level engineering is often less about knowing a clever solution and more about making trade-offs explicit. Do we add Redis caching or fix the query? Do we add workers or reduce task runtime? Do we split a service or keep the monolith? Do we move a hot path to Go or improve the Python code?",
+      },
+      {
+        type: "p",
+        text: "Without measurement, these debates become taste. With measurement, they become decisions.",
+      },
+      {
+        type: "list",
+        items: [
+          "If p95 latency is dominated by one database query, fix the query before adding infrastructure.",
+          "If p99 latency comes from external APIs, add timeouts, retries, fallbacks, and user-visible states.",
+          "If queue depth grows but worker CPU is low, investigate downstream waiting and retry storms.",
+          "If CPU is saturated and the algorithm is hot, then language/runtime changes may be justified.",
+        ],
+      },
+      {
+        type: "h2",
+        text: "The Order I Prefer",
+      },
+      {
+        type: "p",
+        text: "When a system is under pressure, this is the order I usually want the team to follow.",
+      },
+      {
+        type: "list",
+        items: [
+          "Instrument the path: request, database, cache, queue, external dependency.",
+          "Identify the bottleneck with evidence, not intuition.",
+          "Apply the smallest fix that addresses the bottleneck.",
+          "Measure again after the change.",
+          "Only then consider larger architecture changes.",
+        ],
+      },
+      {
+        type: "callout",
+        text: "Optimization is not finished when the code changes. It is finished when the measurements improve and the team understands why.",
+      },
+      {
+        type: "h2",
+        text: "Observability Is Also a Leadership Tool",
+      },
+      {
+        type: "p",
+        text: "Good observability changes team behavior. It reduces blame during incidents because the team can look at evidence. It helps product teams understand trade-offs because engineers can explain the cost of a feature. It helps junior engineers learn production thinking because they can see how code behaves outside their laptop.",
+      },
+      {
+        type: "p",
+        text: "This is why I think observability belongs in architecture discussions, not only DevOps tasks. Logs, metrics, traces, dashboards, alerts, and runbooks are part of the product's operating model. If the team cannot operate the system, the architecture is incomplete.",
+      },
+      {
+        type: "h2",
+        text: "What I Would Add Early",
+      },
+      {
+        type: "p",
+        text: "For a Django, FastAPI, or Go backend, I would add these early even before the system has serious scale.",
+      },
+      {
+        type: "list",
+        items: [
+          "Structured logs with request IDs and task IDs.",
+          "Endpoint-level latency and error metrics.",
+          "Slow query visibility and database connection pool metrics.",
+          "Celery queue depth, task runtime, retries, and failure reasons.",
+          "External API latency, timeout count, and retry count.",
+          "A small incident note template: impact, root cause, fix, preventive measure.",
+        ],
+      },
+      {
+        type: "h2",
+        text: "The Real Goal",
+      },
+      {
+        type: "p",
+        text: "The goal is not to collect graphs. The goal is to make the system explain itself. When something slows down, fails, or becomes expensive, the team should know where to look and what question to ask next.",
+      },
+      {
+        type: "p",
+        text: "That is why observability comes before optimization. It turns performance work from guesswork into engineering. It turns incidents from panic into learning. And it gives technical leaders the evidence they need to improve systems without adding unnecessary complexity.",
+      },
+    ],
+  },
+  {
     slug:     "scaling-sentiment-api",
     title:    "Scaling a Sentiment Analysis API: From 100% CPU to Production-Ready",
     date:     "2026-05-01",
