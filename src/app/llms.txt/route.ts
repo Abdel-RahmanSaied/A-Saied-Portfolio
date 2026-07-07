@@ -1,4 +1,5 @@
 import { posts } from "@/lib/posts";
+import { projects } from "@/lib/projects";
 import { absoluteUrl, site } from "@/lib/site";
 
 export const dynamic = "force-static";
@@ -68,6 +69,27 @@ ${site.proofPoints.map((p) => `- **${p.metric}**: ${p.claim}`).join("\n")}
 - [Engineering Philosophy](${absoluteUrl("/engineering-philosophy")}): principles for reliable systems and technical leadership
 - [Portfolio](${absoluteUrl("/portfolio")}): selected projects
 - [Contact](${absoluteUrl("/lets-talk")}): availability and contact details
+
+## All Projects
+
+Complete list of production systems, open-source tools, and shipped products built by ${site.name}:
+
+${projects
+  .map((p) => {
+    const links = [
+      p.live && `Live: ${p.live}`,
+      p.github && `Source: ${p.github}`,
+      p.caseStudy && `Case study: ${absoluteUrl(p.caseStudy)}`,
+    ]
+      .filter(Boolean)
+      .join(" · ");
+    return `### ${p.title} — ${p.tagline}
+
+${p.description}
+
+Tech stack: ${p.techStack.join(", ")}.${links ? `\n${links}` : ""}`;
+  })
+  .join("\n\n")}
 
 ## Case Studies
 

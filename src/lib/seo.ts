@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { absoluteUrl, site } from "@/lib/site";
 import type { Post } from "@/lib/posts";
+import type { Project } from "@/lib/projects";
 
 /**
  * Standard per-page metadata: canonical URL plus OpenGraph/Twitter cards that
@@ -160,6 +161,35 @@ export function blogPostingJsonLd(post: Post) {
     author: { "@id": PERSON_ID },
     publisher: { "@id": PERSON_ID },
     isPartOf: { "@id": WEBSITE_ID },
+  };
+}
+
+export function portfolioJsonLd(projects: Project[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "@id": `${site.url}/portfolio#projects`,
+    name: `Projects by ${site.name}`,
+    description: `Complete list of production systems, open-source tools, and shipped products built by ${site.name}.`,
+    numberOfItems: projects.length,
+    itemListElement: projects.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "SoftwareApplication",
+        name: p.title,
+        alternateName: p.tagline,
+        description: p.description,
+        url: p.live ?? (p.caseStudy ? absoluteUrl(p.caseStudy) : absoluteUrl("/portfolio")),
+        ...(p.github ? { sameAs: [p.github] } : {}),
+        keywords: p.techStack.join(", "),
+        creator: { "@id": PERSON_ID },
+        author: { "@id": PERSON_ID },
+        ...(p.caseStudy
+          ? { subjectOf: { "@type": "WebPage", "@id": absoluteUrl(p.caseStudy) } }
+          : {}),
+      },
+    })),
   };
 }
 

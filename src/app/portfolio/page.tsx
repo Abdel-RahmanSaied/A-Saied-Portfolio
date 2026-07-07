@@ -1,4 +1,6 @@
-import { pageMetadata } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
+import { pageMetadata, portfolioJsonLd } from "@/lib/seo";
+import { projects } from "@/lib/projects";
 import PortfolioClient from "./PortfolioClient";
 
 export const metadata = pageMetadata({
@@ -9,5 +11,10 @@ export const metadata = pageMetadata({
 });
 
 export default function PortfolioPage() {
-  return <PortfolioClient />;
+  return (
+    <>
+      <JsonLd data={portfolioJsonLd(projects)} />
+      <PortfolioClient />
+    </>
+  );
 }
