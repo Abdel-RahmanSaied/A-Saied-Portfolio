@@ -14,6 +14,29 @@ const inView = {
   show:   { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as [number,number,number,number] } },
 };
 
+// Turn internal route mentions (/case-studies/x, /blog/x) and known project
+// domains into real links, so prose references carry internal-link equity.
+const LINK_RE = /(\/(?:case-studies|blog)\/[a-z0-9-]+|\b(?:fendix\.dev|muri\.sa|twiscope\.net)\b)/g;
+const LINK_CLASS = "text-zinc-200 underline decoration-zinc-600 underline-offset-2 hover:decoration-zinc-300 transition-colors";
+
+function linkify(text: string): React.ReactNode {
+  const parts = text.split(LINK_RE);
+  if (parts.length === 1) return text;
+  return parts.map((part, idx) => {
+    if (/^\/(?:case-studies|blog)\/[a-z0-9-]+$/.test(part)) {
+      return <Link key={idx} href={part} className={LINK_CLASS}>{part}</Link>;
+    }
+    if (/^(?:fendix\.dev|muri\.sa|twiscope\.net)$/.test(part)) {
+      return (
+        <a key={idx} href={`https://${part}`} target="_blank" rel="noopener noreferrer" className={LINK_CLASS}>
+          {part}
+        </a>
+      );
+    }
+    return part;
+  });
+}
+
 function renderBlock(block: Block, i: number) {
   switch (block.type) {
     case "h2":
@@ -34,7 +57,7 @@ function renderBlock(block: Block, i: number) {
       return (
         <motion.p key={i} className="text-zinc-400 text-sm sm:text-base leading-relaxed"
           initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
-          {block.text}
+          {linkify(block.text)}
         </motion.p>
       );
     case "list":
@@ -44,7 +67,7 @@ function renderBlock(block: Block, i: number) {
           {block.items.map((item, j) => (
             <li key={j} className="flex items-start gap-2.5 text-zinc-400 text-sm leading-relaxed">
               <ArrowRight className="w-3 h-3 text-zinc-700 mt-1 shrink-0" />
-              {item}
+              <span>{linkify(item)}</span>
             </li>
           ))}
         </motion.ul>
@@ -54,7 +77,7 @@ function renderBlock(block: Block, i: number) {
         <motion.div key={i}
           className="my-2 p-5 rounded-xl border border-zinc-700/60 bg-zinc-900/60 border-l-2 border-l-zinc-400"
           initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
-          <p className="text-zinc-300 text-sm leading-relaxed font-medium">{block.text}</p>
+          <p className="text-zinc-300 text-sm leading-relaxed font-medium">{linkify(block.text)}</p>
         </motion.div>
       );
     case "code":

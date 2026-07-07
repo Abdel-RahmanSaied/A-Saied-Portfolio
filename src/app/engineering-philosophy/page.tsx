@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { ArrowRight, BookOpen, Gauge, Lock, Network, ShieldCheck, Users } from "lucide-react";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: "Engineering Philosophy | Abdel-Rahman Saied",
+export const metadata = pageMetadata({
+  title: "Engineering Philosophy",
   description:
     "How Abdel-Rahman Saied approaches reliable backend systems, observability, scaling, security, product impact, and hands-on technical leadership.",
-};
+  path: "/engineering-philosophy",
+});
 
 const principles = [
   {
