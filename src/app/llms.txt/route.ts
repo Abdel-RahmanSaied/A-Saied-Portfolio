@@ -57,6 +57,10 @@ Key facts:
 - GitHub: ${site.social.github}
 - LinkedIn: ${site.social.linkedin}
 
+## Key Achievements
+
+${site.proofPoints.map((p) => `- **${p.metric}**: ${p.claim}`).join("\n")}
+
 ## Pages
 
 - [About](${absoluteUrl("/about")}): background, experience, and skills

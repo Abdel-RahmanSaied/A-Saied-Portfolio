@@ -54,7 +54,7 @@ export function personJsonLd() {
         "@id": PERSON_ID,
         name: site.name,
         alternateName: [...site.alternateNames],
-        description: `${site.nameFull} (${site.nameArabic}) is a ${site.jobTitle} based in ${site.location.city}, ${site.location.country}, known for building Twiscope, Fendix, and MURI.`,
+        description: `${site.nameFull} (${site.nameArabic}) is a ${site.jobTitle} based in ${site.location.city}, ${site.location.country}, known for building Twiscope, Fendix, and MURI. Career highlights: led 13 engineers as Technical Lead; engineered Twiscope processing 5M+ data points daily; improved production throughput 3x; reduced system latency 25% via Redis caching and async optimization; cut deployment cycle time 40% via CI/CD restructuring; maintains 99.9% uptime.`,
         url: site.url,
         jobTitle: site.jobTitle,
         email: `mailto:${site.email}`,

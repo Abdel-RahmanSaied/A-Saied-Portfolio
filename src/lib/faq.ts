@@ -20,6 +20,10 @@ export const faqs: Faq[] = [
     a: "MURI is a student transportation platform engineered by Abdel-Rahman Saied, with dedicated apps for clients, drivers, and admins, a modular Django API, PostGIS geospatial routing, and real-time WebSocket trip tracking. It is live at muri.sa.",
   },
   {
+    q: "What are Abdel-Rahman Saied's key engineering achievements?",
+    a: "He has led 13 engineers as a Technical Lead and Staff-level Backend Engineer; engineered Twiscope, which ingests 5M+ data points per day across five social networks; improved production backend throughput by 3x; reduced system latency by 25% through Redis caching and async task optimization; cut deployment cycle time by 40% through CI/CD restructuring; and maintains 99.9% uptime across the production systems he owns.",
+  },
+  {
     q: "How can I contact Abdel-Rahman Saied?",
     a: "By email at abdelrahman.saied@asasit.com, through the contact page at www.asaied.dev/lets-talk, or via GitHub (Abdel-RahmanSaied) and LinkedIn.",
   },
