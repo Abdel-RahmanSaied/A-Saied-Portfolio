@@ -18,7 +18,7 @@ export const projects: Project[] = [
     title: "Twiscope",
     tagline: "OSINT Analytics Platform",
     description:
-      "Multi-platform social intelligence system processing 5M+ data points daily across Twitter/X, Instagram, TikTok, Google, and news sources. Features influencer monitoring, ML-driven sentiment analysis, real-time trend alerts, subscription/payment management, and a dual frontend — Angular for the main app and React for 3D data visualization.",
+      "Social intelligence platform built around Deep-In (X keyword and user analytics), Influencer Impact (monitoring), Sadeed / Decision Hub (decision centers and scoring), an X-focused alert engine, and a multi-channel notification system. Its services use Django, FastAPI, Celery, PostgreSQL, Elasticsearch, and AWS.",
     techStack: ["Python", "Django", "Celery", "Redis", "AWS", "Angular", "React", "ML"],
     live: "https://twiscope.net/",
     caseStudy: "/case-studies/twiscope",
@@ -30,9 +30,9 @@ export const projects: Project[] = [
     title: "Fendix",
     tagline: "API Security Scanner",
     description:
-      "Open-source hybrid DAST + SAST scanner. Correlated findings cut false positives ~70% — only alerts when both engines independently agree. Ships as a single Go binary with SARIF export and signed releases.",
+      "Application security decision platform combining SAST, DAST, and software composition analysis evidence with coverage-aware release policies. Offers an open-source CLI and commercial hosted workflows; supports signed releases and auditable decisions.",
     techStack: ["Go", "Next.js", "TypeScript", "Docker", "GitHub Actions"],
-    github: "https://github.com/Abdel-RahmanSaied/Fendix",
+    github: "https://github.com/Fendix-app/Fendix",
     live: "https://fendix.dev",
     caseStudy: "/case-studies/fendix",
     category: "Security",
@@ -52,7 +52,7 @@ export const projects: Project[] = [
     title: "Sanad AI",
     tagline: "Twiscope AI Assistant",
     description:
-      "Official AI assistant engine of the Twiscope platform — built on FastAPI with OpenAI integration and async SQS-based message processing. Elasticsearch powers intelligent search and analytics; Kibana and Prometheus/Grafana provide full-stack observability across all AI workloads.",
+      "Twiscope's multilingual RAG analytics service: FastAPI, BGE-M3 embeddings, Elasticsearch KNN/BM25 hybrid retrieval with reciprocal rank fusion, constrained LLM index routing, multi-report queries, and AWS SQS ingestion.",
     techStack: ["FastAPI", "OpenAI", "AWS SQS", "Elasticsearch", "PostgreSQL", "Redis", "Kibana"],
     category: "AI / ML",
   },
@@ -62,7 +62,6 @@ export const projects: Project[] = [
     description:
       "Student transportation platform serving three roles — client, driver, and admin — each with a dedicated app (Flutter Student & Driver apps, Angular 19 admin dashboard). Modular Django API with PostGIS geospatial routing, package-based subscriptions, HyperPay payments, driver wallet accounting, Firebase push, and real-time trip tracking.",
     techStack: ["Django 4.2", "Flutter", "Angular 19", "PostGIS", "Redis", "Celery", "HyperPay", "Firebase", "PostgreSQL", "AWS S3"],
-    live: "https://muri.sa/",
     caseStudy: "/case-studies/muri",
     category: "Backend",
   },
