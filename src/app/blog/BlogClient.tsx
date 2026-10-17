@@ -36,8 +36,8 @@ export default function BlogPage() {
             <span className="text-fg-muted">about systems.</span>
           </h1>
           <p className="text-fg-muted leading-relaxed text-sm max-w-lg">
-            Architecture decisions, hard-won lessons, and honest post-mortems from real production systems.
-            Not tutorials — actual problems and how I solved them.
+            Architecture decisions and lessons from production systems I work on, plus a few practical
+            guides. Posts that have been corrected say so at the top.
           </p>
         </motion.div>
 
@@ -62,7 +62,7 @@ export default function BlogPage() {
                         {/* Meta */}
                         <div className="flex flex-wrap items-center gap-3 mb-3">
                           <span className="text-xs text-fg-faint">{formatDate(post.date)}</span>
-                          <span className="text-zinc-800">·</span>
+                          <span aria-hidden="true" className="text-zinc-700">·</span>
                           <span className="text-xs text-fg-faint">{post.readTime}</span>
                         </div>
 

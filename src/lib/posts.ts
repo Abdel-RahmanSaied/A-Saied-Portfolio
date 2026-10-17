@@ -11,6 +11,8 @@ export type Post = {
   slug:      string;
   title:     string;
   date:      string;
+  /** Set when a post is materially revised after publication. */
+  updated?:  string;
   readTime:  string;
   tags:      string[];
   summary:   string;
@@ -235,324 +237,136 @@ def process_event(event):
   },
   {
     slug:     "scaling-sentiment-api",
-    title:    "Scaling a Sentiment Analysis API: From 100% CPU to Production-Ready",
-    date:     "2026-05-01",
-    readTime: "10 min read",
+    title:    "Hardening a Hugging Face Sentiment Service in FastAPI",
+    date:     "2026-10-17",
+    readTime: "8 min read",
     tags:     ["Python", "FastAPI", "NLP", "Machine Learning", "Backend"],
     summary:
-      "Two uvicorn workers pegged two CPU cores at 100% for 4+ hours on our Arabic NLP service. Here are the five fixes that cut RAM by 1.5 GB per worker and set the path toward 5–7x faster inference — without touching the API.",
+      "What changed when an Arabic-dialect sentiment service moved from prototype to production: model loading in the FastAPI lifespan, pinned model revisions, a persistent model cache, half precision only on GPUs, and the scaling options we deliberately left for later.",
     content: [
       {
-        type: "p",
-        text: "One morning I opened htop on one of our EC2 instances and saw something that should never happen in a healthy service: two CPU cores completely saturated, running at 100% for over four hours straight. The culprit was a FastAPI-based sentiment analysis API powered by CAMeL-Lab Arabic NLP models. This is the story of what I found, what I fixed, and the path toward making it truly production-ready.",
-      },
-      {
-        type: "list",
-        items: [
-          "Core 1: 100% — fully saturated",
-          "Core 2: 99.4% — fully saturated",
-          "Core 0: 0.6% — sitting idle",
-          "Core 3: 3.9% — sitting idle",
-        ],
-      },
-      {
-        type: "h2",
-        text: "The Stack",
-      },
-      {
-        type: "code",
-        lang: "text",
-        code: `FastAPI + Uvicorn
-CAMeL-Lab Arabic sentiment model (PyTorch)
-nlptown/bert-base-multilingual-uncased-sentiment (bonus model we didn't need)
-AWS EC2 — 4 vCPUs, 15.4 GB RAM
-Docker`,
-      },
-      {
-        type: "h2",
-        text: "What Was Actually Wrong",
-      },
-      {
-        type: "h3",
-        text: "Problem 1: The GIL Trap",
-      },
-      {
-        type: "p",
-        text: "The first question I asked: why are only 2 of my 4 cores being used? The answer is Python's GIL (Global Interpreter Lock). A single Python process can only use one CPU core at a time for CPU-bound work — like ML inference. When you run uvicorn with 2 workers, you get 2 processes, each pinned to one core. The other 2 cores sit idle.",
-      },
-      {
-        type: "code",
-        lang: "bash",
-        code: `# What I had
-uvicorn sentiment_api:app --workers 2
-
-# What I should have had (at minimum)
-uvicorn sentiment_api:app --workers 3  # 3 cores for inference, 1 for OS/Docker`,
-      },
-      {
-        type: "p",
-        text: "But simply adding workers wasn't the real fix — because each worker was loading 2.56 GB of model data into RAM. Doubling workers would double RAM consumption. I needed to fix the root issues first.",
-      },
-      {
-        type: "h3",
-        text: "Problem 2: A Model We Didn't Actually Need",
-      },
-      {
-        type: "p",
-        text: "Inside the service I found this loading on startup — always, unconditionally:",
-      },
-      {
-        type: "code",
-        lang: "python",
-        code: `from transformers import pipeline
-
-# Loaded on startup — always
-nlptown_pipeline = pipeline(
-    "text-classification",
-    model="nlptown/bert-base-multilingual-uncased-sentiment"
-)`,
-      },
-      {
-        type: "p",
-        text: "The nlptown model was consuming ~670 MB of RAM per worker even though 90% of requests only needed the CAMeL-Lab model. It was there from an early experiment and never removed.",
-      },
-      {
         type: "callout",
-        text: "Fix: Remove it entirely, or lazy-load it only when explicitly requested. RAM saved per worker: ~670 MB.",
-      },
-      {
-        type: "h3",
-        text: "Problem 3: Models Loading in __init__, Not in Lifespan",
+        text: "Rewritten in October 2026. The earlier version presented memory, latency and speed-up figures as measurements and said one of the models was unused. The figures were estimates, and that model serves a real share of requests, so we kept it. This version describes the changes that shipped.",
       },
       {
         type: "p",
-        text: "This is the subtle one that most tutorials get wrong. When models load in __init__, if HuggingFace is slow or the network blips, your FastAPI process crashes before it can respond to any request — not even a 503. The load balancer gets nothing back.",
+        text: "The service classifies the sentiment of social posts for Twiscope's reports: Arabic, including Gulf and Egyptian dialects, and English. It serves three pretrained Hugging Face models behind FastAPI — a CAMeL-Lab dialect model for Arabic, a Twitter RoBERTa model for English, and a multilingual model for mixed or other-language text. No models are trained here; the work is in serving them reliably.",
+      },
+      {
+        type: "h2",
+        text: "1. Load models in the lifespan, not at import",
+      },
+      {
+        type: "p",
+        text: "The prototype loaded models when the module was imported. If a download was slow or failed, the process died before it could answer anything, and the orchestrator saw a crash loop instead of a service that wasn't ready yet. Moving loading into FastAPI's lifespan, with a readiness endpoint, separates the two.",
       },
       {
         type: "code",
         lang: "python",
-        code: `# The wrong way
-class SentimentService:
-    def __init__(self):
-        self.model = AutoModelForSequenceClassification.from_pretrained("CAMeL-Lab/...")
-        self.tokenizer = AutoTokenizer.from_pretrained("CAMeL-Lab/...")`,
-      },
-      {
-        type: "code",
-        lang: "python",
-        code: `# The right way — FastAPI lifespan
-from contextlib import asynccontextmanager
+        code: `from contextlib import asynccontextmanager
+from fastapi import FastAPI, Response
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup
-    app.state.model = AutoModelForSequenceClassification.from_pretrained(
-        settings.MODEL_ID,
-        revision=settings.MODEL_REVISION,  # Pin to a commit SHA
-        torch_dtype=torch.float16,         # Cut RAM usage by ~40%
-    )
+    app.state.ready = False
+    app.state.models = load_models(settings)   # pinned revisions, see below
+    app.state.ready = True
     yield
-    # Shutdown — cleanup here
-    del app.state.model
+    app.state.models = None                    # release memory on shutdown
 
-app = FastAPI(lifespan=lifespan)`,
+app = FastAPI(lifespan=lifespan)
+
+@app.get("/ready")
+def ready(response: Response):
+    if not app.state.ready:
+        response.status_code = 503
+    return {"ready": app.state.ready}`,
       },
       {
-        type: "list",
-        items: [
-          "Return 503 instead of crashing during model load failures",
-          "Readiness and liveness probes work correctly",
-          "Clean shutdown frees GPU/CPU memory",
-          "torch_dtype=float16 cuts RAM usage by ~40% with minimal accuracy impact",
-        ],
+        type: "p",
+        text: "One correction to how I first described this: an exception inside the lifespan still stops the application from starting. That's the intended behaviour — fail fast and let the orchestrator restart it — while the readiness endpoint keeps traffic away until the models are loaded.",
       },
       {
-        type: "h3",
-        text: "Problem 4: No Version Pinning",
+        type: "h2",
+        text: "2. Pin model revisions",
+      },
+      {
+        type: "p",
+        text: "A model id on the Hugging Face Hub points at whatever was pushed last. For an analytics product, the same text should get the same label next month, so every model is loaded at a pinned revision kept in configuration.",
       },
       {
         type: "code",
         lang: "python",
-        code: `# HuggingFace can update this model silently at any time
-AutoModelForSequenceClassification.from_pretrained("CAMeL-Lab/camel-bert-arabic-sentiment")
-
-# Pinned to a specific commit — reproducible, auditable
-AutoModelForSequenceClassification.from_pretrained(
-    "CAMeL-Lab/camel-bert-arabic-sentiment",
-    revision="a3f9d2c",  # commit SHA or tag
+        code: `model = AutoModelForSequenceClassification.from_pretrained(
+    cfg.model_id,
+    revision=cfg.revision,   # commit SHA or tag, reviewed like any dependency bump
 )`,
       },
       {
-        type: "p",
-        text: "On an OSINT platform where prediction accuracy matters, you need to know exactly which model version produced which output. HuggingFace can silently update models — pinning a revision guarantees reproducibility across deploys.",
-      },
-      {
-        type: "h3",
-        text: "Problem 5: No HuggingFace Cache Volume",
+        type: "h2",
+        text: "3. Keep downloaded models on a volume",
       },
       {
         type: "p",
-        text: "Every time a Docker container restarted, it re-downloaded the models from scratch. On a 1.2 GB model, that's 30+ seconds of cold start time on every deploy.",
+        text: "Without a persistent cache, every container restart downloaded the models again. A named volume mounted as the Hugging Face cache makes restarts and redeploys reuse what's already there.",
       },
       {
         type: "code",
         lang: "yaml",
-        code: `# docker-compose.yml
-services:
+        code: `services:
   sentiment-api:
+    environment:
+      HF_HOME: /models-cache
     volumes:
-      - hf-cache:/root/.cache/huggingface
+      - hf-cache:/models-cache
 volumes:
   hf-cache:`,
       },
       {
-        type: "callout",
-        text: "Cold start improvement: ~30 seconds → under 3 seconds. One line of docker-compose config.",
-      },
-      {
         type: "h2",
-        text: "The Quick Wins Summary",
-      },
-      {
-        type: "list",
-        items: [
-          "Remove unused nlptown model — 30 min effort — ~670 MB RAM saved per worker",
-          "Add HuggingFace cache volume — 5 min effort — eliminates 30s cold start on restart",
-          "torch_dtype=float16 — 10 min effort — ~850 MB RAM saved, +10–20% inference speed",
-          "Move model loading to FastAPI lifespan — 1–2 hrs — proper 503 on load failure, clean shutdown",
-          "Pin model revision — 15 min — reproducible predictions, no silent model drift",
-        ],
+        text: "4. Half precision only where it helps",
       },
       {
         type: "p",
-        text: "Implementing all five took less than a day and cut RAM consumption per worker by over 1.5 GB.",
-      },
-      {
-        type: "h2",
-        text: "The Real Scaling Path",
-      },
-      {
-        type: "h3",
-        text: "Stage 1: Multiple Workers (Baseline)",
-      },
-      {
-        type: "code",
-        lang: "text",
-        code: `2 uvicorn workers → 2 CPU cores used
-~5 GB RAM
-Latency: 800ms–1.2s per request`,
-      },
-      {
-        type: "h3",
-        text: "Stage 2: Optimized Workers (After Quick Wins)",
-      },
-      {
-        type: "code",
-        lang: "text",
-        code: `3 uvicorn workers → 3 CPU cores used
-~3.5 GB RAM
-Latency: 600–900ms per request`,
-      },
-      {
-        type: "h3",
-        text: "Stage 3: ONNX Runtime (The Next Step)",
-      },
-      {
-        type: "p",
-        text: "PyTorch is great for training, but for inference in production, ONNX Runtime delivers 5–7x latency improvement. The API stays identical — same FastAPI endpoints, same request/response format. Only the inference engine changes underneath.",
+        text: "float16 roughly halves weight memory and speeds up inference on GPUs. On CPUs it often doesn't help and can be slower, so the service chooses the dtype from the device: half precision on CUDA or Apple MPS, float32 on CPU. CPU hosts behave exactly as they did before the change.",
       },
       {
         type: "code",
         lang: "python",
-        code: `# Export to ONNX once
-from optimum.exporters.onnx import main_export
-
-main_export(
-    model_name_or_path="CAMeL-Lab/camel-bert-arabic-sentiment",
-    output="./onnx_model/",
-    task="text-classification",
-)
-
-# Load with ONNX Runtime
-from optimum.onnxruntime import ORTModelForSequenceClassification
-
-model = ORTModelForSequenceClassification.from_pretrained("./onnx_model/")`,
-      },
-      {
-        type: "code",
-        lang: "text",
-        code: `ONNX Runtime inference
-~1.5 GB RAM (vs 2.56 GB with PyTorch)
-Latency: 100–200ms per request
-Improvement: 5–7x`,
-      },
-      {
-        type: "h3",
-        text: "Stage 4: Go + ONNX (Maximum Throughput)",
-      },
-      {
-        type: "p",
-        text: "For maximum throughput, replace the Python service with Go running the ONNX model directly via onnxruntime-go bindings. Go's goroutines handle concurrent requests far more efficiently than Python's worker-per-request model.",
-      },
-      {
-        type: "code",
-        lang: "go",
-        code: `func (s *SentimentService) Predict(ctx context.Context, text string) (*SentimentResult, error) {
-    tokens := s.tokenizer.Encode(text)
-    output, err := s.session.Run(tokens)
-    if err != nil {
-        return nil, err
-    }
-    return parseSentiment(output), nil
-}`,
-      },
-      {
-        type: "code",
-        lang: "text",
-        code: `Go + ONNX
-~800 MB RAM
-Latency: 30–80ms per request
-Concurrency: goroutines, not processes — 10x the concurrent requests on the same hardware`,
+        code: `def model_dtype(device: str) -> torch.dtype:
+    return torch.float16 if device in ("cuda", "mps") else torch.float32`,
       },
       {
         type: "h2",
-        text: "What I Actually Recommend",
+        text: "5. Batch on the way in",
       },
       {
         type: "p",
-        text: "Don't skip straight to Go + ONNX. The ROI curve is non-linear:",
-      },
-      {
-        type: "code",
-        lang: "text",
-        code: `Quick wins (1 day)       → 2x RAM improvement, better reliability
-ONNX Runtime (1–2 days)  → 5–7x latency improvement
-Go + ONNX (1–2 weeks)    → maximum throughput, complex migration`,
-      },
-      {
-        type: "p",
-        text: "If your current bottleneck is RAM or cold starts, do the quick wins. If your bottleneck is latency, move to ONNX Runtime in Python first — the migration is straightforward with optimum. Only go the Go route if you're hitting concurrency limits that ONNX Python can't solve.",
+        text: "Callers send texts in batches (the Twiscope backend sends up to 100 at a time) and the service runs batched inference, which amortises tokenisation and model overhead far better than one request per post.",
       },
       {
         type: "h2",
-        text: "Key Takeaways",
+        text: "The model we didn't delete",
+      },
+      {
+        type: "p",
+        text: "The tempting memory optimisation was to drop the multilingual model and keep only the Arabic and English ones. The logs said otherwise: mixed-language and other-language posts — the team estimated 20–30% of calls — depend on it. Measure who uses a component before you remove it.",
+      },
+      {
+        type: "h2",
+        text: "What we deliberately left for later",
       },
       {
         type: "list",
         items: [
-          "Identify your real bottleneck first — is it RAM, latency, or concurrency? The fix is different for each",
-          "The GIL is not your enemy if you use processes — but each process costs RAM, so optimize model loading before scaling workers",
-          "ONNX Runtime is the fastest win for inference latency — the API doesn't change, only the engine",
-          "Version-pin your models — especially on production systems where reproducibility and auditability matter",
-          "Lifespan beats __init__ — always load models in FastAPI lifespan for proper error handling and clean shutdown",
+          "More worker processes. Each uvicorn worker loads its own copy of every model, so workers multiply memory. PyTorch already uses several threads per process for inference, so add processes only after measuring that a single process is the bottleneck.",
+          "ONNX Runtime and INT8 quantization. Both can cut latency and memory substantially, but each needs an accuracy check on Arabic dialect data before it's worth the migration.",
+          "Rewriting the service in another language. The bottleneck is the model, not Python request handling.",
         ],
       },
       {
-        type: "divider",
-      },
-      {
         type: "p",
-        text: "This article is based on real production experience building Twiscope, an Arabic OSINT intelligence platform. The sentiment analysis service processes Arabic social media content at scale.",
+        text: "None of these changes is clever. Together they turned a service that worked on a laptop into one that starts predictably, behaves the same after every deploy, and makes its trade-offs explicit.",
       },
     ],
   },
@@ -560,10 +374,11 @@ Go + ONNX (1–2 weeks)    → maximum throughput, complex migration`,
     slug:     "django-caching-performance",
     title:    "Caching for Performance: Speed Up Your Django App with the Built-In Caching Framework",
     date:     "2024-01-10",
+    updated:  "2026-10-17",
     readTime: "6 min read",
     tags:     ["Django", "Redis", "Performance", "Backend"],
     summary:
-      "Django ships with a powerful caching framework that most developers underuse. Here's how to apply it correctly — from per-view caching to fine-grained object caching — with lessons from a system that cut latency 25% purely through cache strategy.",
+      "Django ships with a powerful caching framework that most developers underuse. Here's how to apply it correctly — from per-view caching to fine-grained object caching — and how to keep a cache honest with invalidation and hit-rate monitoring.",
     content: [
       {
         type: "p",
@@ -571,7 +386,7 @@ Go + ONNX (1–2 weeks)    → maximum throughput, complex migration`,
       },
       {
         type: "p",
-        text: "In Twiscope — a platform processing 5M+ social data events daily — a targeted caching strategy using Redis cut API latency by 25% without a single database schema change. Here's the framework and the approach.",
+        text: "On Twiscope's influencer dashboards, for example, the fix for a slow aggregate endpoint was a combination of composite indexes and a per-user Redis response cache with short TTLs — no schema redesign. Here's the framework and the approach.",
       },
       {
         type: "h2",
@@ -586,8 +401,8 @@ Go + ONNX (1–2 weeks)    → maximum throughput, complex migration`,
         items: [
           "LocMemCache — in-process memory cache, fast but per-process and not shared across workers. Good for development only.",
           "FileBasedCache — stores cache on disk. Persistent across restarts but slow. Rarely the right choice for web apps.",
-          "MemcachedCache — fast, distributed, purpose-built for caching. No persistence, no complex data structures.",
-          "RedisCache (django-redis) — fast, distributed, persistent if needed, supports complex types. The default choice for most production Django apps.",
+          "PyMemcacheCache / PyLibMCCache — fast, distributed, purpose-built for caching. No persistence, no complex data structures. (The old MemcachedCache backend was removed in Django 4.1.)",
+          "RedisCache — built into Django since 4.0 (django.core.cache.backends.redis.RedisCache); the third-party django-redis package adds extras such as delete_pattern. The usual choice for production Django apps.",
         ],
       },
       {
@@ -671,7 +486,7 @@ class TrendingView(View):
       },
       {
         type: "p",
-        text: "For fine-grained control — caching the result of a single expensive function, not an entire view — use the low-level cache API directly. This is what made the biggest difference in Twiscope.",
+        text: "For fine-grained control — caching the result of a single expensive function, not an entire view — use the low-level cache API directly. In my experience this is usually where the biggest wins are.",
       },
       {
         type: "code",
@@ -700,7 +515,7 @@ def get_top_influencers(platform: str, limit: int = 10) -> list:
       },
       {
         type: "callout",
-        text: "The 25% latency reduction in Twiscope came from caching exactly this pattern — trending keywords and top influencers by platform were being queried thousands of times per hour with near-identical results. A 60-second TTL eliminated 90% of those database hits with no meaningful staleness for users.",
+        text: "Pick the TTL from how stale the data is allowed to be, not from a default. On Twiscope's dashboards, aggregates that change only when new reports land are cached per user for 5–15 minutes; anything users expect to see change immediately is either not cached or invalidated on write.",
       },
       {
         type: "h2",
@@ -896,6 +711,7 @@ redis-cli INFO stats | grep -E "keyspace_hits|keyspace_misses"
     slug:     "serverless-architecture-limits",
     title:    "Serverless Architecture & Limits: The Real Behind-the-Scenes",
     date:     "2024-11-05",
+    updated:  "2026-10-17",
     readTime: "5 min read",
     tags:     ["Serverless", "AWS Lambda", "Cloud", "Architecture"],
     summary:
@@ -930,25 +746,29 @@ redis-cli INFO stats | grep -E "keyspace_hits|keyspace_misses"
         items: [
           "Python and Node.js have faster cold starts than Java or .NET due to lighter runtime initialization",
           "Large deployment packages (heavy dependencies) make cold starts worse — keep your function packages lean",
-          "VPC-attached Lambda functions have longer cold starts due to network interface provisioning",
+          "VPC-attached Lambda functions used to add seconds of network-interface setup; since AWS moved to shared Hyperplane interfaces in 2019, that penalty is largely gone",
         ],
       },
       {
         type: "code",
         lang: "python",
-        code: `# Bad: importing heavy libraries inside the handler (re-imported on every cold start)
+        code: `# Expensive setup inside the handler runs on every invocation
 def handler(event, context):
-    import pandas as pd          # slow import
-    import numpy as np           # slow import
-    # ... process event
+    client = boto3.client("s3")        # new client each call
+    model = load_model("model.bin")    # reloaded each call
+    return predict(model, event)
 
 
-# Good: module-level imports are cached after first cold start
-import json
-from utils import process_event  # lightweight utility
+# Module-level setup runs once per execution environment and is
+# reused by every warm invocation that follows
+import boto3
+from inference import load_model, predict
+
+client = boto3.client("s3")
+model = load_model("model.bin")
 
 def handler(event, context):
-    return process_event(event)`,
+    return predict(model, event)`,
       },
       {
         type: "callout",
@@ -960,7 +780,7 @@ def handler(event, context):
       },
       {
         type: "p",
-        text: "AWS Lambda has a maximum execution time of 15 minutes. Azure Functions default to 5 minutes (configurable up to 60). This hard limit means serverless is simply not the right tool for long-running processes — batch jobs, large file processing, ML training.",
+        text: "AWS Lambda has a maximum execution time of 15 minutes. Azure Functions on the Consumption plan default to 5 minutes and stop at 10; Premium and Dedicated plans default to 30 minutes and can run longer. This hard limit means serverless is simply not the right tool for long-running processes — batch jobs, large file processing, ML training.",
       },
       {
         type: "p",
@@ -1048,219 +868,238 @@ def process_batch(event, context):
 
   {
     slug:     "false-positive-problem",
-    title:    "Why Both Scanners Must Agree: The Insight Behind Fendix",
-    date:     "2026-04-15",
-    readTime: "6 min read",
-    tags:     ["Security", "Go", "Open Source"],
+    title:    "Evidence, Not Severity: How Fendix Decides What Blocks a Build",
+    date:     "2026-10-17",
+    readTime: "7 min read",
+    tags:     ["Security", "Go", "CI/CD", "Open Source"],
     summary:
-      "Most security scanners drown you in noise. Here's the single architectural decision that cut Fendix's false positive rate by ~70% — and why the solution was obvious in hindsight.",
+      "Severity-only security gates fail builds on unproven findings, and a scanner that silently didn't run looks like a clean pass. Here's how Fendix scores evidence, tracks coverage, and decides what blocks — and what I got wrong in the first version.",
     content: [
       {
-        type: "p",
-        text: "I've used a lot of security scanners. The experience is almost always the same: you run the tool, get back 200 findings, spend two days triaging them, and discover that maybe 15 are real. The rest are noise. And the next time a scan runs, you ignore the alerts by default because you've been trained to.",
+        type: "callout",
+        text: "Rewritten in October 2026. An earlier version of this post described a stricter correlation gate and quoted a false-positive reduction. Neither was accurate: the first release gated on severity alone, and the effect of correlation on false positives has never been measured. This version describes how the gate actually works.",
       },
       {
         type: "p",
-        text: "This is the false positive problem. It's not just annoying — it actively makes systems less secure. When every alert looks like a false alarm, engineers stop responding to alerts. The scanner becomes wallpaper.",
+        text: "Most CI security gates make one decision: is any finding at or above a severity threshold? If yes, the build fails. That rule is easy to explain and easy to defeat. Unproven findings block releases, teams learn to override the gate, and the gate stops meaning anything.",
+      },
+      {
+        type: "p",
+        text: "There is a quieter failure too. If a scanner didn't run — the tool wasn't installed, the target was unreachable, the configuration was wrong — it produces no findings, and no findings looks exactly like a clean pass.",
       },
       {
         type: "h2",
-        text: "Why does this happen?",
-      },
-      {
-        type: "p",
-        text: "Security tools generally fall into two categories: DAST (Dynamic Application Security Testing) tools that probe a running application, and SAST (Static Application Security Testing) tools that analyze source code. Each has blind spots.",
+        text: "Severity answers the wrong question",
       },
       {
         type: "list",
         items: [
-          "DAST sees behavior but not code — it can flag an endpoint as vulnerable based on its response, but can't verify whether the code actually processes the dangerous input",
-          "SAST sees code but not behavior — it can flag a dangerous-looking function call, but can't know whether it's actually reachable or exploitable at runtime",
-          "Both generate findings independently, with no cross-referencing",
+          "Severity says how bad a finding would be if it is real. It says nothing about how likely it is to be real.",
+          "DAST sees behaviour but not code: it can show an endpoint responding badly without knowing which handler produced it.",
+          "SAST sees code but not behaviour: it can flag a dangerous pattern without knowing whether that path is reachable or already guarded.",
         ],
       },
       {
         type: "p",
-        text: "The result: you get every DAST finding plus every SAST finding, with no signal about which ones actually matter.",
+        text: "So Fendix keeps severity — it still describes impact — but decides whether a finding blocks from the evidence behind it.",
       },
       {
         type: "h2",
-        text: "The insight: make them agree",
+        text: "Correlation is a signal, not the gate",
       },
       {
         type: "p",
-        text: "The core idea behind Fendix is simple to state and surprisingly rare in practice: a finding only becomes a build-failing alert when both the DAST engine and the SAST engine independently flag the same vulnerability at the same endpoint.",
-      },
-      {
-        type: "callout",
-        text: "If DAST says an endpoint has a missing auth header, and SAST says the corresponding handler has no authentication middleware — that's a correlated finding. High confidence. Fail the build. If only one engine flags it, it's downgraded to informational and doesn't block CI.",
-      },
-      {
-        type: "p",
-        text: "This sounds obvious. The hard part is the implementation: how do you map a runtime HTTP response (what DAST sees) back to a specific code path (what SAST sees)? The two engines are looking at completely different representations of the same system.",
-      },
-      {
-        type: "h2",
-        text: "The correlation engine in Go",
-      },
-      {
-        type: "p",
-        text: "I chose Go for Fendix for three reasons: the binary size stays small, the concurrency model is clean for running both engines in parallel, and the resulting artifact can be dropped into any CI pipeline without a runtime dependency.",
-      },
-      {
-        type: "p",
-        text: "The correlation engine works by normalizing findings from both engines into a shared format — endpoint path, HTTP method, vulnerability category — and then scoring pairs by similarity. A correlated pair needs to match on all three dimensions within configurable thresholds.",
+        text: "When a static finding and a runtime finding describe the same issue at the same place, Fendix merges them into one correlated finding. Matching is a fixed cascade, not a weighted score: the categories must be related, and then the locations must match by route pattern, normalised endpoint, path suffix, or a shared path segment, in that order.",
       },
       {
         type: "code",
         lang: "go",
-        code: `// Simplified correlation logic
-type Finding struct {
-    Endpoint  string
-    Method    string
-    Category  VulnCategory
-    Engine    Engine // DAST or SAST
-    Severity  Severity
-}
-
-func correlate(dast, sast []Finding) []CorrelatedFinding {
-    var results []CorrelatedFinding
-    for _, d := range dast {
-        for _, s := range sast {
-            if d.Endpoint == s.Endpoint &&
-               d.Method == s.Method &&
-               d.Category == s.Category {
-                results = append(results, CorrelatedFinding{
-                    DAST: d, SAST: s,
-                    Confidence: High,
-                })
-            }
-        }
+        code: `// Simplified from the correlator: is this static (whitebox) finding
+// the same issue as this runtime (blackbox) finding?
+func sameIssue(w, b Finding) bool {
+    if !relatedCategories(w.Category, b.Category) {
+        return false
     }
-    return results
+    switch {
+    case w.Route != "" && routeMatches(w.Route, b.Method, b.URL):
+        return true // route pattern confirmed against the live request
+    case normalize(w.Endpoint) == normalize(b.Endpoint):
+        return true
+    case suffixMatches(w.Endpoint, b.Endpoint):
+        return true
+    default:
+        return sharesSegment(w.Endpoint, b.Endpoint)
+    }
 }`,
       },
       {
+        type: "p",
+        text: "Agreement between engines is strong evidence, but it is one of seven independent signals. A confirmed route, a reachable taint path, a validated payload, or an independent tool reporting the same CWE at the same location also count. And some evidence is self-evident on its own: a live response that shows the problem, or a real credential committed in production code, can block without a second engine. Correlation never removes a finding; everything stays in the report.",
+      },
+      {
         type: "h2",
-        text: "The results",
+        text: "A score you can audit",
       },
       {
         type: "p",
-        text: "Testing Fendix against a set of intentionally vulnerable APIs, the correlation requirement reduced actionable findings by ~70% compared to running either engine alone — without missing any real vulnerabilities in the test set. Everything that was correlated was real. Everything that wasn't correlated stayed in the report but didn't block the build.",
+        text: "Every finding gets a deterministic 0–100 confidence score. It starts from a base and each rule that fires adds or subtracts a fixed amount, with a plain-language reason. Tests enforce that the reasons add up to the score, so nobody has to trust a black box.",
+      },
+      {
+        type: "code",
+        lang: "text",
+        code: `confidence_score: 90 (HIGH)
+  base                          35
+  + static evidence             10
+  + runtime evidence            10
+  + cross-engine agreement      25
+  + route confirmed             10
+
+bands: HIGH >= 70, MEDIUM >= 40, LOW < 40`,
+      },
+      {
+        type: "h2",
+        text: "What actually blocks",
+      },
+      {
+        type: "list",
+        items: [
+          "Below the --fail-on threshold: WARN (medium and above) or INFO. Never a block.",
+          "At or above the threshold with LOW confidence: WARN.",
+          "At or above the threshold with MEDIUM confidence and no independent signal: WARN.",
+          "Otherwise: BLOCK — with a few de-escalations, such as test fixtures without independent evidence, or a vulnerable dependency that is never imported.",
+        ],
       },
       {
         type: "p",
-        text: "The other design choices — single binary, zero telemetry, signed releases via Sigstore — are downstream of the same philosophy: a security tool you don't trust is a security tool you don't use. If engineers can't verify what the tool does, they won't use it. Fendix is open source under MIT. Read the source. There's nothing to find.",
+        text: "This confidence gate shipped in v2.0 as a breaking change: some builds that used to fail now pass. So --enforce-confidence=false restores the old severity-only behaviour exactly, and a test across 54 severity and threshold combinations keeps that escape hatch honest. Decisions made that way are flagged as policy overrides in the report.",
+      },
+      {
+        type: "h2",
+        text: "A scanner that didn't run isn't a pass",
+      },
+      {
+        type: "p",
+        text: "Each analyzer records whether it ran, was skipped, or failed, with a reason code. On the CLI, opt-in flags turn missing analyzers or coverage gaps into a failing exit code. In the hosted workspace, required coverage depends on the scan mode, and missing required evidence produces an INCOMPLETE release decision instead of PASS.",
+      },
+      {
+        type: "h2",
+        text: "What I'd tell myself at version one",
+      },
+      {
+        type: "list",
+        items: [
+          "Write the gate's semantics as tests before writing the README. The first README described a rule the code didn't implement.",
+          "Publish benchmarks with their limits. A curated corpus measures rules on cases you wrote, not a real-world detection rate.",
+          "Treat a stricter or looser gate as a breaking change, and ship an exact escape hatch with it.",
+        ],
       },
       {
         type: "callout",
-        text: "Fendix is available at fendix.dev. Install in 30 seconds: brew tap Abdel-RahmanSaied/fendix && brew install fendix",
+        text: "Fendix's engine is open source (MIT) at github.com/Fendix-app/Fendix; the hosted workspace is at fendix.dev. Full case study at /case-studies/fendix",
       },
     ],
   },
 
   {
     slug:     "twiscope-architecture",
-    title:    "5 Million Events a Day: Architecture Lessons from Twiscope",
-    date:     "2025-01-28",
-    readTime: "7 min read",
-    tags:     ["Django", "Celery", "Redis", "Scale"],
+    title:    "Architecture Lessons from Building Twiscope's Backend",
+    date:     "2026-10-17",
+    readTime: "8 min read",
+    tags:     ["Django", "Celery", "Elasticsearch", "Architecture"],
     summary:
-      "What we learned building a social intelligence platform that processes 5M+ data points daily — the architectural decisions that held, the ones that didn't, and what I'd do differently.",
+      "Two years as the only backend developer on a multi-product social-intelligence platform, then leading the team that grew around it. What held up: async work from the first endpoint, one collection strategy for several products, chords for comparable scores, and deduplication in the database.",
     content: [
       {
+        type: "callout",
+        text: "Rewritten in October 2026. An earlier version of this post quoted event volumes, a latency reduction and real-time alert timings that the code and the measurements I can share don't support. This version sticks to what the system actually does.",
+      },
+      {
         type: "p",
-        text: "When we started building Twiscope, the first prototype worked fine at a few thousand events per day. By the time we hit production load — five platforms, multiple data types, continuous ingestion — we had rebuilt the core architecture twice. Here's what the final version looks like and why.",
+        text: "Twiscope is an Arabic/English social-intelligence SaaS. From October 2023 to October 2025 I was its only backend developer; since then I lead the team that has grown around it. It now runs five products on one Django/DRF and Celery backend: on-demand reports (Deep-In), influencer monitoring, decision dashboards that score brands against competitors (Sadeed / Decision Hub), an alert engine, and notifications.",
+      },
+      {
+        type: "p",
+        text: "These are the decisions that held up, and the ones I'd make earlier next time.",
       },
       {
         type: "h2",
-        text: "The naive version",
+        text: "Async from the first endpoint",
       },
       {
         type: "p",
-        text: "Version one was straightforward: a Django view received incoming data, processed it synchronously, and wrote to PostgreSQL. For a prototype, this was fine. For production, it had three fatal problems.",
-      },
-      {
-        type: "list",
-        items: [
-          "Synchronous processing meant API response time was proportional to data volume — spikes in incoming data caused request timeouts",
-          "ML inference ran in the request cycle — a 300ms model call turned every ingest endpoint into a 300ms+ wait",
-          "No queue meant no backpressure — when a data source burst, the system either processed everything immediately or dropped it",
-        ],
-      },
-      {
-        type: "h2",
-        text: "Separating ingestion from processing",
-      },
-      {
-        type: "p",
-        text: "The key architectural shift was decoupling ingestion from processing completely. The ingest endpoint does exactly one thing: validates the incoming payload, writes a task to the Celery queue, and returns 200. That's it. Processing happens asynchronously.",
+        text: "Collecting and analysing posts from the X API takes anywhere from seconds to minutes, so no report endpoint does that work inline. The request validates input, creates a pending report and enqueues a Celery task; the task checks the subscription quota, collects, analyses, persists and charges usage.",
       },
       {
         type: "code",
         lang: "python",
-        code: `# Ingest endpoint — fast path only
-@api_view(["POST"])
-def ingest_event(request):
-    serializer = EventSerializer(data=request.data)
-    serializer.is_valid(raise_exception=True)
-
-    # Enqueue — never process inline
-    process_event.delay(serializer.validated_data)
-
-    return Response({"queued": True}, status=202)
+        code: `# Simplified
+class KeywordReportSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        report = KeywordReport.objects.create(status="pending", **validated_data)
+        keyword_analysis.delay(report.id)          # never analyse in the request
+        return report
 
 
-# Processing happens in a Celery worker
-@shared_task(bind=True, max_retries=3)
-def process_event(self, event_data):
-    try:
-        enriched = enrich(event_data)
-        store(enriched)
-        if should_trigger_alert(enriched):
-            dispatch_alert.delay(enriched)
-    except Exception as exc:
-        raise self.retry(exc=exc, countdown=2 ** self.request.retries)`,
+@shared_task
+def keyword_analysis(report_id):
+    report = KeywordReport.objects.get(pk=report_id)
+    ensure_quota(report.owner, platform="x")       # subscription gate
+    posts = collect(report.query, strategy="report")
+    save_results(report, analyse(posts))
+    charge_usage(report.owner, len(posts))`,
       },
       {
         type: "h2",
-        text: "Redis doing double duty",
+        text: "One collection strategy, several consumers",
       },
       {
         type: "p",
-        text: "We use Redis for two purposes simultaneously: as the Celery broker (task queue) and as a hot-path cache for frequent queries. This was a deliberate infrastructure simplification — running a separate RabbitMQ instance for the broker added ops overhead with no meaningful benefit at our scale.",
-      },
-      {
-        type: "p",
-        text: "The 25% latency reduction we measured came almost entirely from Redis caching. The most expensive database queries — trending keywords, top influencers by platform — were being executed thousands of times per hour with identical results. Caching them with a 60-second TTL eliminated 90% of those hits.",
-      },
-      {
-        type: "callout",
-        text: "Rule of thumb: if a query result is the same for any user in any session within a time window, cache it. The hard part is deciding the right TTL — too short and the cache is ineffective, too long and users see stale data.",
+        text: "Reports, alerts and Decision Hub all need posts from X, but they need different things afterwards. Instead of three copies of the collection code, there is one strategy selected per caller: reports persist everything, alerts fetch and evaluate without persisting, and Decision Hub collects under its own reply-enrichment budget. Fixes to rate-limit handling or pagination land in one place.",
       },
       {
         type: "h2",
-        text: "ML inference: never in the request cycle",
+        text: "Rate limits are a design input",
       },
       {
         type: "p",
-        text: "This deserves its own section because it's the most common mistake I see in systems that bolt on ML. Running model inference synchronously in an API handler feels natural — you have the data, you call the model, you return the result. But inference latency is non-deterministic. A model that averages 100ms can spike to 800ms under load. That spike becomes your API's p99 latency.",
-      },
-      {
-        type: "p",
-        text: "In Twiscope, all ML work (trend prediction, sentiment analysis, anomaly detection) runs as dedicated Celery workers. They consume from a separate queue, process at their own pace, and write results back to the database. The API layer reads pre-computed ML results — it never calls a model directly.",
+        text: "The X API is rate limited and paid per request, which shapes everything above it. The client honours the API's rate-limit reset header and falls back to capped exponential backoff; subscriptions carry daily and monthly quotas per product and platform; and Decision Hub runs have a per-run collection budget. Alerts are evaluated on schedules (every 15 minutes by default) rather than streamed, which keeps cost predictable at the price of not being real-time.",
       },
       {
         type: "h2",
-        text: "Real-time delivery via WebSocket",
+        text: "Chords when scores must be comparable",
       },
       {
         type: "p",
-        text: "When an alert is generated, users need to see it within seconds — not the next time they refresh. We use WebSockets for all real-time delivery. When a Celery task detects an alert-worthy event, it publishes to a Redis channel. A Django Channels consumer forwards that to connected WebSocket clients.",
+        text: "A Decision Hub centre compares a brand with its competitors. If each entity were collected and scored on its own schedule, the scores would describe different windows. So each run fans out collection for every entity in parallel and scores them all in one callback, at the same instant.",
+      },
+      {
+        type: "code",
+        lang: "python",
+        code: `from celery import chord
+
+def run_center(center_id):
+    entity_ids = Entity.objects.filter(center_id=center_id).values_list("id", flat=True)
+    chord(collect_entity.s(eid) for eid in entity_ids)(aggregate_center.s(center_id))`,
       },
       {
         type: "p",
-        text: "The end-to-end latency from event ingestion to alert delivery is under 2 seconds in normal operation. That number is dominated by Celery task queue time, not by network or processing time.",
+        text: "The scores themselves are deterministic weighted formulas over normalised components — sentiment share, authority, volume, engagement, momentum — not a trained model. When a component can't be computed it is marked absent and the remaining weights are renormalised, instead of silently counting as zero.",
+      },
+      {
+        type: "h2",
+        text: "Deduplicate where the data lives",
+      },
+      {
+        type: "p",
+        text: "Alert scans overlap by design, so the same post can match twice. Deduplication is a unique constraint on (alert, item) in PostgreSQL, with each insert in its own savepoint so a duplicate is a cheap no-op. Events are then indexed in Elasticsearch under the database id, which makes re-indexing idempotent, and a repair command re-indexes anything whose Elasticsearch write failed.",
+      },
+      {
+        type: "h2",
+        text: "Cache by how stale data is allowed to be",
+      },
+      {
+        type: "p",
+        text: "The slowest screens were influencer dashboards aggregating whole categories. The fix was boring and effective: composite indexes built concurrently, a per-user Redis response cache with 5–15 minute TTLs for aggregates that only change when new reports land, a burst throttle, and cache hit/miss metrics so the cache's value is visible rather than assumed.",
       },
       {
         type: "h2",
@@ -1269,9 +1108,10 @@ def process_event(self, event_data):
       {
         type: "list",
         items: [
-          "Start with the async queue from day one — retrofitting it onto a synchronous system is painful and introduces subtle bugs during the transition",
-          "Define alert thresholds with stakeholders before building the alerting system — we changed them four times in the first month",
-          "Invest in replay tooling earlier — the ability to replay historical events through updated processing logic is invaluable and we built it six months too late",
+          "Run the test suite in CI from the first month. The repository has thousands of tests, but CI still runs only security scans and deployments.",
+          "Give heavy queues their own workers early. One worker container still consumes every main queue, so a burst of one kind of work can delay the others.",
+          "Decide which numbers you'll want to quote before you need them, and instrument for them. Claims you can't measure end up being claims you shouldn't make.",
+          "Sign outgoing webhooks from the start rather than retrofitting it.",
         ],
       },
       {
@@ -1279,125 +1119,122 @@ def process_event(self, event_data):
       },
       {
         type: "callout",
-        text: "This architecture powers Twiscope — an Arabic OSINT social intelligence platform processing 5M+ data points daily across Twitter, Instagram, YouTube, TikTok, and news sources. Full case study at /case-studies/twiscope",
+        text: "Full case study, including the gateway and AWS architecture: /case-studies/twiscope",
       },
     ],
   },
 
   {
     slug:     "when-to-use-postgis",
-    title:    "PostGIS vs. Plain Coordinates: A Real-World Comparison from Building MURI",
-    date:     "2025-08-14",
-    readTime: "5 min read",
+    title:    "PostGIS vs. Plain Coordinates: When the Extension Earns Its Place",
+    date:     "2026-10-17",
+    readTime: "6 min read",
     tags:     ["PostgreSQL", "GIS", "Backend"],
     summary:
-      "When I started building MURI's geospatial layer, I debated storing lat/lng as floats vs. using PostGIS. Here's what that decision actually looked like in practice — with real query comparisons.",
+      "Two float columns are enough until you need to search a table by distance or test points against polygons. Here's how to tell the difference, the queries that keep PostGIS's index in play, and the Django gotcha with geography fields.",
     content: [
       {
-        type: "p",
-        text: "When I first looked at MURI's geospatial requirements — find available drivers within 5km of a passenger, manage service regions as polygons, calculate routes — my initial instinct was to store latitude and longitude as two float columns in PostgreSQL and handle proximity math in Python. This is the path of least resistance, and for small scale, it works fine.",
+        type: "callout",
+        text: "Rewritten in October 2026. An earlier version presented a benchmark as measured while building MURI and showed queries MURI doesn't run. This version is a general guide, and it is explicit about what MURI actually uses.",
       },
       {
         type: "p",
-        text: "After benchmarking both approaches under realistic load, I chose PostGIS. Here's the honest comparison.",
+        text: "Every location-aware backend eventually asks whether to store latitude and longitude as two numbers or adopt PostGIS. The honest answer depends on the questions you ask of the data, not on how many rows you have.",
       },
       {
         type: "h2",
-        text: "The flat float approach",
+        text: "Comparing two known points: plain coordinates are fine",
       },
       {
         type: "p",
-        text: "With plain lat/lng columns, a proximity query looks like this:",
+        text: "If the question is “is this driver within 100 metres of this stop?”, you already have both points. A geodesic or Haversine calculation in application code is exact enough and costs microseconds. On MURI, a student transport platform I worked on, that is how trip start, end and QR-pickup checks work: the stops are stored as PostGIS geography, but the distance checks compare one driver position with one known point in Python.",
+      },
+      {
+        type: "h2",
+        text: "Searching a table by distance: this is where PostGIS earns it",
+      },
+      {
+        type: "p",
+        text: "“Which available drivers are within 5 km of this pickup?” is a different question: it scans many rows. With two float columns the distance expression wraps both columns in functions, so an ordinary B-tree index can't help and every candidate row is evaluated. (Note also that PostgreSQL doesn't let you filter on a SELECT alias with HAVING outside an aggregate — the filter has to repeat the expression in WHERE or use a subquery.)",
       },
       {
         type: "code",
         lang: "sql",
-        code: `-- Find drivers within 5km using Haversine formula
-SELECT driver_id, lat, lng,
-  (6371 * acos(
-    cos(radians(passenger_lat)) * cos(radians(lat)) *
-    cos(radians(lng) - radians(passenger_lng)) +
-    sin(radians(passenger_lat)) * sin(radians(lat))
-  )) AS distance_km
-FROM drivers
-WHERE status = 'available'
-HAVING distance_km < 5
+        code: `-- Plain columns: correct, but every available driver is evaluated
+SELECT driver_id, distance_km
+FROM (
+  SELECT driver_id,
+         6371 * acos(least(1.0,
+           cos(radians(:lat)) * cos(radians(lat)) * cos(radians(lng) - radians(:lng)) +
+           sin(radians(:lat)) * sin(radians(lat)))) AS distance_km
+  FROM drivers
+  WHERE status = 'available'
+) d
+WHERE distance_km < 5
 ORDER BY distance_km
 LIMIT 20;`,
       },
       {
         type: "p",
-        text: "This works. The math is correct. But there's a critical problem: this query cannot use a standard B-tree index on the lat/lng columns. The computation references both columns together inside a function, which means PostgreSQL scans the entire drivers table on every call. At 10,000 active drivers, that's a full table scan for every passenger request.",
-      },
-      {
-        type: "h2",
-        text: "The PostGIS approach",
-      },
-      {
-        type: "p",
-        text: "With PostGIS, the same query becomes:",
+        text: "With PostGIS, store the location as a geography column with a GiST index and ask the index-aware question directly. Two details matter: build the search point with an explicit SRID, and query the geography column as it is — wrapping the indexed column in a cast or function can stop the planner from using the index.",
       },
       {
         type: "code",
         lang: "sql",
-        code: `-- PostGIS proximity query with spatial index
+        code: `-- location is geography(Point, 4326) with a GiST index
+CREATE INDEX drivers_location_gix ON drivers USING gist (location);
+
 SELECT driver_id,
-  ST_Distance(location::geography,
-    ST_Point(passenger_lng, passenger_lat)::geography) AS distance_m
+       ST_Distance(location, ST_SetSRID(ST_MakePoint(:lng, :lat), 4326)::geography) AS distance_m
 FROM drivers
 WHERE status = 'available'
-  AND ST_DWithin(
-    location::geography,
-    ST_Point(passenger_lng, passenger_lat)::geography,
-    5000  -- meters
-  )
+  AND ST_DWithin(location, ST_SetSRID(ST_MakePoint(:lng, :lat), 4326)::geography, 5000)
 ORDER BY distance_m
 LIMIT 20;`,
       },
       {
         type: "p",
-        text: "With a GiST spatial index on the location column, ST_DWithin uses the index to eliminate the vast majority of rows before doing any distance calculation. The difference in query time is dramatic.",
-      },
-      {
-        type: "callout",
-        text: "Benchmark on 50,000 driver records: plain Haversine — 340ms average. PostGIS with GiST index — 4ms average. At scale, this isn't a micro-optimization; it's the difference between a usable system and one that falls over under load.",
+        text: "How much faster that is depends on your data, so measure it: run both versions under EXPLAIN (ANALYZE, BUFFERS) on a realistic table and look for the index scan in the PostGIS plan.",
       },
       {
         type: "h2",
-        text: "Region polygons: the case PostGIS wins decisively",
+        text: "Points in polygons",
       },
       {
         type: "p",
-        text: "MURI also needs to answer: 'Is this pickup location inside a serviced region?' With flat coordinates, point-in-polygon is a complex ray casting algorithm you implement in Python. With PostGIS, it's a single function call:",
+        text: "“Which service district contains this address?” is the other case where PostGIS wins outright. Implementing point-in-polygon yourself means ray casting in application code; in PostGIS it's one predicate. On geography columns, use ST_Covers; ST_Contains is a geometry function.",
       },
       {
         type: "code",
         lang: "sql",
-        code: `-- Is this location within any active service region?
-SELECT r.region_id, r.name
-FROM service_regions r
-WHERE ST_Contains(r.boundary, ST_Point(lng, lat))
-  AND r.is_active = true;`,
+        code: `-- boundary is geography(Polygon, 4326)
+SELECT id, name
+FROM districts
+WHERE ST_Covers(boundary, ST_SetSRID(ST_MakePoint(:lng, :lat), 4326)::geography);`,
       },
       {
         type: "p",
-        text: "The boundary column stores a POLYGON geometry. The GiST index makes this efficient regardless of how complex the polygon shapes are.",
+        text: "The same distinction exists in GeoDjango: on a geography field, use the covers lookup (or dwithin and the distance lookups). The contains lookup isn't supported for geography by Django's PostGIS backend and raises an error instead of quietly returning nothing.",
+      },
+      {
+        type: "code",
+        lang: "python",
+        code: `from django.contrib.gis.geos import Point
+
+point = Point(lng, lat, srid=4326)
+district = District.objects.filter(boundary__covers=point).first()`,
       },
       {
         type: "h2",
         text: "When to skip PostGIS",
       },
       {
-        type: "p",
-        text: "PostGIS is not always the right answer. It adds a PostgreSQL extension that you need to install and maintain, and it has a learning curve. I'd skip it if:",
-      },
-      {
         type: "list",
         items: [
-          "You only need to store a single location per record and never query by proximity (a user's home address, for example)",
-          "Your dataset is small enough that a full table scan is fast — under ~1,000 rows, the index overhead isn't worth it",
-          "You're on a managed database service that doesn't support PostGIS",
-          "Your geo queries only need approximate answers and you can do them in application code post-fetch",
+          "You only store a location per record and never search or filter by it.",
+          "Every distance check compares two points you already have.",
+          "Your managed database doesn't offer the extension.",
+          "Approximate answers are acceptable and you can filter after fetching a small candidate set.",
         ],
       },
       {
@@ -1406,14 +1243,7 @@ WHERE ST_Contains(r.boundary, ST_Point(lng, lat))
       },
       {
         type: "p",
-        text: "For MURI's use case — real-time driver proximity, service region polygons, and route-aware queries — PostGIS was the right choice. The 85x query speedup under load wasn't theoretical; we measured it. If you're building any system where users ask spatial questions against dynamic data, PostGIS is worth the setup time.",
-      },
-      {
-        type: "divider",
-      },
-      {
-        type: "callout",
-        text: "These techniques were applied in building MURI — a student transportation platform with dedicated apps for client, driver, and admin roles, PostGIS geospatial routing, and real-time trip tracking. Full case study at /case-studies/muri",
+        text: "Adopt PostGIS when you need to search rows by distance or relate points to areas; for checking one known point against another, plain math in your application is enough. Either way, store coordinates with an explicit SRID from day one — it's the one decision that is painful to change later.",
       },
     ],
   },

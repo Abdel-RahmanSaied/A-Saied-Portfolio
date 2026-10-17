@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronLeft } from "lucide-react";
 import Link from "next/link";
+import { site } from "@/lib/site";
 import type { Post, Block } from "@/lib/posts";
 
 function formatDate(iso: string) {
@@ -131,11 +132,17 @@ export default function PostClient({ post }: { post: Post }) {
 
           <h1 className="text-3xl sm:text-4xl font-black text-white mb-5 leading-tight">{post.title}</h1>
 
-          <div className="flex items-center gap-4 text-xs text-fg-faint">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-fg-faint">
             <span>{formatDate(post.date)}</span>
-            <span className="text-zinc-800">·</span>
+            {post.updated && (
+              <>
+                <span aria-hidden="true" className="text-zinc-700">·</span>
+                <span>Updated {formatDate(post.updated)}</span>
+              </>
+            )}
+            <span aria-hidden="true" className="text-zinc-700">·</span>
             <span>{post.readTime}</span>
-            <span className="text-zinc-800">·</span>
+            <span aria-hidden="true" className="text-zinc-700">·</span>
             <span>Abdel-Rahman Saied</span>
           </div>
 
@@ -158,20 +165,20 @@ export default function PostClient({ post }: { post: Post }) {
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-1">Written by</p>
               <p className="text-sm font-semibold text-zinc-200">Abdel-Rahman Saied</p>
-              <p className="text-xs text-fg-faint">Senior Software Engineer · Team Lead</p>
+              <p className="text-xs text-fg-faint">{site.jobTitle}</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-2.5">
-              <Link href="/blog">
-                <motion.button className="flex items-center gap-2 px-5 py-2.5 border border-zinc-800 hover:border-zinc-600 text-fg-muted hover:text-zinc-200 text-xs font-semibold rounded-xl transition-all"
-                  whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                  More articles
-                </motion.button>
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-800 hover:border-zinc-600 text-fg-muted hover:text-zinc-200 text-xs font-semibold rounded-xl transition-all hover:-translate-y-px"
+              >
+                More articles
               </Link>
-              <Link href="/lets-talk">
-                <motion.button className="flex items-center gap-2 px-5 py-2.5 bg-zinc-100 hover:bg-white text-zinc-900 text-xs font-semibold rounded-xl transition-colors"
-                  whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                  Get in Touch <ArrowRight className="w-3.5 h-3.5" />
-                </motion.button>
+              <Link
+                href="/lets-talk"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-zinc-100 hover:bg-white text-zinc-900 text-xs font-semibold rounded-xl transition-all hover:-translate-y-px"
+              >
+                Get in touch <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
               </Link>
             </div>
           </div>
