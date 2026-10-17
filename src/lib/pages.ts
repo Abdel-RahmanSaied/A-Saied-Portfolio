@@ -25,18 +25,18 @@ export const pages = {
     path: "/portfolio",
     title: "Portfolio",
     description:
-      "Projects by Abdel-Rahman Saied: Twiscope's social-intelligence products, Sanad AI, the MURI transportation backend, the Hayyak / Check-In hospitality platform, and Fendix.",
+      "Projects by Abdel-Rahman Saied: Twiscope's social-intelligence products, Sanad AI, the MURI transportation backend, the Check-In (Hayyak) hospitality platform, and Fendix.",
     og: {
       eyebrow: "Portfolio",
       title: "Production systems and products",
-      subtitle: "Twiscope · Sanad AI · MURI · Hayyak / Check-In · Fendix",
+      subtitle: "Twiscope · Sanad AI · MURI · Check-In (Hayyak) · Fendix",
     },
   },
   caseStudies: {
     path: "/case-studies",
     title: "Case Studies",
     description:
-      "Engineering case studies — problem, constraints, architecture, decisions, trade-offs, and outcomes — for Twiscope, Sanad AI, Fendix, MURI, Hayyak / Check-In, and Maxpeak.",
+      "Engineering case studies — problem, constraints, architecture, decisions, trade-offs, and outcomes — for Twiscope, Sanad AI, Fendix, MURI, Check-In (Hayyak), and Maxpeak.",
     og: {
       eyebrow: "Case studies",
       title: "Engineering decisions behind shipped systems",

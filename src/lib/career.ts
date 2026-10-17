@@ -4,9 +4,11 @@
 
 export type Role = {
   company: string;
-  location: string;
+  /** Omitted when not stated in the owner's records. */
+  location?: string;
   title: string;
-  engagement: "Full-time" | "Freelance";
+  /** Omitted when not stated in the owner's records. */
+  engagement?: "Full-time" | "Freelance";
   start: string; // "Mon YYYY"
   end: string; // "Mon YYYY" | "Present"
   summary: string;
@@ -64,9 +66,18 @@ export const career = {
       title: "Technical Lead, Backend",
       engagement: "Freelance",
       start: "Apr 2024",
-      end: "Present",
+      end: "Jan 2026",
       summary:
         "Backend lead and primary contributor for a hotel guest self check-in platform: multi-hotel data model, Oracle OPERA Cloud (OHIP) integration with check-out folio settlement, Tap Payments and HyperPay behind one gateway layer, support chat, and a FastAPI adapter for Saudi Shomoos reporting.",
+      highlights: [],
+    },
+    {
+      company: "Prime Consulting Office (PCO)",
+      title: "Software Engineer",
+      start: "Nov 2022",
+      end: "Oct 2023",
+      summary:
+        "Built backend solutions for consulting clients, translating their requirements into REST API contracts and technical specifications.",
       highlights: [],
     },
     {

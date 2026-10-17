@@ -69,9 +69,9 @@ export default function AboutView() {
                 <Link href="/case-studies/muri" className="text-zinc-200 underline underline-offset-2 hover:text-white">MURI</Link>, a student-transportation platform.
               </p>
               <p>
-                Outside ASAS IT, I lead backend work on the{" "}
-                <Link href="/case-studies/hayyak" className="text-zinc-200 underline underline-offset-2 hover:text-white">Hayyak / Check-In</Link>{" "}
-                hotel guest-journey platform as a freelancer, and I founded{" "}
+                Outside ASAS IT, I led backend work as a freelancer on the{" "}
+                <Link href="/case-studies/hayyak" className="text-zinc-200 underline underline-offset-2 hover:text-white">Check-In (Hayyak)</Link>{" "}
+                hotel guest platform from April 2024 to January 2026, and I founded{" "}
                 <Link href="/case-studies/fendix" className="text-zinc-200 underline underline-offset-2 hover:text-white">Fendix</Link>,
                 an application security decision platform with an open-source Go CLI.
               </p>
@@ -120,8 +120,12 @@ export default function AboutView() {
                     </span>
                     <span aria-hidden="true" className="text-fg-faint">·</span>
                     <span className="text-fg-muted">{role.start} – {role.end}</span>
-                    <span aria-hidden="true" className="text-fg-faint">·</span>
-                    <span className="text-fg-muted">{role.location}</span>
+                    {role.location && (
+                      <>
+                        <span aria-hidden="true" className="text-fg-faint">·</span>
+                        <span className="text-fg-muted">{role.location}</span>
+                      </>
+                    )}
                   </p>
                   <p className="text-sm text-zinc-400 leading-relaxed">{role.summary}</p>
                   {role.highlights.length > 0 && (

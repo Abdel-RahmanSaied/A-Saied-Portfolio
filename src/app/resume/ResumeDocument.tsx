@@ -91,7 +91,7 @@ export default function ResumeDocument() {
                       )}
                     </h3>
                     <p className="text-xs text-fg-muted font-mono print:font-sans print:text-[8.5pt] print:text-zinc-800">
-                      {role.start} – {role.end} · {role.location}
+                      {role.start} – {role.end}{role.location ? ` · ${role.location}` : ""}
                     </p>
                   </div>
                   <p className="text-sm text-zinc-400 mt-1.5 leading-relaxed print:text-[9pt] print:text-zinc-900 print:mt-0.5 print:leading-[1.38]">

@@ -560,7 +560,7 @@ const hayyak: CaseStudy = {
   summary:
     "The backend for a hotel guest app (first branded Hayyak, later Check-In): guests claim their OPERA reservation, add co-guests, check in, extend, and check out with in-app payment, across multiple hotels. I led the backend as its primary contributor and repository owner.",
   readTime: "9 min read",
-  role: "Technical Lead, Backend · freelance · from Apr 2024",
+  role: "Technical Lead, Backend · freelance · Apr 2024 – Jan 2026",
   links: [],
   tags: ["Django", "DRF", "Oracle OPERA (OHIP)", "Tap Payments", "HyperPay", "Celery", "Django Channels", "FastAPI"],
   facts: [

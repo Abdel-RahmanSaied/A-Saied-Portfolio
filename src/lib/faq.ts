@@ -26,7 +26,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "What is Check-In (Hayyak)?",
-    a: "Check-In, first branded Hayyak, is a hotel guest self check-in platform integrated with Oracle OPERA Cloud. Abdel-Rahman led its Django backend as a freelancer: multi-hotel data model, OPERA (OHIP) integration with check-out folio settlement, Tap Payments and HyperPay, and a Shomoos reporting adapter.",
+    a: "Check-In, first branded Hayyak, is a hotel guest self check-in platform integrated with Oracle OPERA Cloud. Abdel-Rahman led its Django backend as a freelancer from April 2024 to January 2026: multi-hotel data model, OPERA (OHIP) integration with check-out folio settlement, Tap Payments and HyperPay, and a Shomoos reporting adapter.",
   },
   {
     q: "How can I contact Abdel-Rahman Saied?",

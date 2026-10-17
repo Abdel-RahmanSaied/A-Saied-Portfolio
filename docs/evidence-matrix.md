@@ -29,8 +29,9 @@ runs deployments and security scans only, so none of their claims is rated **Tes
 | 6+ years of professional experience (from Aug 2020) | Owner — confirmed 2026-10-17 | Owner's CV dates |
 | Leads a cross-functional team of up to 13 (backend, frontend, mobile, AI, QA) | Owner — confirmed 2026-10-17 | Not derivable from code; contributors across Twiscope/MURI/Sanad repos are consistent with a multi-disciplinary team |
 | ASAS IT: Senior Software Engineer Sep 2023 – Aug 2024; Team Lead Aug 2024 – present | Owner | 2026 CV drafts say Sep 2023; the 2024 PDF said Aug 2023 — confirm |
-| Check-In (Hayyak): freelance, Apr 2024 – present | Owner — engagement confirmed freelance 2026-10-17 | Repo activity Apr 2024 – Jan 2026; end date follows the owner's CV draft |
-| ClouDev Sep 2022 – Jul 2023; Co-Source Aug 2020 – May 2022; B.Sc. HTI 2022 | Owner | CV drafts. Prime Consulting Office omitted, following the latest draft — confirm |
+| Check-In (Hayyak): freelance, Apr 2024 – Jan 2026 | Owner — confirmed 2026-10-17 | Matches repo activity (Apr 2024 – Jan 2026) |
+| ClouDev Sep 2022 – Jul 2023; Co-Source Aug 2020 – May 2022; B.Sc. HTI 2022 | Owner | CV drafts |
+| Prime Consulting Office (PCO): Software Engineer, Nov 2022 – Oct 2023 | Owner — inclusion confirmed 2026-10-17 | Title and dates from the owner's 2024 CV; location and employment type not stated, so not shown |
 
 ## Twiscope (ASAS IT)
 

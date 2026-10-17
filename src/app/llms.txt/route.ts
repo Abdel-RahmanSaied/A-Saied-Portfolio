@@ -14,7 +14,7 @@ export function GET() {
 
   const experience = career.experience
     .map((r) => {
-      const head = `- ${r.title}, ${r.company}${r.engagement === "Freelance" ? " (freelance)" : ""} — ${r.start} to ${r.end}, ${r.location}. ${r.summary}`;
+      const head = `- ${r.title}, ${r.company}${r.engagement === "Freelance" ? " (freelance)" : ""} — ${r.start} to ${r.end}${r.location ? `, ${r.location}` : ""}. ${r.summary}`;
       return [head, ...r.highlights.map((h) => `  - ${h}`)].join("\n");
     })
     .join("\n");
