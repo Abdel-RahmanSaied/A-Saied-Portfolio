@@ -42,7 +42,7 @@ export default function Navbar() {
   useEffect(() => { setIsOpen(false); }, [pathname]);
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+    <nav className={`print:hidden fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
       scrolled
         ? "bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-800/60 shadow-xl shadow-black/40"
         : "bg-transparent"

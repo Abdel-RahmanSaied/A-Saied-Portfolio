@@ -35,6 +35,14 @@ body {
 
 :focus-visible { outline: 2px solid #fff; outline-offset: 3px; border-radius: 4px; }
 
+/* Printing (and the résumé PDF export) — white A4 pages without site chrome. */
+@media print {
+  @page { size: A4; margin: 11mm 13mm; }
+  html, body { background: #fff !important; }
+  body { color: #000; font-family: Helvetica, Arial, sans-serif; }
+  #main-content { padding-top: 0 !important; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
