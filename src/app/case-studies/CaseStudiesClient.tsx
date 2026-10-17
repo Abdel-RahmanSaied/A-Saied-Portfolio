@@ -116,7 +116,7 @@ const inView = {
 
 export default function CaseStudiesPage() {
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+    <div className="min-h-screen bg-zinc-950 text-zinc-100">
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#ffffff04_1px,transparent_1px),linear-gradient(to_bottom,#ffffff04_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 py-24">
@@ -128,13 +128,13 @@ export default function CaseStudiesPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-4">Case Studies</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-4">Case Studies</p>
           <h1 className="text-4xl sm:text-5xl font-black text-white mb-6 leading-tight">
             Engineering decisions
             <br />
-            <span className="text-zinc-500">behind shipped systems.</span>
+            <span className="text-fg-muted">behind shipped systems.</span>
           </h1>
-          <p className="text-zinc-500 leading-relaxed text-sm max-w-lg">
+          <p className="text-fg-muted leading-relaxed text-sm max-w-lg">
             Five case studies focused on architecture, constraints, trade-offs, production
             outcomes, and the leadership decisions behind systems that reached real users.
           </p>
@@ -163,13 +163,13 @@ export default function CaseStudiesPage() {
                           <div className="p-2 rounded-lg bg-zinc-800 text-zinc-400 group-hover:text-zinc-200 transition-colors">
                             {c.icon}
                           </div>
-                          <span className="text-xs font-semibold uppercase tracking-widest text-zinc-600">{c.category}</span>
+                          <span className="text-xs font-semibold uppercase tracking-widest text-fg-faint">{c.category}</span>
                         </div>
                         <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">{c.title}</h2>
-                        <p className="text-zinc-500 text-sm leading-relaxed max-w-xl">{c.description}</p>
+                        <p className="text-fg-muted text-sm leading-relaxed max-w-xl">{c.description}</p>
                       </div>
                       <motion.div
-                        className="hidden sm:flex items-center gap-1.5 text-zinc-700 group-hover:text-zinc-300 transition-colors shrink-0 pt-1"
+                        className="hidden sm:flex items-center gap-1.5 text-fg-faint group-hover:text-zinc-300 transition-colors shrink-0 pt-1"
                         whileHover={{ x: 3 }}
                         transition={{ duration: 0.2 }}
                       >
@@ -183,7 +183,7 @@ export default function CaseStudiesPage() {
                       {c.stats.map((s) => (
                         <div key={s.label} className="text-center">
                           <div className="text-xl font-black text-white mb-0.5">{s.value}</div>
-                          <div className="text-[10px] uppercase tracking-widest text-zinc-600 font-medium">{s.label}</div>
+                          <div className="text-[10px] uppercase tracking-widest text-fg-faint font-medium">{s.label}</div>
                         </div>
                       ))}
                     </div>
@@ -192,12 +192,12 @@ export default function CaseStudiesPage() {
                     <div className="flex items-center justify-between gap-4">
                       <div className="flex flex-wrap gap-2">
                         {c.tags.map((t) => (
-                          <span key={t} className="text-xs px-2.5 py-1 rounded-md bg-zinc-800 text-zinc-500 font-mono border border-zinc-700/50">
+                          <span key={t} className="text-xs px-2.5 py-1 rounded-md bg-zinc-800 text-fg-muted font-mono border border-zinc-700/50">
                             {t}
                           </span>
                         ))}
                       </div>
-                      <span className="text-xs text-zinc-700 shrink-0">{c.readTime}</span>
+                      <span className="text-xs text-fg-faint shrink-0">{c.readTime}</span>
                     </div>
                   </motion.div>
                 </Link>
@@ -211,11 +211,11 @@ export default function CaseStudiesPage() {
           className="mt-20 text-center"
           initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
         >
-          <Link href="/portfolio" className="inline-flex items-center gap-1.5 text-xs text-zinc-600 hover:text-zinc-300 transition-colors group">
+          <Link href="/portfolio" className="inline-flex items-center gap-1.5 text-xs text-fg-faint hover:text-zinc-300 transition-colors group">
             View all 10 projects <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </motion.div>
       </div>
-    </main>
+    </div>
   );
 }

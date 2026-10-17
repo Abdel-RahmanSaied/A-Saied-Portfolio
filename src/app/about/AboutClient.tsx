@@ -162,7 +162,7 @@ export default function AboutPage() {
         style={{ left: mousePos.x - 160, top: mousePos.y - 160 }}
       />
 
-      <main className="relative z-10 max-w-5xl mx-auto px-6 py-24 space-y-24">
+      <div className="relative z-10 max-w-5xl mx-auto px-6 py-24 space-y-24">
 
         {/* ── Hero ──────────────────────────────────────────────── */}
         <motion.section
@@ -171,12 +171,12 @@ export default function AboutPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65 }}
         >
-          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-4">About</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-4">About</p>
           <h1 className="text-4xl sm:text-5xl font-black text-white mb-6 leading-tight">How I build.</h1>
-          <p className="text-zinc-500 leading-relaxed mb-10 text-sm sm:text-base">
+          <p className="text-fg-muted leading-relaxed mb-10 text-sm sm:text-base">
             I&apos;m{" "}
             <span className="font-semibold text-zinc-200">Abdel-Rahman Mohamed Saied</span>{" "}
-            <span className="text-zinc-600">
+            <span className="text-fg-faint">
               (<bdi lang="ar">عبدالرحمن محمد سعيد</bdi>)
             </span>{" "}
             — a Technical Lead and Staff-level Backend Engineer whose path started with desktop apps,
@@ -195,11 +195,11 @@ export default function AboutPage() {
                 transition={{ delay: 0.15 + i * 0.07, duration: 0.45 }}
                 whileHover={{ y: -3 }}
               >
-                <div className="text-zinc-600 flex justify-center mb-2">{a.icon}</div>
+                <div className="text-fg-faint flex justify-center mb-2">{a.icon}</div>
                 <div className="text-2xl font-black text-white mb-0.5">
                   <AnimatedCounter end={a.end} suffix={a.suffix} />
                 </div>
-                <div className="text-xs text-zinc-600">{a.label}</div>
+                <div className="text-xs text-fg-faint">{a.label}</div>
               </motion.div>
             ))}
           </div>
@@ -210,9 +210,9 @@ export default function AboutPage() {
           initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
         >
           <GlowCard className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-8 md:p-10">
-            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-3">Summary</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-3">Summary</p>
             <h2 className="text-xl font-bold text-white mb-5">Professional Overview</h2>
-            <div className="space-y-4 text-zinc-500 leading-relaxed text-sm">
+            <div className="space-y-4 text-fg-muted leading-relaxed text-sm">
               <p>
                 I began by shipping desktop software end to end, where reliability was visible in
                 every user workflow. That foundation shaped how I later approached backend systems:
@@ -243,7 +243,7 @@ export default function AboutPage() {
         <motion.section
           initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
         >
-          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-3">Stack</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-3">Stack</p>
           <h2 className="text-xl font-bold text-white mb-8">Tech Stack & Expertise</h2>
 
           <div className="space-y-5">
@@ -256,14 +256,14 @@ export default function AboutPage() {
                 viewport={{ once: true }}
                 transition={{ delay: gi * 0.07, duration: 0.4 }}
               >
-                <span className="text-xs font-semibold uppercase tracking-widest text-zinc-700 sm:w-20 shrink-0">
+                <span className="text-xs font-semibold uppercase tracking-widest text-fg-faint sm:w-20 shrink-0">
                   {group.label}
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {group.items.map((t) => (
                     <motion.span
                       key={t}
-                      className="px-3 py-1.5 rounded-lg border border-zinc-800 bg-zinc-900/60 text-zinc-500 text-sm font-medium hover:border-zinc-600 hover:text-zinc-300 transition-all duration-200 cursor-default"
+                      className="px-3 py-1.5 rounded-lg border border-zinc-800 bg-zinc-900/60 text-fg-muted text-sm font-medium hover:border-zinc-600 hover:text-zinc-300 transition-all duration-200 cursor-default"
                       whileHover={{ y: -1, scale: 1.03 }}
                     >
                       {t}
@@ -279,7 +279,7 @@ export default function AboutPage() {
         <motion.section
           initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
         >
-          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-3">Journey</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-3">Journey</p>
           <h2 className="text-xl font-bold text-white mb-12">Professional Experience</h2>
 
           <div className="relative">
@@ -308,20 +308,20 @@ export default function AboutPage() {
                         <h3 className="font-semibold text-zinc-100 text-sm mb-0.5">{entry.title}</h3>
                         <div className="flex flex-wrap gap-x-3 mb-4 text-xs">
                           <span className="text-zinc-400 font-medium">{entry.company}</span>
-                          <span className="text-zinc-700">·</span>
-                          <span className="text-zinc-600">{entry.date}</span>
+                          <span className="text-fg-faint">·</span>
+                          <span className="text-fg-faint">{entry.date}</span>
                         </div>
                         <ul className="space-y-1.5">
                           {entry.details.map((d, j) => (
                             <motion.li
                               key={j}
-                              className="flex items-start gap-2 text-xs text-zinc-600"
+                              className="flex items-start gap-2 text-xs text-fg-faint"
                               initial={{ opacity: 0, x: -6 }}
                               whileInView={{ opacity: 1, x: 0 }}
                               viewport={{ once: true }}
                               transition={{ delay: 0.04 * j, duration: 0.35 }}
                             >
-                              <ArrowRight className="w-3 h-3 text-zinc-700 mt-0.5 shrink-0" />
+                              <ArrowRight className="w-3 h-3 text-fg-faint mt-0.5 shrink-0" />
                               {d}
                             </motion.li>
                           ))}
@@ -340,7 +340,7 @@ export default function AboutPage() {
           initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
         >
           <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-8 md:p-10">
-            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-3">Why Me</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-3">Why Me</p>
             <h2 className="text-xl font-bold text-white mb-7">Why Work With Me?</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {[
@@ -358,8 +358,8 @@ export default function AboutPage() {
                   transition={{ delay: i * 0.07, duration: 0.4 }}
                   whileHover={{ y: -2 }}
                 >
-                  <Star className="w-3.5 h-3.5 text-zinc-500 shrink-0 mt-0.5" />
-                  <p className="text-xs text-zinc-500 leading-relaxed">{point}</p>
+                  <Star className="w-3.5 h-3.5 text-fg-muted shrink-0 mt-0.5" />
+                  <p className="text-xs text-fg-muted leading-relaxed">{point}</p>
                 </motion.div>
               ))}
             </div>
@@ -375,13 +375,13 @@ export default function AboutPage() {
               <div className="p-2.5 rounded-xl bg-zinc-800 text-zinc-300">
                 <GraduationCap className="w-5 h-5" />
               </div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600">Education</p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint">Education</p>
             </div>
             <h3 className="text-base font-bold text-white mb-1">
               Bachelor&apos;s Degree in Computer Science
             </h3>
-            <p className="text-zinc-500 font-medium text-sm mb-2">Higher Technological Institute</p>
-            <p className="text-zinc-600 text-sm">Graduated with an A+ in final project and overall good grade.</p>
+            <p className="text-fg-muted font-medium text-sm mb-2">Higher Technological Institute</p>
+            <p className="text-fg-faint text-sm">Graduated with an A+ in final project and overall good grade.</p>
           </div>
         </motion.section>
 
@@ -389,13 +389,13 @@ export default function AboutPage() {
         <motion.section
           initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
         >
-          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-3 text-center">FAQ</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-3 text-center">FAQ</p>
           <h2 className="text-xl font-bold text-white mb-8 text-center">Common Questions</h2>
           <div className="space-y-4">
             {faqs.map((f) => (
               <div key={f.q} className="p-6 rounded-2xl border border-zinc-800 bg-zinc-900/40">
                 <h3 className="text-sm font-semibold text-zinc-200 mb-2">{f.q}</h3>
-                <p className="text-zinc-500 text-sm leading-relaxed">{f.a}</p>
+                <p className="text-fg-muted text-sm leading-relaxed">{f.a}</p>
               </div>
             ))}
           </div>
@@ -408,7 +408,7 @@ export default function AboutPage() {
         >
           <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-10 md:p-14">
             <h2 className="text-2xl font-bold text-white mb-3">Let&apos;s Connect</h2>
-            <p className="text-zinc-500 mb-8 max-w-md mx-auto text-sm leading-relaxed">
+            <p className="text-fg-muted mb-8 max-w-md mx-auto text-sm leading-relaxed">
               Open to Senior Backend, Technical Lead, and Staff Backend roles where architecture,
               reliability, and team execution matter.
             </p>
@@ -424,7 +424,7 @@ export default function AboutPage() {
               <motion.a
                 href="https://www.linkedin.com/in/abdel-rahman-saied"
                 target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-2 px-7 py-3 border border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:text-zinc-200 text-sm font-semibold rounded-xl transition-all duration-200 hover:bg-zinc-800/40 w-full sm:w-auto"
+                className="flex items-center gap-2 px-7 py-3 border border-zinc-800 hover:border-zinc-600 text-fg-muted hover:text-zinc-200 text-sm font-semibold rounded-xl transition-all duration-200 hover:bg-zinc-800/40 w-full sm:w-auto"
                 whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
               >
                 <Linkedin className="w-4 h-4" /> LinkedIn
@@ -432,7 +432,7 @@ export default function AboutPage() {
               <motion.a
                 href="https://x.com/asaied_dev"
                 target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-2 px-7 py-3 border border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:text-zinc-200 text-sm font-semibold rounded-xl transition-all duration-200 hover:bg-zinc-800/40 w-full sm:w-auto"
+                className="flex items-center gap-2 px-7 py-3 border border-zinc-800 hover:border-zinc-600 text-fg-muted hover:text-zinc-200 text-sm font-semibold rounded-xl transition-all duration-200 hover:bg-zinc-800/40 w-full sm:w-auto"
                 whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
               >
                 <Twitter className="w-4 h-4" /> X
@@ -440,7 +440,7 @@ export default function AboutPage() {
               <motion.a
                 href="/assets/Abdelrahman_Saied_resume.pdf"
                 download
-                className="flex items-center gap-2 px-7 py-3 border border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:text-zinc-200 text-sm font-semibold rounded-xl transition-all duration-200 hover:bg-zinc-800/40 w-full sm:w-auto"
+                className="flex items-center gap-2 px-7 py-3 border border-zinc-800 hover:border-zinc-600 text-fg-muted hover:text-zinc-200 text-sm font-semibold rounded-xl transition-all duration-200 hover:bg-zinc-800/40 w-full sm:w-auto"
                 whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
               >
                 <Download className="w-4 h-4" /> Download CV
@@ -449,7 +449,7 @@ export default function AboutPage() {
           </div>
         </motion.section>
 
-      </main>
+      </div>
     </div>
   );
 }

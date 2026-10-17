@@ -51,7 +51,7 @@ export default function PortfolioPage() {
   const filtered   = selected === "All" ? projects : projects.filter((p) => p.category === selected);
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+    <div className="min-h-screen bg-zinc-950 text-zinc-100">
       {/* Grid */}
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#ffffff04_1px,transparent_1px),linear-gradient(to_bottom,#ffffff04_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none" />
 
@@ -64,9 +64,9 @@ export default function PortfolioPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55 }}
         >
-          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-3">Work</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-3">Work</p>
           <h1 className="text-4xl sm:text-5xl font-black text-white mb-4 leading-tight">My Projects</h1>
-          <p className="text-zinc-500 leading-relaxed text-sm">
+          <p className="text-fg-muted leading-relaxed text-sm">
             Production systems, open-source tools, and shipped products — built for scale and reliability.
           </p>
         </motion.div>
@@ -86,7 +86,7 @@ export default function PortfolioPage() {
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                   selected === cat
                     ? "bg-zinc-100 text-zinc-900"
-                    : "text-zinc-600 hover:text-zinc-300 hover:bg-zinc-800/60"
+                    : "text-fg-faint hover:text-zinc-300 hover:bg-zinc-800/60"
                 }`}
               >
                 {cat}
@@ -142,15 +142,15 @@ export default function PortfolioPage() {
 
                     <div className="flex flex-col flex-1 lg:flex-row lg:items-start gap-6">
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-1">{project.tagline}</p>
+                        <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-1">{project.tagline}</p>
                         <h2 className="text-lg font-bold text-white mb-3">{project.title}</h2>
-                        <p className="text-zinc-500 text-sm leading-relaxed mb-5">{project.description}</p>
+                        <p className="text-fg-muted text-sm leading-relaxed mb-5">{project.description}</p>
 
                         <div className="flex flex-wrap gap-1.5">
                           {project.techStack.map((t) => (
                             <span
                               key={t}
-                              className="text-xs px-2.5 py-1 rounded-md bg-zinc-800 text-zinc-500 font-mono border border-zinc-700/50 hover:border-zinc-600 hover:text-zinc-300 transition-all duration-200"
+                              className="text-xs px-2.5 py-1 rounded-md bg-zinc-800 text-fg-muted font-mono border border-zinc-700/50 hover:border-zinc-600 hover:text-zinc-300 transition-all duration-200"
                             >
                               {t}
                             </span>
@@ -164,7 +164,7 @@ export default function PortfolioPage() {
                             href={project.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl border border-zinc-700 text-zinc-500 text-xs font-semibold hover:border-zinc-500 hover:text-zinc-200 transition-all whitespace-nowrap"
+                            className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl border border-zinc-700 text-fg-muted text-xs font-semibold hover:border-zinc-500 hover:text-zinc-200 transition-all whitespace-nowrap"
                           >
                             <Github className="w-3.5 h-3.5" /> Source
                           </a>
@@ -204,11 +204,11 @@ export default function PortfolioPage() {
               whileHover={{ y: -3 }}
             >
               <div className="text-3xl font-black text-white mb-1.5">{s.value}</div>
-              <p className="text-xs text-zinc-600 font-medium uppercase tracking-wider">{s.label}</p>
+              <p className="text-xs text-fg-faint font-medium uppercase tracking-wider">{s.label}</p>
             </motion.div>
           ))}
         </motion.div>
       </div>
-    </main>
+    </div>
   );
 }

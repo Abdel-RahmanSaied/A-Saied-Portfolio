@@ -60,7 +60,7 @@ const canHelpWith = [
 
 export default function LetsTalkPage() {
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+    <div className="min-h-screen bg-zinc-950 text-zinc-100">
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#ffffff04_1px,transparent_1px),linear-gradient(to_bottom,#ffffff04_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 py-24">
@@ -73,7 +73,7 @@ export default function LetsTalkPage() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
           <motion.p
-            className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-3"
+            className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-3"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1, duration: 0.5 }}
@@ -84,7 +84,7 @@ export default function LetsTalkPage() {
             Let&apos;s talk about
             <br />
             <motion.span
-              className="text-zinc-500 inline-block"
+              className="text-fg-muted inline-block"
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.25, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
@@ -93,7 +93,7 @@ export default function LetsTalkPage() {
             </motion.span>
           </h1>
           <motion.p
-            className="text-zinc-500 leading-relaxed text-sm"
+            className="text-fg-muted leading-relaxed text-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.5 }}
@@ -109,7 +109,7 @@ export default function LetsTalkPage() {
           {/* Contact cards */}
           <div className="lg:col-span-2 space-y-3">
             <motion.p
-              className="text-xs font-semibold uppercase tracking-widest text-zinc-700 mb-4"
+              className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.15, duration: 0.4 }}
@@ -140,9 +140,9 @@ export default function LetsTalkPage() {
                       {c.icon}
                     </motion.div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-0.5">{c.label}</p>
+                      <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-0.5">{c.label}</p>
                       <p className="font-semibold text-zinc-200 text-sm truncate">{c.value}</p>
-                      <p className="text-xs text-zinc-600 mt-0.5">{c.desc}</p>
+                      <p className="text-xs text-fg-faint mt-0.5">{c.desc}</p>
                     </div>
                     <motion.div
                       className="shrink-0"
@@ -150,7 +150,7 @@ export default function LetsTalkPage() {
                       whileHover={{ x: 2, y: -2 }}
                       transition={{ duration: 0.15 }}
                     >
-                      <ArrowUpRight className="w-4 h-4 text-zinc-700 group-hover:text-zinc-400 transition-colors duration-200" />
+                      <ArrowUpRight className="w-4 h-4 text-fg-faint group-hover:text-zinc-400 transition-colors duration-200" />
                     </motion.div>
                   </motion.a>
                 </GlowCard>
@@ -170,19 +170,19 @@ export default function LetsTalkPage() {
               <GlowCard className="p-6 rounded-2xl border border-zinc-800 bg-zinc-900/40" glowSize={220}>
                 <div className="flex items-center gap-2 mb-4">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600">Available</p>
+                  <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint">Available</p>
                 </div>
                 <h3 className="font-semibold text-zinc-300 text-sm mb-3">Open for</h3>
                 <ul className="space-y-2.5">
                   {availableFor.map((a, i) => (
                     <motion.li
                       key={a.label}
-                      className="flex items-center gap-2.5 text-xs text-zinc-500"
+                      className="flex items-center gap-2.5 text-xs text-fg-muted"
                       initial={{ opacity: 0, x: -8 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.4 + i * 0.06, duration: 0.4 }}
                     >
-                      <span className="text-zinc-600">{a.icon}</span>
+                      <span className="text-fg-faint">{a.icon}</span>
                       {a.label}
                     </motion.li>
                   ))}
@@ -197,17 +197,17 @@ export default function LetsTalkPage() {
               transition={{ delay: 0.38, duration: 0.5 }}
             >
               <GlowCard className="p-6 rounded-2xl border border-zinc-800 bg-zinc-900/40" glowSize={220}>
-                <h3 className="text-xs font-semibold uppercase tracking-widest text-zinc-700 mb-4">I can help with</h3>
+                <h3 className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-4">I can help with</h3>
                 <ul className="space-y-2">
                   {canHelpWith.map((item, i) => (
                     <motion.li
                       key={item}
-                      className="flex items-start gap-2 text-xs text-zinc-600 leading-relaxed"
+                      className="flex items-start gap-2 text-xs text-fg-faint leading-relaxed"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.45 + i * 0.05, duration: 0.4 }}
                     >
-                      <span className="text-zinc-700 mt-0.5 shrink-0">→</span>
+                      <span className="text-fg-faint mt-0.5 shrink-0">→</span>
                       {item}
                     </motion.li>
                   ))}
@@ -227,15 +227,15 @@ export default function LetsTalkPage() {
                 animate={{ rotate: [0, 15, -15, 0] }}
                 transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
               >
-                <Clock className="w-4 h-4 text-zinc-700 mx-auto mb-2" />
+                <Clock className="w-4 h-4 text-fg-faint mx-auto mb-2" />
               </motion.div>
-              <p className="text-xs text-zinc-600 leading-relaxed">
+              <p className="text-xs text-fg-faint leading-relaxed">
                 Typically responds within <span className="text-zinc-400 font-semibold">24 hours</span> on weekdays.
               </p>
             </motion.div>
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

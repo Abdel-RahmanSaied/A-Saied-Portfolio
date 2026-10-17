@@ -102,7 +102,7 @@ const projects: {
 
 export default function ResumePage() {
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+    <div className="min-h-screen bg-zinc-950 text-zinc-100">
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#ffffff04_1px,transparent_1px),linear-gradient(to_bottom,#ffffff04_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 py-24">
@@ -116,7 +116,7 @@ export default function ResumePage() {
         >
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6 mb-8">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-3">Resume</p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-3">Resume</p>
               <h1 className="text-4xl sm:text-5xl font-black text-white mb-2 leading-tight">Abdel-Rahman<br />Saied</h1>
               <p className="text-zinc-400 font-medium text-sm">Technical Lead · Staff Backend Engineer</p>
             </div>
@@ -130,7 +130,7 @@ export default function ResumePage() {
           </div>
 
           {/* Contact strip */}
-          <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-zinc-500">
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-fg-muted">
             <a href="mailto:abdelrahman.saied@asasit.com" className="flex items-center gap-1.5 hover:text-zinc-300 transition-colors">
               <Mail className="w-3.5 h-3.5" /> abdelrahman.saied@asasit.com
             </a>
@@ -153,7 +153,7 @@ export default function ResumePage() {
 
           {/* ── Summary ── */}
           <motion.section initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
-            <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-4 pb-2 border-b border-zinc-800">Summary</h2>
+            <h2 className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-4 pb-2 border-b border-zinc-800">Summary</h2>
             <p className="text-zinc-400 text-sm leading-relaxed">
               Technical Lead and Staff-level Backend Engineer with 6+ years owning production systems across
               social intelligence, transportation, hospitality, cybersecurity, AI infrastructure, talent marketplaces,
@@ -165,7 +165,7 @@ export default function ResumePage() {
 
           {/* ── Experience ── */}
           <motion.section initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
-            <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-6 pb-2 border-b border-zinc-800">Experience</h2>
+            <h2 className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-6 pb-2 border-b border-zinc-800">Experience</h2>
             <div className="space-y-8">
               {experience.map((job, i) => (
                 <motion.div
@@ -178,14 +178,14 @@ export default function ResumePage() {
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-3">
                     <div>
                       <h3 className="font-semibold text-zinc-100 text-sm">{job.title}</h3>
-                      <p className="text-zinc-500 text-xs font-medium">{job.company}</p>
+                      <p className="text-fg-muted text-xs font-medium">{job.company}</p>
                     </div>
-                    <span className="text-xs text-zinc-600 shrink-0">{job.period}</span>
+                    <span className="text-xs text-fg-faint shrink-0">{job.period}</span>
                   </div>
                   <ul className="space-y-1.5">
                     {job.highlights.map((h, j) => (
-                      <li key={j} className="flex items-start gap-2 text-xs text-zinc-500">
-                        <ArrowRight className="w-3 h-3 text-zinc-700 mt-0.5 shrink-0" />
+                      <li key={j} className="flex items-start gap-2 text-xs text-fg-muted">
+                        <ArrowRight className="w-3 h-3 text-fg-faint mt-0.5 shrink-0" />
                         {h}
                       </li>
                     ))}
@@ -197,7 +197,7 @@ export default function ResumePage() {
 
           {/* ── Skills ── */}
           <motion.section initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
-            <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-6 pb-2 border-b border-zinc-800">Skills</h2>
+            <h2 className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-6 pb-2 border-b border-zinc-800">Skills</h2>
             <div className="space-y-3">
               {skills.map((group, i) => (
                 <motion.div
@@ -208,10 +208,10 @@ export default function ResumePage() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.06, duration: 0.4 }}
                 >
-                  <span className="text-[10px] font-semibold uppercase tracking-widest text-zinc-700 sm:w-20 shrink-0">{group.label}</span>
+                  <span className="text-[10px] font-semibold uppercase tracking-widest text-fg-faint sm:w-20 shrink-0">{group.label}</span>
                   <div className="flex flex-wrap gap-1.5">
                     {group.items.map((item) => (
-                      <span key={item} className="text-xs px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-500 font-mono hover:border-zinc-600 hover:text-zinc-300 transition-all duration-200">
+                      <span key={item} className="text-xs px-2.5 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-fg-muted font-mono hover:border-zinc-600 hover:text-zinc-300 transition-all duration-200">
                         {item}
                       </span>
                     ))}
@@ -223,7 +223,7 @@ export default function ResumePage() {
 
           {/* ── Notable Projects ── */}
           <motion.section initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
-            <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-6 pb-2 border-b border-zinc-800">Notable Projects</h2>
+            <h2 className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-6 pb-2 border-b border-zinc-800">Notable Projects</h2>
             <div className="space-y-3">
               {projects.map((p, i) => (
                 <motion.div
@@ -236,22 +236,22 @@ export default function ResumePage() {
                 >
                   <div className="flex-1 min-w-0">
                     <span className="text-sm font-semibold text-zinc-200">{p.name}</span>
-                    <span className="text-zinc-700 mx-2">—</span>
-                    <span className="text-xs text-zinc-500">{p.desc}</span>
+                    <span className="text-fg-faint mx-2">—</span>
+                    <span className="text-xs text-fg-muted">{p.desc}</span>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
                     {p.caseStudy && (
-                      <Link href={p.caseStudy} className="text-zinc-600 hover:text-zinc-300 transition-colors" aria-label={`${p.name} case study`}>
+                      <Link href={p.caseStudy} className="text-fg-faint hover:text-zinc-300 transition-colors" aria-label={`${p.name} case study`}>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </Link>
                     )}
                     {p.github && (
-                      <a href={p.github} target="_blank" rel="noopener noreferrer" className="text-zinc-600 hover:text-zinc-300 transition-colors">
+                      <a href={p.github} target="_blank" rel="noopener noreferrer" className="text-fg-faint hover:text-zinc-300 transition-colors">
                         <Github className="w-3.5 h-3.5" />
                       </a>
                     )}
                     {p.live && (
-                      <a href={p.live} target="_blank" rel="noopener noreferrer" className="text-zinc-600 hover:text-zinc-300 transition-colors">
+                      <a href={p.live} target="_blank" rel="noopener noreferrer" className="text-fg-faint hover:text-zinc-300 transition-colors">
                         <ExternalLink className="w-3.5 h-3.5" />
                       </a>
                     )}
@@ -263,12 +263,12 @@ export default function ResumePage() {
 
           {/* ── Education ── */}
           <motion.section initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
-            <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-4 pb-2 border-b border-zinc-800">Education</h2>
+            <h2 className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-4 pb-2 border-b border-zinc-800">Education</h2>
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1">
               <div>
                 <h3 className="font-semibold text-zinc-100 text-sm">Bachelor&apos;s Degree in Computer Science</h3>
-                <p className="text-zinc-500 text-xs">Higher Technological Institute</p>
-                <p className="text-zinc-600 text-xs mt-1">Graduated with A+ in final project · Overall good grade</p>
+                <p className="text-fg-muted text-xs">Higher Technological Institute</p>
+                <p className="text-fg-faint text-xs mt-1">Graduated with A+ in final project · Overall good grade</p>
               </div>
             </div>
           </motion.section>
@@ -280,7 +280,7 @@ export default function ResumePage() {
           >
             <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-8 text-center">
               <h3 className="text-lg font-bold text-white mb-2">Evaluating technical leadership fit?</h3>
-              <p className="text-zinc-500 text-sm mb-6">Start with the case studies for architecture decisions, constraints, and production outcomes.</p>
+              <p className="text-fg-muted text-sm mb-6">Start with the case studies for architecture decisions, constraints, and production outcomes.</p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Link href="/case-studies">
                   <motion.button className="flex items-center gap-2 px-6 py-2.5 bg-zinc-100 hover:bg-white text-zinc-900 text-sm font-semibold rounded-xl transition-colors w-full sm:w-auto justify-center"
@@ -289,7 +289,7 @@ export default function ResumePage() {
                   </motion.button>
                 </Link>
                 <Link href="/lets-talk">
-                  <motion.button className="flex items-center gap-2 px-6 py-2.5 border border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:text-zinc-200 text-sm font-semibold rounded-xl transition-all w-full sm:w-auto justify-center"
+                  <motion.button className="flex items-center gap-2 px-6 py-2.5 border border-zinc-800 hover:border-zinc-600 text-fg-muted hover:text-zinc-200 text-sm font-semibold rounded-xl transition-all w-full sm:w-auto justify-center"
                     whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
                     <Mail className="w-4 h-4" /> Discuss Roles
                   </motion.button>
@@ -300,6 +300,6 @@ export default function ResumePage() {
 
         </div>
       </div>
-    </main>
+    </div>
   );
 }

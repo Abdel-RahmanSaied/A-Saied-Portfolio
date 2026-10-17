@@ -54,20 +54,20 @@ const principles = [
 
 export default function EngineeringPhilosophyPage() {
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+    <div className="min-h-screen bg-zinc-950 text-zinc-100">
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#ffffff04_1px,transparent_1px),linear-gradient(to_bottom,#ffffff04_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 py-24">
         <section className="mb-16 max-w-3xl">
-          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-4">
+          <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-4">
             Engineering Philosophy
           </p>
           <h1 className="text-4xl sm:text-5xl font-black text-white mb-6 leading-tight">
             Build systems that are
             <br />
-            <span className="text-zinc-500">clear, reliable, and useful.</span>
+            <span className="text-fg-muted">clear, reliable, and useful.</span>
           </h1>
-          <p className="text-zinc-500 leading-relaxed text-sm sm:text-base max-w-2xl">
+          <p className="text-fg-muted leading-relaxed text-sm sm:text-base max-w-2xl">
             My strongest work sits between backend architecture, AI infrastructure, product
             ownership, and technical leadership. These are the principles I use when designing
             production systems and leading teams through hard trade-offs.
@@ -84,17 +84,17 @@ export default function EngineeringPhilosophyPage() {
                 {principle.icon}
               </div>
               <h2 className="text-base font-bold text-white mb-3">{principle.title}</h2>
-              <p className="text-sm text-zinc-500 leading-relaxed">{principle.body}</p>
+              <p className="text-sm text-fg-muted leading-relaxed">{principle.body}</p>
             </article>
           ))}
         </section>
 
         <section className="mt-16 rounded-2xl border border-zinc-800 bg-zinc-900/40 p-8 sm:p-10">
-          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-3">
+          <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-3">
             How this shows up
           </p>
           <h2 className="text-2xl font-bold text-white mb-4">From architecture review to production outcome.</h2>
-          <p className="text-sm text-zinc-500 leading-relaxed max-w-2xl mb-7">
+          <p className="text-sm text-fg-muted leading-relaxed max-w-2xl mb-7">
             I look for the smallest design that can meet the product goal, the observability needed
             to operate it, the security posture it requires, and the team habits that keep it healthy
             after launch.
@@ -108,13 +108,13 @@ export default function EngineeringPhilosophyPage() {
             </Link>
             <Link
               href="/lets-talk"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:text-zinc-200 text-sm font-semibold rounded-xl transition-all hover:bg-zinc-800/40"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-zinc-800 hover:border-zinc-600 text-fg-muted hover:text-zinc-200 text-sm font-semibold rounded-xl transition-all hover:bg-zinc-800/40"
             >
               Discuss Technical Lead Roles
             </Link>
           </div>
         </section>
       </div>
-    </main>
+    </div>
   );
 }

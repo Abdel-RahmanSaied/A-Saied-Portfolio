@@ -127,7 +127,7 @@ function TechMarquee() {
         transition={{ duration: 28, ease: "linear", repeat: Infinity }}
       >
         {doubled.map((item, i) => (
-          <span key={i} className="text-[11px] font-semibold uppercase tracking-widest text-zinc-700">
+          <span key={i} className="text-[11px] font-semibold uppercase tracking-widest text-fg-faint">
             {item}
             <span className="ml-10 text-zinc-800">·</span>
           </span>
@@ -273,7 +273,7 @@ export default function HomeScreen() {
           <motion.p
             variants={fadeUp}
             custom={2}
-            className="text-xs font-semibold text-zinc-600 uppercase tracking-[0.22em] mb-6 flex items-center justify-center gap-2 flex-wrap"
+            className="text-xs font-semibold text-fg-faint uppercase tracking-[0.22em] mb-6 flex items-center justify-center gap-2 flex-wrap"
           >
             Technical Lead / Staff Backend Engineer
             <span className="text-zinc-800">·</span>
@@ -283,7 +283,7 @@ export default function HomeScreen() {
           <motion.p
             variants={fadeUp}
             custom={3}
-            className="text-base sm:text-lg text-zinc-500 max-w-xl mx-auto leading-relaxed mb-10"
+            className="text-base sm:text-lg text-fg-muted max-w-xl mx-auto leading-relaxed mb-10"
           >
             I own distributed backend systems, AI infrastructure, and product architecture from
             technical strategy through production operations — leading teams while staying close
@@ -323,7 +323,7 @@ export default function HomeScreen() {
                 aria-label={s.label}
                 target={s.href.startsWith("http") ? "_blank" : undefined}
                 rel="noopener noreferrer"
-                className="p-2.5 rounded-lg border border-zinc-700/50 hover:border-zinc-500 text-zinc-600 hover:text-zinc-200 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800 transition-all duration-200"
+                className="p-2.5 rounded-lg border border-zinc-700/50 hover:border-zinc-500 text-fg-faint hover:text-zinc-200 bg-zinc-900/50 backdrop-blur-sm hover:bg-zinc-800 transition-all duration-200"
                 whileHover={{ scale: 1.12, y: -3 }}
                 whileTap={{ scale: 0.95 }}
                 initial={{ opacity: 0, y: 10 }}
@@ -338,7 +338,7 @@ export default function HomeScreen() {
           <motion.div
             variants={fadeUp}
             custom={6}
-            className="flex flex-col items-center gap-1.5 text-zinc-700"
+            className="flex flex-col items-center gap-1.5 text-fg-faint"
           >
             <span className="text-[10px] uppercase tracking-widest font-medium">Scroll</span>
             <motion.div
@@ -374,7 +374,7 @@ export default function HomeScreen() {
                 <div>
                   <div className="flex items-center gap-3 mb-7">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_24px_rgba(52,211,153,0.8)]" />
-                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-zinc-500">
+                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-fg-muted">
                       Engineering Operating Model
                     </p>
                   </div>
@@ -407,7 +407,7 @@ export default function HomeScreen() {
               </div>
 
               <div className="relative border-t lg:border-t-0 lg:border-l border-zinc-800 bg-zinc-900/30 p-8 sm:p-10 md:p-12">
-                <div className="absolute top-8 right-8 text-[10px] font-mono uppercase tracking-widest text-zinc-700">
+                <div className="absolute top-8 right-8 text-[10px] font-mono uppercase tracking-widest text-fg-faint">
                   prod-readiness loop
                 </div>
 
@@ -432,7 +432,7 @@ export default function HomeScreen() {
                       </div>
                       <div>
                         <h3 className="text-sm font-semibold text-zinc-200">{item.title}</h3>
-                        <p className="text-xs text-zinc-600 mt-0.5">{item.body}</p>
+                        <p className="text-xs text-fg-faint mt-0.5">{item.body}</p>
                       </div>
                       <span className="ml-auto text-[10px] font-mono text-zinc-800">0{i + 1}</span>
                     </motion.div>
@@ -466,7 +466,7 @@ export default function HomeScreen() {
               <div className="text-3xl sm:text-4xl font-black text-white mb-1 tabular-nums">
                 <AnimatedCounter end={s.end} prefix={s.prefix} suffix={s.suffix} decimals={s.decimals} />
               </div>
-              <div className="text-xs text-zinc-600 font-medium uppercase tracking-wider">{s.label}</div>
+              <div className="text-xs text-fg-faint font-medium uppercase tracking-wider">{s.label}</div>
             </motion.div>
           ))}
         </div>
@@ -480,14 +480,14 @@ export default function HomeScreen() {
             initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
           >
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-2">
+              <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-2">
                 <span className="text-zinc-800 mr-2">01</span>Featured Work
               </p>
               <h2 className="text-2xl sm:text-3xl font-bold text-white">
                 <WordReveal text="Systems I've owned and scaled" />
               </h2>
             </div>
-            <Link href="/portfolio" className="hidden sm:flex items-center gap-1.5 text-xs text-zinc-600 hover:text-zinc-300 transition-colors group">
+            <Link href="/portfolio" className="hidden sm:flex items-center gap-1.5 text-xs text-fg-faint hover:text-zinc-300 transition-colors group">
               All projects <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>
@@ -506,9 +506,9 @@ export default function HomeScreen() {
                     <div className="absolute top-0 left-0 right-0 h-px bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-t-2xl" />
                     <div className="relative p-7 sm:p-8 flex flex-col lg:flex-row lg:items-start gap-7">
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-1">{p.tag}</p>
+                        <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-1">{p.tag}</p>
                         <h3 className="text-xl font-bold text-white mb-3">{p.title}</h3>
-                        <p className="text-sm text-zinc-500 leading-relaxed mb-5">{p.description}</p>
+                        <p className="text-sm text-fg-muted leading-relaxed mb-5">{p.description}</p>
                         <div className="flex flex-wrap gap-2 mb-5">
                           {p.metrics.map((m) => (
                             <span key={m} className="text-xs px-3 py-1 rounded-full border border-zinc-800 text-zinc-400 bg-zinc-900">
@@ -520,7 +520,7 @@ export default function HomeScreen() {
                           {p.tech.map((t) => (
                             <motion.span
                               key={t}
-                              className="text-xs px-2.5 py-1 rounded-md bg-zinc-800 text-zinc-500 font-mono border border-zinc-700/50 hover:border-zinc-500 hover:text-zinc-300 transition-all duration-200"
+                              className="text-xs px-2.5 py-1 rounded-md bg-zinc-800 text-fg-muted font-mono border border-zinc-700/50 hover:border-zinc-500 hover:text-zinc-300 transition-all duration-200"
                               whileHover={{ y: -1 }}
                             >
                               {t}
@@ -548,7 +548,7 @@ export default function HomeScreen() {
                           </a>
                         )}
                         <Link href={p.caseStudy}>
-                          <span className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl border border-zinc-800 hover:border-zinc-600 text-zinc-600 hover:text-zinc-300 text-xs font-semibold transition-all whitespace-nowrap cursor-pointer">
+                          <span className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl border border-zinc-800 hover:border-zinc-600 text-fg-faint hover:text-zinc-300 text-xs font-semibold transition-all whitespace-nowrap cursor-pointer">
                             <ArrowRight className="w-3.5 h-3.5" /> Case Study
                           </span>
                         </Link>
@@ -565,7 +565,7 @@ export default function HomeScreen() {
             initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
           >
             <Link href="/portfolio">
-              <span className="inline-flex items-center gap-1.5 text-sm text-zinc-600 hover:text-zinc-300 transition-colors duration-200 cursor-pointer group">
+              <span className="inline-flex items-center gap-1.5 text-sm text-fg-faint hover:text-zinc-300 transition-colors duration-200 cursor-pointer group">
                 View all projects <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </span>
             </Link>
@@ -580,7 +580,7 @@ export default function HomeScreen() {
             className="mb-10"
             initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
           >
-            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-2">
+            <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-2">
               <span className="text-zinc-800 mr-2">02</span>Sectors
             </p>
             <h2 className="text-2xl sm:text-3xl font-bold text-white">
@@ -599,12 +599,12 @@ export default function HomeScreen() {
                 transition={{ delay: i * 0.07, duration: 0.45 }}
                 whileHover={{ y: -3 }}
               >
-                <div className="text-zinc-600 group-hover:text-zinc-300 transition-colors duration-200">
+                <div className="text-fg-faint group-hover:text-zinc-300 transition-colors duration-200">
                   {ind.icon}
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-zinc-400 group-hover:text-zinc-200 transition-colors leading-tight mb-1">{ind.label}</p>
-                  <p className="text-[10px] text-zinc-700 leading-tight">{ind.note}</p>
+                  <p className="text-[10px] text-fg-faint leading-tight">{ind.note}</p>
                 </div>
               </motion.div>
             ))}
@@ -620,14 +620,14 @@ export default function HomeScreen() {
             initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
           >
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-2">
+              <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-2">
                 <span className="text-zinc-800 mr-2">03</span>All Work
               </p>
               <h2 className="text-2xl sm:text-3xl font-bold text-white">
                 <WordReveal text="Every system I've shipped" />
               </h2>
             </div>
-            <Link href="/portfolio" className="hidden sm:flex items-center gap-1.5 text-xs text-zinc-600 hover:text-zinc-300 transition-colors group">
+            <Link href="/portfolio" className="hidden sm:flex items-center gap-1.5 text-xs text-fg-faint hover:text-zinc-300 transition-colors group">
               Full details <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>
@@ -645,15 +645,15 @@ export default function HomeScreen() {
                   <div className="p-5 flex items-start justify-between gap-4 h-full">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-2">
-                        <span className="text-[10px] font-semibold uppercase tracking-widest text-zinc-700 border border-zinc-800 px-2 py-0.5 rounded-full">
+                        <span className="text-[10px] font-semibold uppercase tracking-widest text-fg-faint border border-zinc-800 px-2 py-0.5 rounded-full">
                           {p.category}
                         </span>
                       </div>
                       <h3 className="text-sm font-bold text-zinc-200 group-hover:text-white transition-colors mb-1">{p.title}</h3>
-                      <p className="text-xs text-zinc-600 mb-3">{p.tagline}</p>
+                      <p className="text-xs text-fg-faint mb-3">{p.tagline}</p>
                       <div className="flex flex-wrap gap-1.5">
                         {p.tech.map((t) => (
-                          <span key={t} className="text-[10px] px-2 py-0.5 rounded bg-zinc-800 text-zinc-600 font-mono border border-zinc-700/40">
+                          <span key={t} className="text-[10px] px-2 py-0.5 rounded bg-zinc-800 text-fg-muted font-mono border border-zinc-700/40">
                             {t}
                           </span>
                         ))}
@@ -664,7 +664,7 @@ export default function HomeScreen() {
                         href={p.live}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="shrink-0 p-2 rounded-lg border border-zinc-800 text-zinc-700 hover:border-zinc-600 hover:text-zinc-300 transition-all duration-200 mt-0.5"
+                        className="shrink-0 p-2 rounded-lg border border-zinc-800 text-fg-faint hover:border-zinc-600 hover:text-zinc-300 transition-all duration-200 mt-0.5"
                         aria-label={`Visit ${p.title}`}
                       >
                         <ExternalLink className="w-3.5 h-3.5" />
@@ -691,20 +691,20 @@ export default function HomeScreen() {
                     <div className="p-2 rounded-lg bg-zinc-800 group-hover:bg-zinc-700 transition-colors">
                       <Lock className="w-4 h-4 text-zinc-300" />
                     </div>
-                    <span className="text-xs font-semibold uppercase tracking-widest text-zinc-600">Open Source</span>
+                    <span className="text-xs font-semibold uppercase tracking-widest text-fg-faint">Open Source</span>
                   </div>
                   <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">Fendix — Free, Open, Zero Telemetry</h2>
-                  <p className="text-sm text-zinc-500 leading-relaxed mb-5 max-w-xl">
+                  <p className="text-sm text-fg-muted leading-relaxed mb-5 max-w-xl">
                     A hybrid DAST + SAST API security scanner that only fails your build when both engines agree on the same vulnerability.
                     Single binary. No phone-home. Signed releases via Sigstore. Installable in 30 seconds.
                   </p>
                   <div className="flex items-center gap-2 bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 font-mono text-xs text-zinc-400 w-fit mb-5 group/code hover:border-zinc-700 transition-colors">
-                    <Terminal className="w-3.5 h-3.5 text-zinc-600 shrink-0" />
-                    <span>brew tap Abdel-RahmanSaied/fendix <span className="text-zinc-700">&amp;&amp;</span> brew install fendix</span>
+                    <Terminal className="w-3.5 h-3.5 text-fg-faint shrink-0" />
+                    <span>brew tap Abdel-RahmanSaied/fendix <span className="text-fg-faint">&amp;&amp;</span> brew install fendix</span>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {["Go", "Docker", "SARIF", "Sigstore", "Homebrew", "GitHub Actions"].map((t) => (
-                      <span key={t} className="text-xs px-2.5 py-1 rounded-md bg-zinc-800 text-zinc-500 font-mono border border-zinc-700/50">
+                      <span key={t} className="text-xs px-2.5 py-1 rounded-md bg-zinc-800 text-fg-muted font-mono border border-zinc-700/50">
                         {t}
                       </span>
                     ))}
@@ -728,7 +728,7 @@ export default function HomeScreen() {
                     <Github className="w-3.5 h-3.5" /> Source
                   </a>
                   <Link href="/case-studies/fendix">
-                    <span className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl border border-zinc-800 hover:border-zinc-600 text-zinc-600 hover:text-zinc-300 text-xs font-semibold transition-all whitespace-nowrap cursor-pointer">
+                    <span className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl border border-zinc-800 hover:border-zinc-600 text-fg-faint hover:text-zinc-300 text-xs font-semibold transition-all whitespace-nowrap cursor-pointer">
                       <ArrowRight className="w-3.5 h-3.5" /> Case Study
                     </span>
                   </Link>
@@ -746,7 +746,7 @@ export default function HomeScreen() {
             className="mb-12"
             initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
           >
-            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-2">
+            <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-2">
               <span className="text-zinc-800 mr-2">04</span>Expertise
             </p>
             <h2 className="text-2xl sm:text-3xl font-bold text-white">
@@ -772,7 +772,7 @@ export default function HomeScreen() {
                     {s.icon}
                   </motion.div>
                   <h3 className="font-semibold text-zinc-100 text-sm mb-2">{s.title}</h3>
-                  <p className="text-xs text-zinc-600 leading-relaxed">{s.desc}</p>
+                  <p className="text-xs text-fg-faint leading-relaxed">{s.desc}</p>
                 </GlowCard>
               </motion.div>
             ))}
@@ -787,7 +787,7 @@ export default function HomeScreen() {
             className="mb-12"
             initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
           >
-            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-2">
+            <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-2">
               <span className="text-zinc-800 mr-2">05</span>Stack
             </p>
             <h2 className="text-2xl sm:text-3xl font-bold text-white">
@@ -805,14 +805,14 @@ export default function HomeScreen() {
                 viewport={{ once: true }}
                 transition={{ delay: gi * 0.08, duration: 0.45 }}
               >
-                <span className="text-xs font-semibold uppercase tracking-widest text-zinc-700 sm:w-20 shrink-0">
+                <span className="text-xs font-semibold uppercase tracking-widest text-fg-faint sm:w-20 shrink-0">
                   {group.label}
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {group.items.map((t, ti) => (
                     <motion.span
                       key={t}
-                      className="px-3 py-1.5 rounded-lg border border-zinc-800 bg-zinc-900/60 text-zinc-500 text-sm font-medium hover:border-zinc-600 hover:text-zinc-300 transition-all duration-200 cursor-default"
+                      className="px-3 py-1.5 rounded-lg border border-zinc-800 bg-zinc-900/60 text-fg-muted text-sm font-medium hover:border-zinc-600 hover:text-zinc-300 transition-all duration-200 cursor-default"
                       initial={{ opacity: 0, scale: 0.9 }}
                       whileInView={{ opacity: 1, scale: 1 }}
                       viewport={{ once: true }}
@@ -835,13 +835,13 @@ export default function HomeScreen() {
           <motion.div
             initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
           >
-            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-4">
+            <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-4">
               <span className="text-zinc-800 mr-2">06</span>Let&apos;s work together
             </p>
             <h2 className="text-2xl sm:text-3xl font-bold text-white mb-5">
               Hiring for senior backend leadership?
             </h2>
-            <p className="text-zinc-500 mb-10 leading-relaxed max-w-lg mx-auto text-sm">
+            <p className="text-fg-muted mb-10 leading-relaxed max-w-lg mx-auto text-sm">
               I&apos;m best suited for roles where backend architecture, AI infrastructure, and
               hands-on technical leadership need to move together.
             </p>
@@ -857,7 +857,7 @@ export default function HomeScreen() {
               </Link>
               <Link href="/engineering-philosophy">
                 <motion.button
-                  className="px-8 py-3 border border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:text-zinc-200 text-sm font-semibold rounded-xl transition-all duration-200 hover:bg-zinc-800/40 w-full sm:w-auto"
+                  className="px-8 py-3 border border-zinc-800 hover:border-zinc-600 text-fg-muted hover:text-zinc-200 text-sm font-semibold rounded-xl transition-all duration-200 hover:bg-zinc-800/40 w-full sm:w-auto"
                   whileHover={{ scale: 1.04, y: -1 }}
                   whileTap={{ scale: 0.97 }}
                 >

@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import CursorFollower from "@/components/CursorFollower";
 import ScrollProgress from "@/components/ScrollProgress";
 import JsonLd from "@/components/JsonLd";
+import MotionProvider from "@/components/MotionProvider";
 import { personJsonLd } from "@/lib/seo";
 import { site } from "@/lib/site";
 import Script from "next/script";
@@ -70,10 +71,18 @@ export default function RootLayout({
           gtag('js', new Date());
           gtag('config', 'G-3XVC5T3GZE');
         `}</Script>
-        <ScrollProgress />
-        <CursorFollower />
-        <Navbar />
-        <div className="pt-16">{children}</div>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[200] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-zinc-100 focus:text-zinc-950 focus:text-sm focus:font-semibold"
+        >
+          Skip to content
+        </a>
+        <MotionProvider>
+          <ScrollProgress />
+          <CursorFollower />
+          <Navbar />
+          <main id="main-content" className="pt-16">{children}</main>
+        </MotionProvider>
       </body>
     </html>
   );

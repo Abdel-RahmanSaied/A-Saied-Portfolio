@@ -51,12 +51,12 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
 
           {/* Logo */}
-          <Link href="/" aria-label="Home" className="flex items-center gap-2.5 group">
-            <div className="w-7 h-7 bg-zinc-100 rounded-md flex items-center justify-center group-hover:bg-white transition-colors duration-200">
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div aria-hidden="true" className="w-7 h-7 bg-zinc-100 rounded-md flex items-center justify-center group-hover:bg-white transition-colors duration-200">
               <span className="text-zinc-950 font-black text-xs leading-none">AS</span>
             </div>
             <span className="font-semibold text-zinc-200 group-hover:text-white transition-colors text-sm tracking-tight">
-              asaied<span className="text-zinc-500">.dev</span>
+              asaied<span className="text-zinc-400">.dev</span>
             </span>
           </Link>
 
@@ -68,8 +68,9 @@ export default function Navbar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`relative px-4 py-2 rounded-lg text-sm transition-colors duration-200 ${
-                    active ? "text-white font-medium" : "text-zinc-500 hover:text-zinc-200 font-normal"
+                  aria-current={active ? "page" : undefined}
+                  className={`relative px-3 lg:px-4 py-2 rounded-lg text-sm transition-colors duration-200 ${
+                    active ? "text-white font-medium" : "text-fg-muted hover:text-zinc-200 font-normal"
                   }`}
                 >
                   {active && (
@@ -89,8 +90,9 @@ export default function Navbar() {
           <button
             onClick={() => setIsOpen(!isOpen)}
             aria-expanded={isOpen}
+            aria-controls="mobile-menu"
             aria-label={isOpen ? "Close menu" : "Open menu"}
-            className="md:hidden p-2 rounded-lg text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800/60 transition-all"
+            className="md:hidden p-2 rounded-lg text-fg-muted hover:text-zinc-200 hover:bg-zinc-800/60 transition-all"
           >
             {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -101,6 +103,7 @@ export default function Navbar() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id="mobile-menu"
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
@@ -117,7 +120,7 @@ export default function Navbar() {
                     className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                       active
                         ? "bg-zinc-800 text-white"
-                        : "text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800/50"
+                        : "text-fg-muted hover:text-zinc-200 hover:bg-zinc-800/50"
                     }`}
                   >
                     {item.name}

@@ -1,9 +1,14 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
+// Only for mouse users who haven't asked for reduced motion; on touch
+// screens the follower would sit at the last tap point and add no value.
+const QUERY = "(pointer: fine) and (prefers-reduced-motion: no-preference)";
+
 export default function CursorFollower() {
+  const [enabled, setEnabled] = useState(false);
   const mx = useMotionValue(-200);
   const my = useMotionValue(-200);
 
@@ -16,13 +21,24 @@ export default function CursorFollower() {
   const ringY = useSpring(my, { stiffness: 110, damping: 16 });
 
   useEffect(() => {
+    const mq = window.matchMedia(QUERY);
+    const update = () => setEnabled(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    if (!enabled) return;
     const fn = (e: MouseEvent) => { mx.set(e.clientX); my.set(e.clientY); };
     window.addEventListener("mousemove", fn, { passive: true });
     return () => window.removeEventListener("mousemove", fn);
-  }, [mx, my]);
+  }, [enabled, mx, my]);
+
+  if (!enabled) return null;
 
   return (
-    <>
+    <div aria-hidden="true">
       {/* Inner dot */}
       <motion.div
         className="fixed top-0 left-0 w-[5px] h-[5px] rounded-full bg-white pointer-events-none z-[9999]"
@@ -33,6 +49,6 @@ export default function CursorFollower() {
         className="fixed top-0 left-0 w-7 h-7 rounded-full border border-white/20 pointer-events-none z-[9998]"
         style={{ x: ringX, y: ringY, translateX: "-50%", translateY: "-50%" }}
       />
-    </>
+    </div>
   );
 }

@@ -30,7 +30,7 @@ function WordReveal({ text, className }: { text: string; className?: string }) {
 function SectionLabel({ number, label }: { number: string; label: string }) {
   return (
     <motion.p
-      className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-4 flex items-center gap-2"
+      className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-4 flex items-center gap-2"
       initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
       transition={{ duration: 0.4 }}
     >
@@ -50,10 +50,10 @@ function DecisionCard({ number, title, body, delay = 0 }: { number: string; titl
     >
       <GlowCard className="p-6 rounded-2xl border border-zinc-800 bg-zinc-900/40 hover:border-zinc-700 transition-all duration-300">
         <div className="flex items-start gap-4">
-          <span className="text-xs font-black text-zinc-700 shrink-0 mt-0.5 font-mono">{number}</span>
+          <span className="text-xs font-black text-fg-faint shrink-0 mt-0.5 font-mono">{number}</span>
           <div>
             <h4 className="font-semibold text-zinc-200 text-sm mb-2">{title}</h4>
-            <p className="text-xs text-zinc-500 leading-relaxed">{body}</p>
+            <p className="text-xs text-fg-muted leading-relaxed">{body}</p>
           </div>
         </div>
       </GlowCard>
@@ -86,11 +86,11 @@ function PipelineDiagram() {
             <div className="p-2 rounded-lg bg-zinc-800 text-zinc-400 shrink-0">{node.icon}</div>
             <div>
               <p className="font-semibold text-zinc-200 text-sm">{node.label}</p>
-              <p className="text-xs text-zinc-600 mt-0.5">{node.sub}</p>
+              <p className="text-xs text-fg-faint mt-0.5">{node.sub}</p>
             </div>
             {/* ML branch marker on Celery node */}
             {i === 1 && (
-              <div className="ml-auto flex items-center gap-2 text-xs text-zinc-700">
+              <div className="ml-auto flex items-center gap-2 text-xs text-fg-faint">
                 <span className="border border-zinc-800 rounded px-2 py-0.5 font-mono">+ ML Engine</span>
               </div>
             )}
@@ -115,8 +115,8 @@ function PipelineDiagram() {
         viewport={{ once: true }}
         transition={{ delay: 0.5, duration: 0.45 }}
       >
-        <p className="text-xs font-semibold text-zinc-600 uppercase tracking-widest mb-1">ML Engine (async)</p>
-        <p className="text-xs text-zinc-600">
+        <p className="text-xs font-semibold text-fg-faint uppercase tracking-widest mb-1">ML Engine (async)</p>
+        <p className="text-xs text-fg-faint">
           Trend prediction · Anomaly detection · Runs as Celery tasks — never in the request cycle
         </p>
       </motion.div>
@@ -138,14 +138,14 @@ export default function TwiscopeCaseStudy() {
   ];
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+    <div className="min-h-screen bg-zinc-950 text-zinc-100">
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#ffffff04_1px,transparent_1px),linear-gradient(to_bottom,#ffffff04_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 py-24 space-y-28">
 
         {/* ── Back ────────────────────────────────────────────── */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}>
-          <Link href="/case-studies" className="inline-flex items-center gap-2 text-xs text-zinc-600 hover:text-zinc-300 transition-colors group">
+          <Link href="/case-studies" className="inline-flex items-center gap-2 text-xs text-fg-faint hover:text-zinc-300 transition-colors group">
             <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
             All case studies
           </Link>
@@ -159,10 +159,10 @@ export default function TwiscopeCaseStudy() {
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="flex items-center gap-3 mb-6">
-              <span className="text-xs font-semibold uppercase tracking-widest text-zinc-600 border border-zinc-800 px-3 py-1 rounded-full">
+              <span className="text-xs font-semibold uppercase tracking-widest text-fg-faint border border-zinc-800 px-3 py-1 rounded-full">
                 OSINT Analytics Platform
               </span>
-              <span className="text-xs text-zinc-700">· 8 min read</span>
+              <span className="text-xs text-fg-faint">· 8 min read</span>
             </div>
 
             <h1 className="text-5xl sm:text-6xl font-black text-white mb-6 leading-tight">
@@ -182,7 +182,7 @@ export default function TwiscopeCaseStudy() {
               >
                 <ExternalLink className="w-3.5 h-3.5" /> Live Platform
               </a>
-              <span className="text-xs text-zinc-700">Role: Senior Engineer & Team Lead · 2024 – Present · ASAS IT</span>
+              <span className="text-xs text-fg-faint">Role: Senior Engineer & Team Lead · 2024 – Present · ASAS IT</span>
             </div>
           </motion.div>
         </section>
@@ -194,7 +194,7 @@ export default function TwiscopeCaseStudy() {
             <WordReveal text="Intelligence teams drown in signal noise." />
           </h2>
 
-          <div className="space-y-4 text-zinc-500 text-sm leading-relaxed">
+          <div className="space-y-4 text-fg-muted text-sm leading-relaxed">
             <motion.p initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
               Modern intelligence operations require tracking thousands of signals across social media simultaneously.
               The challenge isn&apos;t ingestion — platforms provide APIs. The challenge is making the firehose actionable.
@@ -216,7 +216,7 @@ export default function TwiscopeCaseStudy() {
             initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             transition={{ delay: 0.25, duration: 0.5 }}
           >
-            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-3">Core requirements</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-3">Core requirements</p>
             <ul className="space-y-2">
               {[
                 "Process 5M+ social data events per day without queue backlog",
@@ -226,11 +226,11 @@ export default function TwiscopeCaseStudy() {
               ].map((req, i) => (
                 <motion.li
                   key={i}
-                  className="flex items-start gap-2 text-xs text-zinc-500"
+                  className="flex items-start gap-2 text-xs text-fg-muted"
                   initial={{ opacity: 0, x: -6 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
                   transition={{ delay: 0.05 * i, duration: 0.35 }}
                 >
-                  <ArrowRight className="w-3 h-3 text-zinc-700 mt-0.5 shrink-0" /> {req}
+                  <ArrowRight className="w-3 h-3 text-fg-faint mt-0.5 shrink-0" /> {req}
                 </motion.li>
               ))}
             </ul>
@@ -244,7 +244,7 @@ export default function TwiscopeCaseStudy() {
             <WordReveal text="Five layers. One clear data flow." />
           </h2>
           <motion.p
-            className="text-zinc-500 text-sm leading-relaxed mb-10 max-w-xl"
+            className="text-fg-muted text-sm leading-relaxed mb-10 max-w-xl"
             initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
           >
             The system was redesigned around a clear separation of concerns: ingest, queue, process, serve, visualize.
@@ -305,10 +305,10 @@ export default function TwiscopeCaseStudy() {
                 transition={{ delay: i * 0.08, duration: 0.48 }}
               >
                 <GlowCard className="p-6 rounded-2xl border border-zinc-800 bg-zinc-900/40 hover:border-zinc-700 transition-all duration-300">
-                  <div className="text-zinc-600 mb-3">{o.icon}</div>
+                  <div className="text-fg-faint mb-3">{o.icon}</div>
                   <div className="text-3xl font-black text-white mb-1">{o.value}</div>
                   <p className="text-sm font-medium text-zinc-300 mb-0.5">{o.label}</p>
-                  <p className="text-xs text-zinc-600">{o.sub}</p>
+                  <p className="text-xs text-fg-faint">{o.sub}</p>
                 </GlowCard>
               </motion.div>
             ))}
@@ -337,9 +337,9 @@ export default function TwiscopeCaseStudy() {
                 transition={{ delay: i * 0.08, duration: 0.45 }}
                 whileHover={{ y: -2 }}
               >
-                <div className="text-zinc-600 mb-3">{item.icon}</div>
+                <div className="text-fg-faint mb-3">{item.icon}</div>
                 <h4 className="font-semibold text-zinc-200 text-sm mb-2">{item.title}</h4>
-                <p className="text-xs text-zinc-500 leading-relaxed">{item.body}</p>
+                <p className="text-xs text-fg-muted leading-relaxed">{item.body}</p>
               </motion.div>
             ))}
           </div>
@@ -351,9 +351,9 @@ export default function TwiscopeCaseStudy() {
             className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-8 md:p-10 text-center"
             initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
           >
-            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-3">Next</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-3">Next</p>
             <h3 className="text-xl font-bold text-white mb-2">Read the Fendix case study</h3>
-            <p className="text-zinc-500 text-sm mb-6">How one insight — both scanners must agree — cut false positives by ~70%.</p>
+            <p className="text-fg-muted text-sm mb-6">How one insight — both scanners must agree — cut false positives by ~70%.</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link href="/case-studies/fendix">
                 <motion.button
@@ -365,7 +365,7 @@ export default function TwiscopeCaseStudy() {
               </Link>
               <Link href="/case-studies">
                 <motion.button
-                  className="flex items-center gap-2 px-6 py-2.5 border border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:text-zinc-200 text-sm font-semibold rounded-xl transition-all"
+                  className="flex items-center gap-2 px-6 py-2.5 border border-zinc-800 hover:border-zinc-600 text-fg-muted hover:text-zinc-200 text-sm font-semibold rounded-xl transition-all"
                   whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
                 >
                   All case studies
@@ -376,6 +376,6 @@ export default function TwiscopeCaseStudy() {
         </section>
 
       </div>
-    </main>
+    </div>
   );
 }
