@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { absoluteUrl, site } from "@/lib/site";
+import { career } from "@/lib/career";
 import type { Post } from "@/lib/posts";
-import type { Project } from "@/lib/projects";
+import { projects, type Project } from "@/lib/projects";
+import type { CaseStudy } from "@/lib/case-study-types";
 
 /**
  * Standard per-page metadata: canonical URL plus OpenGraph/Twitter cards that
  * match the page (fields set here fully replace the root layout's, so every
- * page needs its own to avoid mismatched share previews).
+ * page needs its own). Share images come from each route's opengraph-image.
  */
 export function pageMetadata({
   title,
@@ -45,8 +47,28 @@ export function pageMetadata({
 
 const PERSON_ID = `${site.url}/#person`;
 const WEBSITE_ID = `${site.url}/#website`;
+const projectId = (p: Project) => `${site.url}/portfolio#${p.slug}`;
+
+function projectEntity(p: Project) {
+  return {
+    "@type": "SoftwareApplication",
+    "@id": projectId(p),
+    name: p.title,
+    alternateName: p.tagline,
+    description: p.description,
+    applicationCategory: p.category === "Security" ? "SecurityApplication" : "BusinessApplication",
+    keywords: p.techStack.join(", "),
+    ...(p.live ? { url: p.live } : p.caseStudy ? { url: absoluteUrl(p.caseStudy) } : {}),
+    ...(p.github ? { sameAs: [p.github] } : {}),
+    ...(p.caseStudy ? { subjectOf: { "@type": "WebPage", "@id": absoluteUrl(p.caseStudy) } } : {}),
+    // Only independent work is attributed as created by the person; employer
+    // and client projects are described as contributions.
+    ...(p.engagement === "Independent" ? { creator: { "@id": PERSON_ID } } : { contributor: { "@id": PERSON_ID } }),
+  };
+}
 
 export function personJsonLd() {
+  const current = career.experience[0];
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -55,15 +77,17 @@ export function personJsonLd() {
         "@id": PERSON_ID,
         name: site.name,
         alternateName: [...site.alternateNames],
-        description: `${site.nameFull} (${site.nameArabic}) is a ${site.jobTitle} based in ${site.location.city}, ${site.location.country}, known for building Twiscope, Fendix, and MURI. Career highlights: led 13 engineers as Technical Lead; engineered Twiscope processing 5M+ data points daily; improved production throughput 3x; reduced system latency 25% via Redis caching and async optimization; cut deployment cycle time 40% via CI/CD restructuring; maintains 99.9% uptime.`,
+        description: `${site.nameFull} (${site.nameArabic}) is a ${site.jobTitle} based in ${site.location.city}, ${site.location.country}. ${career.summary}`,
         url: site.url,
         jobTitle: site.jobTitle,
+        worksFor: { "@type": "Organization", name: current.company },
         email: `mailto:${site.email}`,
         address: {
           "@type": "PostalAddress",
           addressLocality: site.location.city,
           addressCountry: site.location.countryCode,
         },
+        alumniOf: { "@type": "CollegeOrUniversity", name: career.education.school },
         sameAs: [site.social.github, site.social.linkedin, site.social.x],
         knowsAbout: [...site.knowsAbout],
         mainEntityOfPage: absoluteUrl("/about"),
@@ -77,46 +101,7 @@ export function personJsonLd() {
         publisher: { "@id": PERSON_ID },
         inLanguage: "en",
       },
-      // Flagship projects as first-class entities credited to the Person, so
-      // knowledge graphs associate "Abdel-Rahman Saied" with these products.
-      {
-        "@type": "SoftwareApplication",
-        "@id": `${site.url}/case-studies/twiscope#project`,
-        name: "Twiscope",
-        url: "https://twiscope.net/",
-        applicationCategory: "BusinessApplication",
-        description:
-          "Arabic OSINT social intelligence platform processing 5M+ data points daily across Twitter/X, Instagram, TikTok, Google, and news sources, with ML-driven trend detection and real-time alerting.",
-        creator: { "@id": PERSON_ID },
-        author: { "@id": PERSON_ID },
-        subjectOf: { "@type": "WebPage", "@id": absoluteUrl("/case-studies/twiscope") },
-      },
-      {
-        "@type": "SoftwareApplication",
-        "@id": `${site.url}/case-studies/fendix#project`,
-        name: "Fendix",
-        url: "https://fendix.dev",
-        sameAs: ["https://github.com/Abdel-RahmanSaied/Fendix"],
-        applicationCategory: "SecurityApplication",
-        operatingSystem: "Linux, macOS, Windows",
-        description:
-          "Open-source Go security scanner that correlates DAST and SAST findings — a vulnerability only fails the build when both engines independently agree, cutting false positives by ~70%.",
-        creator: { "@id": PERSON_ID },
-        author: { "@id": PERSON_ID },
-        subjectOf: { "@type": "WebPage", "@id": absoluteUrl("/case-studies/fendix") },
-      },
-      {
-        "@type": "SoftwareApplication",
-        "@id": `${site.url}/case-studies/muri#project`,
-        name: "MURI",
-        url: "https://muri.sa",
-        applicationCategory: "TravelApplication",
-        description:
-          "Student transportation platform with dedicated client, driver, and admin apps — modular Django API, PostGIS geospatial routing, and real-time WebSocket trip tracking.",
-        creator: { "@id": PERSON_ID },
-        author: { "@id": PERSON_ID },
-        subjectOf: { "@type": "WebPage", "@id": absoluteUrl("/case-studies/muri") },
-      },
+      ...projects.filter((p) => p.featured).map(projectEntity),
     ],
   };
 }
@@ -153,7 +138,7 @@ export function blogPostingJsonLd(post: Post) {
     headline: post.title,
     description: post.summary,
     datePublished: post.date,
-    dateModified: post.date,
+    dateModified: post.updated ?? post.date,
     url,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
     keywords: post.tags.join(", "),
@@ -164,31 +149,38 @@ export function blogPostingJsonLd(post: Post) {
   };
 }
 
-export function portfolioJsonLd(projects: Project[]) {
+export function caseStudyJsonLd(study: CaseStudy) {
+  const url = absoluteUrl(`/case-studies/${study.slug}`);
+  const project = projects.find((p) => p.caseStudy === `/case-studies/${study.slug}`);
+  return {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "@id": `${url}#article`,
+    headline: study.headline,
+    description: study.summary,
+    url,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    keywords: study.tags.join(", "),
+    inLanguage: "en",
+    author: { "@id": PERSON_ID },
+    publisher: { "@id": PERSON_ID },
+    isPartOf: { "@id": WEBSITE_ID },
+    ...(project ? { about: projectEntity(project) } : {}),
+  };
+}
+
+export function portfolioJsonLd(list: Project[]) {
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
     "@id": `${site.url}/portfolio#projects`,
     name: `Projects by ${site.name}`,
-    description: `Complete list of production systems, open-source tools, and shipped products built by ${site.name}.`,
-    numberOfItems: projects.length,
-    itemListElement: projects.map((p, i) => ({
+    description: `Platforms, products, and integrations that ${site.name} has led, built, or founded.`,
+    numberOfItems: list.length,
+    itemListElement: list.map((p, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      item: {
-        "@type": "SoftwareApplication",
-        name: p.title,
-        alternateName: p.tagline,
-        description: p.description,
-        url: p.live ?? (p.caseStudy ? absoluteUrl(p.caseStudy) : absoluteUrl("/portfolio")),
-        ...(p.github ? { sameAs: [p.github] } : {}),
-        keywords: p.techStack.join(", "),
-        creator: { "@id": PERSON_ID },
-        author: { "@id": PERSON_ID },
-        ...(p.caseStudy
-          ? { subjectOf: { "@type": "WebPage", "@id": absoluteUrl(p.caseStudy) } }
-          : {}),
-      },
+      item: projectEntity(p),
     })),
   };
 }
@@ -213,7 +205,7 @@ export function blogIndexJsonLd(posts: Post[]) {
     url: absoluteUrl("/blog"),
     name: `${site.name} — Engineering Blog`,
     description:
-      "Engineering articles on distributed backend systems, observability, scaling, and technical leadership.",
+      "Engineering articles on backend systems, observability, scaling, geospatial data, and security tooling.",
     author: { "@id": PERSON_ID },
     publisher: { "@id": PERSON_ID },
     inLanguage: "en",

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronLeft } from "lucide-react";
 import Link from "next/link";
+import { site } from "@/lib/site";
 import type { Post, Block } from "@/lib/posts";
 
 function formatDate(iso: string) {
@@ -66,7 +67,7 @@ function renderBlock(block: Block, i: number) {
           initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
           {block.items.map((item, j) => (
             <li key={j} className="flex items-start gap-2.5 text-zinc-400 text-sm leading-relaxed">
-              <ArrowRight className="w-3 h-3 text-zinc-700 mt-1 shrink-0" />
+              <ArrowRight className="w-3 h-3 text-fg-faint mt-1 shrink-0" />
               <span>{linkify(item)}</span>
             </li>
           ))}
@@ -85,7 +86,7 @@ function renderBlock(block: Block, i: number) {
         <motion.div key={i} className="my-2"
           initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
           <div className="flex items-center justify-between px-4 py-2 rounded-t-xl bg-zinc-800 border border-zinc-700/60 border-b-0">
-            <span className="text-[10px] font-semibold uppercase tracking-widest text-zinc-500">{block.lang}</span>
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-fg-muted">{block.lang}</span>
           </div>
           <pre className="p-5 rounded-b-xl bg-zinc-900 border border-zinc-700/60 border-t-0 overflow-x-auto">
             <code className="text-xs text-zinc-300 font-mono leading-relaxed">{block.code}</code>
@@ -101,14 +102,14 @@ function renderBlock(block: Block, i: number) {
 
 export default function PostClient({ post }: { post: Post }) {
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+    <div className="min-h-screen bg-zinc-950 text-zinc-100">
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#ffffff04_1px,transparent_1px),linear-gradient(to_bottom,#ffffff04_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none" />
 
       <div className="relative z-10 max-w-3xl mx-auto px-6 py-24">
 
         {/* Back */}
         <motion.div className="mb-12" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}>
-          <Link href="/blog" className="inline-flex items-center gap-2 text-xs text-zinc-600 hover:text-zinc-300 transition-colors group">
+          <Link href="/blog" className="inline-flex items-center gap-2 text-xs text-fg-faint hover:text-zinc-300 transition-colors group">
             <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
             All articles
           </Link>
@@ -123,7 +124,7 @@ export default function PostClient({ post }: { post: Post }) {
         >
           <div className="flex flex-wrap items-center gap-3 mb-5">
             {post.tags.map((tag) => (
-              <span key={tag} className="text-[10px] font-semibold uppercase tracking-widest text-zinc-600 border border-zinc-800 px-2.5 py-1 rounded-full">
+              <span key={tag} className="text-[10px] font-semibold uppercase tracking-widest text-fg-faint border border-zinc-800 px-2.5 py-1 rounded-full">
                 {tag}
               </span>
             ))}
@@ -131,11 +132,17 @@ export default function PostClient({ post }: { post: Post }) {
 
           <h1 className="text-3xl sm:text-4xl font-black text-white mb-5 leading-tight">{post.title}</h1>
 
-          <div className="flex items-center gap-4 text-xs text-zinc-600">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-fg-faint">
             <span>{formatDate(post.date)}</span>
-            <span className="text-zinc-800">·</span>
+            {post.updated && (
+              <>
+                <span aria-hidden="true" className="text-fg-faint">·</span>
+                <span>Updated {formatDate(post.updated)}</span>
+              </>
+            )}
+            <span aria-hidden="true" className="text-fg-faint">·</span>
             <span>{post.readTime}</span>
-            <span className="text-zinc-800">·</span>
+            <span aria-hidden="true" className="text-fg-faint">·</span>
             <span>Abdel-Rahman Saied</span>
           </div>
 
@@ -156,28 +163,28 @@ export default function PostClient({ post }: { post: Post }) {
         >
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-1">Written by</p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-1">Written by</p>
               <p className="text-sm font-semibold text-zinc-200">Abdel-Rahman Saied</p>
-              <p className="text-xs text-zinc-600">Senior Software Engineer · Team Lead</p>
+              <p className="text-xs text-fg-faint">{site.jobTitle}</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-2.5">
-              <Link href="/blog">
-                <motion.button className="flex items-center gap-2 px-5 py-2.5 border border-zinc-800 hover:border-zinc-600 text-zinc-500 hover:text-zinc-200 text-xs font-semibold rounded-xl transition-all"
-                  whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                  More articles
-                </motion.button>
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-2 px-5 py-2.5 border border-zinc-800 hover:border-zinc-600 text-fg-muted hover:text-zinc-200 text-xs font-semibold rounded-xl transition-all hover:-translate-y-px"
+              >
+                More articles
               </Link>
-              <Link href="/lets-talk">
-                <motion.button className="flex items-center gap-2 px-5 py-2.5 bg-zinc-100 hover:bg-white text-zinc-900 text-xs font-semibold rounded-xl transition-colors"
-                  whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                  Get in Touch <ArrowRight className="w-3.5 h-3.5" />
-                </motion.button>
+              <Link
+                href="/lets-talk"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-zinc-100 hover:bg-white text-zinc-900 text-xs font-semibold rounded-xl transition-all hover:-translate-y-px"
+              >
+                Get in touch <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
               </Link>
             </div>
           </div>
         </motion.div>
 
       </div>
-    </main>
+    </div>
   );
 }

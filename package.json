@@ -18,7 +18,9 @@
     "dev": "NODE_OPTIONS='--localstorage-file=/tmp/nextjs-ls.json' next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "resume:pdf": "node scripts/export-resume-pdf.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.17.0",

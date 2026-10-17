@@ -1,8 +1,20 @@
 @import "tailwindcss";
 
+/* Secondary text colours. Tailwind's zinc-500/600/700 fall below WCAG AA
+   (4.5:1) on this site's near-black backgrounds, so body copy uses these:
+   fg-muted passes on every surface including zinc-800 chips (>= 4.59:1),
+   fg-faint passes on the page and card backgrounds (>= 4.98:1). */
+@theme {
+  --color-fg-muted: #8e8e98;
+  --color-fg-faint: #83838c;
+}
+
 * {
   box-sizing: border-box;
 }
+
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
 
 html {
   scroll-behavior: smooth;
@@ -25,3 +37,20 @@ body {
 ::selection { background: rgba(255,255,255,0.15); color: #fff; }
 
 :focus-visible { outline: 2px solid #fff; outline-offset: 3px; border-radius: 4px; }
+
+/* Printing (and the résumé PDF export) — white A4 pages without site chrome. */
+@media print {
+  @page { size: A4; margin: 11mm 13mm; }
+  html, body { background: #fff !important; }
+  body { color: #000; font-family: Helvetica, Arial, sans-serif; }
+  #main-content { padding-top: 0 !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

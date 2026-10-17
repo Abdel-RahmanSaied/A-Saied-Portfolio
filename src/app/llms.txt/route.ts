@@ -1,83 +1,59 @@
+import { career } from "@/lib/career";
+import { caseStudies } from "@/lib/case-studies";
 import { posts } from "@/lib/posts";
 import { projects } from "@/lib/projects";
 import { absoluteUrl, site } from "@/lib/site";
 
 export const dynamic = "force-static";
 
-const CASE_STUDIES = [
-  {
-    slug: "twiscope",
-    title: "Twiscope",
-    summary:
-      "Real-time Arabic OSINT social intelligence platform processing 5M+ data points daily (Django, Celery, Redis, ML trend detection, WebSocket alerting).",
-  },
-  {
-    slug: "fendix",
-    title: "Fendix",
-    summary:
-      "Open-source Go security scanner that correlates DAST and SAST findings — both engines must agree before a finding fails the build, cutting false positives ~70%.",
-  },
-  {
-    slug: "muri",
-    title: "MURI",
-    summary:
-      "Student transportation platform with client, driver, and admin apps — modular Django API, PostGIS geospatial routing, WebSocket live tracking. Live at muri.sa.",
-  },
-  {
-    slug: "hayyak",
-    title: "Hayyak",
-    summary:
-      "Multi-tenant hotel management system integrating Opera PMS (OHIP) and dual payment gateways with PCI-compliant flows and real-time updates.",
-  },
-  {
-    slug: "maxpeak",
-    title: "Maxpeak",
-    summary:
-      "Talent marketplace with a 3-stage AI vetting pipeline connecting elite Egyptian engineers with Saudi companies.",
-  },
-];
-
+// Everything below is generated from the same records that render the
+// site (career.ts, projects.ts, case-studies.ts), so AI crawlers read
+// exactly what human visitors read.
 export function GET() {
   const sortedPosts = [...posts].sort((a, b) => b.date.localeCompare(a.date));
 
+  const experience = career.experience
+    .map((r) => {
+      const head = `- ${r.title}, ${r.company}${r.engagement === "Freelance" ? " (freelance)" : ""} — ${r.start} to ${r.end}${r.location ? `, ${r.location}` : ""}. ${r.summary}`;
+      return [head, ...r.highlights.map((h) => `  - ${h}`)].join("\n");
+    })
+    .join("\n");
+
   const body = `# ${site.name} — ${site.jobTitle}
 
-> ${site.description} Based in ${site.location.city}, ${site.location.country}. This site is the personal portfolio, blog, and case-study archive of ${site.name}.
+> ${site.description} This site is the personal portfolio, résumé, case-study archive and blog of ${site.name}.
 
-بالعربية: ${site.nameArabic} — قائد تقني ومهندس أنظمة خلفية (Backend) مقيم في الرياض، المملكة العربية السعودية. من أبرز مشاريعه: منصة تويسكوب (Twiscope) لتحليل وسائل التواصل الاجتماعي، وأداة فيندكس (Fendix) مفتوحة المصدر لفحص أمان التطبيقات، ومنصة موري (MURI) للنقل المدرسي.
+بالعربية: ${site.nameArabic} — قائد فريق برمجيات ومهندس أنظمة خلفية (Backend) أول في الرياض، المملكة العربية السعودية.
 
 Key facts:
 - Full name: ${site.nameFull} (Arabic: ${site.nameArabic})
 - Also written as: ${site.alternateNames.join(", ")}
-- Role: ${site.jobTitle}
+- Title: ${site.jobTitle}
 - Location: ${site.location.city}, ${site.location.country}
-- Flagship projects: Twiscope (twiscope.net), Fendix (fendix.dev), MURI (muri.sa)
-- Core stack: Python (Django, FastAPI), Go, PostgreSQL/PostGIS, Redis, Celery, Elasticsearch
-- Focus areas: distributed backend systems, AI infrastructure, application security, observability, engineering leadership
+- Core stack: Python, Django / DRF, FastAPI, Celery, PostgreSQL / PostGIS, Redis, Elasticsearch, AWS, Terraform
+- Availability: ${career.availability}
 - Contact: ${site.email}
 - GitHub: ${site.social.github}
 - LinkedIn: ${site.social.linkedin}
 
-## Key Achievements
+Note on figures: this site deliberately publishes no throughput, latency, uptime or cost percentages. Numbers that appear are scope facts (counts, versions, dates) that can be checked.
 
-${site.proofPoints.map((p) => `- **${p.metric}**: ${p.claim}`).join("\n")}
+## Summary
 
-## Pages
+${career.summary}
 
-- [About](${absoluteUrl("/about")}): background, experience, and skills
-- [Resume](${absoluteUrl("/resume")}): full professional history
-- [Engineering Philosophy](${absoluteUrl("/engineering-philosophy")}): principles for reliable systems and technical leadership
-- [Portfolio](${absoluteUrl("/portfolio")}): selected projects
-- [Contact](${absoluteUrl("/lets-talk")}): availability and contact details
+## Experience
 
-## All Projects
+${experience}
 
-Complete list of production systems, open-source tools, and shipped products built by ${site.name}:
+Education: ${career.education.degree}, ${career.education.school} (${career.education.location}, ${career.education.year}).
+
+## Projects
 
 ${projects
   .map((p) => {
     const links = [
-      p.live && `Live: ${p.live}`,
+      p.live && `Website: ${p.live}`,
       p.github && `Source: ${p.github}`,
       p.caseStudy && `Case study: ${absoluteUrl(p.caseStudy)}`,
     ]
@@ -85,15 +61,25 @@ ${projects
       .join(" · ");
     return `### ${p.title} — ${p.tagline}
 
+For: ${p.engagement}. Role: ${p.role}.
+
 ${p.description}
 
-Tech stack: ${p.techStack.join(", ")}.${links ? `\n${links}` : ""}`;
+Tech: ${p.techStack.join(", ")}.${links ? `\n${links}` : ""}`;
   })
   .join("\n\n")}
 
-## Case Studies
+## Case studies
 
-${CASE_STUDIES.map((cs) => `- [${cs.title}](${absoluteUrl(`/case-studies/${cs.slug}`)}): ${cs.summary}`).join("\n")}
+${caseStudies.map((c) => `- [${c.title}](${absoluteUrl(`/case-studies/${c.slug}`)}): ${c.summary}`).join("\n")}
+
+## Pages
+
+- [About](${absoluteUrl("/about")}): background, experience, skills, FAQ
+- [Résumé](${absoluteUrl("/resume")}): one-page résumé (PDF: ${absoluteUrl(site.resumePdf)})
+- [Engineering philosophy](${absoluteUrl("/engineering-philosophy")}): principles for reliable systems and technical leadership
+- [Portfolio](${absoluteUrl("/portfolio")}): all projects
+- [Contact](${absoluteUrl("/lets-talk")}): availability and contact details
 
 ## Blog
 
@@ -101,7 +87,7 @@ ${sortedPosts.map((p) => `- [${p.title}](${absoluteUrl(`/blog/${p.slug}`)}): ${p
 
 ## Optional
 
-- [Full article text for LLMs](${absoluteUrl("/llms-full.txt")}): complete content of every blog post in one markdown file
+- [Full article text for LLMs](${absoluteUrl("/llms-full.txt")}): complete content of every blog post in one file
 `;
 
   return new Response(body, {

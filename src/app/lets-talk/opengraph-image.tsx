@@ -1,0 +1,10 @@
+import { pages } from "@/lib/pages";
+import { ogContentType, ogSize, renderOg } from "@/lib/og";
+
+export const alt = pages.letsTalk.og.title;
+export const size = ogSize;
+export const contentType = ogContentType;
+
+export default function Image() {
+  return renderOg(pages.letsTalk.og);
+}

@@ -17,7 +17,7 @@ function formatDate(iso: string) {
 
 export default function BlogPage() {
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+    <div className="min-h-screen bg-zinc-950 text-zinc-100">
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#ffffff04_1px,transparent_1px),linear-gradient(to_bottom,#ffffff04_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 py-24">
@@ -29,15 +29,15 @@ export default function BlogPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-4">Writing</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-4">Writing</p>
           <h1 className="text-4xl sm:text-5xl font-black text-white mb-6 leading-tight">
             Thinking out loud
             <br />
-            <span className="text-zinc-500">about systems.</span>
+            <span className="text-fg-muted">about systems.</span>
           </h1>
-          <p className="text-zinc-500 leading-relaxed text-sm max-w-lg">
-            Architecture decisions, hard-won lessons, and honest post-mortems from real production systems.
-            Not tutorials — actual problems and how I solved them.
+          <p className="text-fg-muted leading-relaxed text-sm max-w-lg">
+            Architecture decisions and lessons from production systems I work on, plus a few practical
+            guides. Posts that have been corrected say so at the top.
           </p>
         </motion.div>
 
@@ -61,9 +61,9 @@ export default function BlogPage() {
                       <div className="flex-1 min-w-0">
                         {/* Meta */}
                         <div className="flex flex-wrap items-center gap-3 mb-3">
-                          <span className="text-xs text-zinc-600">{formatDate(post.date)}</span>
-                          <span className="text-zinc-800">·</span>
-                          <span className="text-xs text-zinc-600">{post.readTime}</span>
+                          <span className="text-xs text-fg-faint">{formatDate(post.date)}</span>
+                          <span aria-hidden="true" className="text-fg-faint">·</span>
+                          <span className="text-xs text-fg-faint">{post.readTime}</span>
                         </div>
 
                         {/* Title */}
@@ -72,12 +72,12 @@ export default function BlogPage() {
                         </h2>
 
                         {/* Summary */}
-                        <p className="text-zinc-500 text-sm leading-relaxed mb-4">{post.summary}</p>
+                        <p className="text-fg-muted text-sm leading-relaxed mb-4">{post.summary}</p>
 
                         {/* Tags */}
                         <div className="flex flex-wrap gap-2">
                           {post.tags.map((tag) => (
-                            <span key={tag} className="text-[10px] font-semibold uppercase tracking-widest text-zinc-700 border border-zinc-800 px-2.5 py-1 rounded-full">
+                            <span key={tag} className="text-[10px] font-semibold uppercase tracking-widest text-fg-faint border border-zinc-800 px-2.5 py-1 rounded-full">
                               {tag}
                             </span>
                           ))}
@@ -86,7 +86,7 @@ export default function BlogPage() {
 
                       {/* Arrow */}
                       <motion.div
-                        className="hidden sm:flex items-center gap-1.5 text-zinc-700 group-hover:text-zinc-300 transition-colors shrink-0 pt-1"
+                        className="hidden sm:flex items-center gap-1.5 text-fg-faint group-hover:text-zinc-300 transition-colors shrink-0 pt-1"
                         whileHover={{ x: 3 }}
                         transition={{ duration: 0.2 }}
                       >
@@ -106,10 +106,10 @@ export default function BlogPage() {
           className="mt-20 text-center"
           initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}
         >
-          <p className="text-zinc-700 text-sm">More articles on the way.</p>
+          <p className="text-fg-faint text-sm">More articles on the way.</p>
         </motion.div>
 
       </div>
-    </main>
+    </div>
   );
 }

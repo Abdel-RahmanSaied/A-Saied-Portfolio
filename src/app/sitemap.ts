@@ -1,8 +1,7 @@
 import type { MetadataRoute } from "next";
 import { posts } from "@/lib/posts";
+import { caseStudies } from "@/lib/case-studies";
 import { absoluteUrl } from "@/lib/site";
-
-const CASE_STUDIES = ["twiscope", "fendix", "muri", "hayyak", "maxpeak"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const latestPostDate = posts
@@ -26,8 +25,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: absoluteUrl("/lets-talk"), changeFrequency: "yearly", priority: 0.6 },
   ];
 
-  const caseStudyRoutes: MetadataRoute.Sitemap = CASE_STUDIES.map((slug) => ({
-    url: absoluteUrl(`/case-studies/${slug}`),
+  const caseStudyRoutes: MetadataRoute.Sitemap = caseStudies.map((c) => ({
+    url: absoluteUrl(`/case-studies/${c.slug}`),
     changeFrequency: "yearly",
     priority: 0.8,
   }));

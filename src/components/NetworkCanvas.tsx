@@ -21,8 +21,13 @@ export default function NetworkCanvas() {
       if (!mounted) return;
 
       // ── Renderer ────────────────────────────────────────────────
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const finePointer = window.matchMedia("(pointer: fine)").matches;
+
       const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      // Cap resolution on touch devices: the scene is decorative and
+      // high-DPR phones would otherwise render ~9x the pixels.
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, finePointer ? 2 : 1.5));
       renderer.setClearColor(0x000000, 0);
       renderer.setSize(mount.clientWidth, mount.clientHeight);
       mount.appendChild(renderer.domElement);
@@ -138,7 +143,7 @@ export default function NetworkCanvas() {
         mouse.x = (e.clientX / window.innerWidth  - 0.5) * 2;
         mouse.y = (e.clientY / window.innerHeight - 0.5) * 2;
       };
-      window.addEventListener("mousemove", onMouse, { passive: true });
+      if (finePointer) window.addEventListener("mousemove", onMouse, { passive: true });
 
       // ── Resize ───────────────────────────────────────────────────
       const onResize = () => {
@@ -146,13 +151,13 @@ export default function NetworkCanvas() {
         camera.aspect = mount.clientWidth / mount.clientHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(mount.clientWidth, mount.clientHeight);
+        // setSize clears the canvas; repaint when the loop isn't running.
+        if (!running) renderer.render(scene, camera);
       };
       window.addEventListener("resize", onResize);
 
       // ── Animation Loop ───────────────────────────────────────────
-      const animate = () => {
-        raf = requestAnimationFrame(animate);
-
+      const step = () => {
         // Drift nodes
         for (let i = 0; i < NODE_COUNT; i++) {
           const p = nodePositions[i];
@@ -218,11 +223,31 @@ export default function NetworkCanvas() {
 
         renderer.render(scene, camera);
       };
-      animate();
+
+      // Run the loop only while the hero is on screen and the tab is
+      // visible; with reduced motion, draw a single still frame instead.
+      let onScreen = true;
+      let running = false;
+      const frame = () => {
+        step();
+        if (running) raf = requestAnimationFrame(frame);
+      };
+      const sync = () => {
+        const shouldRun = !reducedMotion && onScreen && !document.hidden;
+        if (shouldRun && !running) { running = true; raf = requestAnimationFrame(frame); }
+        if (!shouldRun && running) { running = false; cancelAnimationFrame(raf); }
+      };
+      const io = new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; sync(); });
+      io.observe(mount);
+      document.addEventListener("visibilitychange", sync);
+      if (reducedMotion) step(); else sync();
 
       // Cleanup
       const dispose = () => {
+        running = false;
         cancelAnimationFrame(raf);
+        io.disconnect();
+        document.removeEventListener("visibilitychange", sync);
         window.removeEventListener("mousemove", onMouse);
         window.removeEventListener("resize",    onResize);
         renderer.dispose();
