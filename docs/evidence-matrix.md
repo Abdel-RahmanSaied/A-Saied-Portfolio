@@ -16,7 +16,7 @@ kept privately by the owner.
 | Tests | Covered by tests that pass in CI |
 | Production | Observable on a public production surface (site, release, store listing, CI run) |
 | Documented | Stated in docs/README only; not independently verified |
-| Owner | Unverified from code; rests on the owner's confirmation |
+| Owner | Not derivable from code; rests on the owner's statement (marked "confirmed" once the owner has explicitly confirmed it) |
 
 Note: Twiscope, Sanad AI, MURI and Check-In have large test suites, but their CI
 runs deployments and security scans only, so none of their claims is rated **Tests**.
@@ -26,10 +26,10 @@ runs deployments and security scans only, so none of their claims is rated **Tes
 | Claim | Class | Evidence / note |
 |---|---|---|
 | Title "Software Team Lead \| Senior Backend Engineer" | Owner | Owner's 2026 CV drafts |
-| 6+ years of professional experience (from Aug 2020) | Owner | Owner's CV dates |
-| Leads a cross-functional team of up to 13 (backend, frontend, mobile, AI, QA) | Owner | Not derivable from code; contributors across Twiscope/MURI/Sanad repos are consistent with a multi-disciplinary team |
+| 6+ years of professional experience (from Aug 2020) | Owner — confirmed 2026-10-17 | Owner's CV dates |
+| Leads a cross-functional team of up to 13 (backend, frontend, mobile, AI, QA) | Owner — confirmed 2026-10-17 | Not derivable from code; contributors across Twiscope/MURI/Sanad repos are consistent with a multi-disciplinary team |
 | ASAS IT: Senior Software Engineer Sep 2023 – Aug 2024; Team Lead Aug 2024 – present | Owner | 2026 CV drafts say Sep 2023; the 2024 PDF said Aug 2023 — confirm |
-| Check-In (Hayyak): freelance, Apr 2024 – present | Owner | Repo activity Apr 2024 – Jan 2026; engagement type not determinable from code — confirm both |
+| Check-In (Hayyak): freelance, Apr 2024 – present | Owner — engagement confirmed freelance 2026-10-17 | Repo activity Apr 2024 – Jan 2026; end date follows the owner's CV draft |
 | ClouDev Sep 2022 – Jul 2023; Co-Source Aug 2020 – May 2022; B.Sc. HTI 2022 | Owner | CV drafts. Prime Consulting Office omitted, following the latest draft — confirm |
 
 ## Twiscope (ASAS IT)
@@ -49,6 +49,7 @@ runs deployments and security scans only, so none of their claims is rated **Tes
 | Prometheus metrics for Django and Celery; Elastic APM | Implementation | `monitoring/`, django-prometheus, APM config |
 | Web app and mobile app built by teammates | Implementation | Contributor history of the frontend/mobile repos |
 | twiscope.net is live | Production | Fetched 2026-10-17 |
+| Twiscope's internal product names may be published | Owner — confirmed 2026-10-17 | Deep-In, Sadeed / Decision Hub, Influencer Impact |
 
 ## Sanad AI (ASAS IT)
 
@@ -89,7 +90,7 @@ runs deployments and security scans only, so none of their claims is rated **Tes
 | Student and driver apps published on Google Play and the App Store | Production | Store listings (published under the employer; not linked) |
 | muri.sa reachable | — | Not reachable on 2026-10-17; no link published |
 
-## Check-In / Hayyak (freelance per owner)
+## Check-In / Hayyak (freelance — confirmed by owner)
 
 | Claim | Class | Evidence / note |
 |---|---|---|
@@ -101,7 +102,7 @@ runs deployments and security scans only, so none of their claims is rated **Tes
 | Deploys with backup and automatic rollback | Production | GitHub Actions history |
 | Shomoos FastAPI adapter | Implementation | shomoos-service (co-developed); automatic push from check-in only on an unmerged branch |
 
-## Maxpeak (independent per owner)
+## Maxpeak (independent — confirmed by owner; ASAS IT has no claim)
 
 | Claim | Class | Evidence / note |
 |---|---|---|
