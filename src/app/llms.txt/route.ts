@@ -30,7 +30,7 @@ Key facts:
 - Also written as: ${site.alternateNames.join(", ")}
 - Title: ${site.jobTitle}
 - Location: ${site.location.city}, ${site.location.country}
-- Core stack: Python, Django / DRF, FastAPI, Celery, PostgreSQL / PostGIS, Redis, Elasticsearch, AWS, Terraform
+${career.skills.map((g) => `- ${g.label}: ${g.items.join(", ")}`).join("\n")}
 - Availability: ${career.availability}
 - Contact: ${site.email}
 - GitHub: ${site.social.github}
