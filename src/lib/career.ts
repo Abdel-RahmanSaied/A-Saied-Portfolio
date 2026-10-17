@@ -27,7 +27,7 @@ export const career = {
     "Software Team Lead and Senior Backend Engineer with 6+ years of professional experience, most of it building Python SaaS platforms and distributed backends. I lead a cross-functional team of up to 13 engineers across backend, frontend, mobile, AI, and QA while staying hands-on with architecture, code review, delivery planning, and production operations.",
 
   skills: [
-    { label: "Backend", items: ["Python", "Django", "Django REST Framework", "FastAPI", "Celery", "REST API design", "Authentication & RBAC"] },
+    { label: "Backend", items: ["Python", "Go", "Django", "Django REST Framework", "FastAPI", "Celery", "REST API design", "Authentication & RBAC"] },
     { label: "Data & messaging", items: ["PostgreSQL", "PostGIS", "Redis", "Elasticsearch", "AWS SQS"] },
     { label: "Cloud & delivery", items: ["AWS (EC2, RDS, S3, ALB)", "Terraform", "Docker", "Kong API Gateway", "GitHub Actions", "Elastic APM", "Prometheus"] },
     { label: "Engineering practice", items: ["Service boundaries", "Async pipelines", "Multi-tenancy", "Third-party & payment integrations", "Code review", "Mentoring"] },
