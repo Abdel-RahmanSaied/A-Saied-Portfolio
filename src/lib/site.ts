@@ -17,10 +17,10 @@ export const site = {
     "عبد الرحمن محمد سعيد",
   ],
   siteName: "asaied.dev",
-  jobTitle: "Technical Lead & Staff Backend Engineer",
-  title: "Abdel-Rahman Saied | Technical Lead & Staff Backend Engineer",
+  jobTitle: "Software Team Lead | Senior Backend Engineer",
+  title: "Abdel-Rahman Saied | Software Team Lead | Senior Backend Engineer",
   description:
-    "Technical Lead and Staff-level Backend Engineer specializing in distributed backend systems, AI infrastructure, product architecture, and hands-on engineering leadership.",
+    "Software Team Lead and Senior Backend Engineer specializing in distributed backend systems, AI infrastructure, product architecture, and hands-on engineering leadership.",
   email: "abdelrahman.saied@asasit.com",
   location: { city: "Riyadh", countryCode: "SA", country: "Saudi Arabia" },
   social: {
@@ -61,7 +61,7 @@ export const site = {
     {
       metric: "Staff-level Backend Engineer",
       claim:
-        "Technical Lead and Staff-level Backend Engineer with 6+ years owning production systems across social intelligence, transportation, hospitality, cybersecurity, and AI infrastructure.",
+        "Software Team Lead and Senior Backend Engineer with 6+ years owning production systems across social intelligence, transportation, hospitality, cybersecurity, and AI infrastructure.",
     },
     {
       metric: "13 engineers led",
