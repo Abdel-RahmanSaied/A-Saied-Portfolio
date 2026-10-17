@@ -43,22 +43,20 @@ const MARQUEE_ITEMS = [
   "Elasticsearch", "Kong", "AWS", "Docker", "Go", "SAST", "DAST", "CI/CD",
 ];
 
+// CSS animation rather than framer-motion: it runs on the compositor
+// instead of a JS frame loop, and is skipped under reduced motion.
 function TechMarquee() {
   const doubled = [...MARQUEE_ITEMS, ...MARQUEE_ITEMS];
   return (
     <div aria-hidden="true" className="overflow-hidden py-5 border-y border-zinc-800/40 select-none">
-      <motion.div
-        className="flex gap-10 whitespace-nowrap"
-        animate={{ x: ["0%", "-50%"] }}
-        transition={{ duration: 28, ease: "linear", repeat: Infinity }}
-      >
+      <div className="flex w-max gap-10 whitespace-nowrap motion-safe:animate-[marquee_28s_linear_infinite]">
         {doubled.map((item, i) => (
           <span key={i} className="text-[11px] font-semibold uppercase tracking-widest text-zinc-600">
             {item}
             <span className="ml-10 text-zinc-700">·</span>
           </span>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -186,9 +184,7 @@ export default function HomeScreen() {
 
           <motion.div variants={fadeUp} custom={6} aria-hidden="true" className="flex flex-col items-center gap-1.5 text-zinc-600">
             <span className="text-[10px] uppercase tracking-widest font-medium">Scroll</span>
-            <motion.div animate={{ y: [0, 6, 0] }} transition={{ repeat: Infinity, duration: 1.7, ease: "easeInOut" }}>
-              <ChevronDown className="w-4 h-4" />
-            </motion.div>
+            <ChevronDown className="w-4 h-4 motion-safe:animate-[nudge_1.7s_ease-in-out_infinite]" />
           </motion.div>
         </motion.div>
       </section>
