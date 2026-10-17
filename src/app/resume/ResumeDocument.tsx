@@ -51,7 +51,7 @@ export default function ResumeDocument() {
             <p className="text-sm text-fg-muted mt-3 print:text-[8.5pt] print:text-zinc-800 print:mt-1">
               {contact.map((c, i) => (
                 <span key={c} className="inline-block whitespace-nowrap">
-                  {i > 0 && <span aria-hidden="true" className="mx-2 text-zinc-600 print:mx-1.5 print:text-zinc-500">•</span>}
+                  {i > 0 && <span aria-hidden="true" className="mx-2 text-fg-faint print:mx-1.5 print:text-zinc-500">•</span>}
                   {c}
                 </span>
               ))}

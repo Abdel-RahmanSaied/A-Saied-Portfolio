@@ -51,9 +51,9 @@ function TechMarquee() {
     <div aria-hidden="true" className="overflow-hidden py-5 border-y border-zinc-800/40 select-none">
       <div className="flex w-max gap-10 whitespace-nowrap motion-safe:animate-[marquee_28s_linear_infinite]">
         {doubled.map((item, i) => (
-          <span key={i} className="text-[11px] font-semibold uppercase tracking-widest text-zinc-600">
+          <span key={i} className="text-[11px] font-semibold uppercase tracking-widest text-fg-faint">
             {item}
-            <span className="ml-10 text-zinc-700">·</span>
+            <span className="ml-10">·</span>
           </span>
         ))}
       </div>
@@ -64,7 +64,7 @@ function TechMarquee() {
 function SectionLabel({ number, label }: { number: string; label: string }) {
   return (
     <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-2">
-      <span aria-hidden="true" className="text-zinc-600 mr-2">{number}</span>
+      <span aria-hidden="true" className="text-fg-faint mr-2">{number}</span>
       {label}
     </p>
   );
@@ -129,33 +129,23 @@ export default function HomeScreen() {
             </span>
           </motion.div>
 
-          <motion.h1
-            variants={fadeUp}
-            custom={1}
-            className="text-5xl sm:text-7xl font-black tracking-tight leading-[1.02] mb-5 text-white"
-          >
+          {/* The name, title and intro paint immediately (they are the
+              page's largest content); only the surrounding UI animates in. */}
+          <h1 className="text-5xl sm:text-7xl font-black tracking-tight leading-[1.02] mb-5 text-white">
             Abdel-Rahman
             <br />
             <span className="text-zinc-400">Saied</span>
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            variants={fadeUp}
-            custom={2}
-            className="text-xs sm:text-sm font-semibold text-zinc-300 uppercase tracking-[0.2em] mb-6"
-          >
+          <p className="text-xs sm:text-sm font-semibold text-zinc-300 uppercase tracking-[0.2em] mb-6">
             {career.headline}
-          </motion.p>
+          </p>
 
-          <motion.p
-            variants={fadeUp}
-            custom={3}
-            className="text-base sm:text-lg text-zinc-400 max-w-xl mx-auto leading-relaxed mb-10"
-          >
+          <p className="text-base sm:text-lg text-zinc-400 max-w-xl mx-auto leading-relaxed mb-10">
             I build Python backends and multi-service platforms — APIs, async pipelines, search, payments,
             and integrations — and lead the cross-functional team that ships them, while staying close to
             the code and production.
-          </motion.p>
+          </p>
 
           <motion.div variants={fadeUp} custom={4} className="flex flex-col sm:flex-row gap-3 justify-center mb-9">
             <Link href="/case-studies" className={primaryBtn}>
@@ -182,7 +172,7 @@ export default function HomeScreen() {
             ))}
           </motion.ul>
 
-          <motion.div variants={fadeUp} custom={6} aria-hidden="true" className="flex flex-col items-center gap-1.5 text-zinc-600">
+          <motion.div variants={fadeUp} custom={6} aria-hidden="true" className="flex flex-col items-center gap-1.5 text-fg-faint">
             <span className="text-[10px] uppercase tracking-widest font-medium">Scroll</span>
             <ChevronDown className="w-4 h-4 motion-safe:animate-[nudge_1.7s_ease-in-out_infinite]" />
           </motion.div>

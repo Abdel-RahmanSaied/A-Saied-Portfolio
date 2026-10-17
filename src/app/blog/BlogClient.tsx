@@ -62,7 +62,7 @@ export default function BlogPage() {
                         {/* Meta */}
                         <div className="flex flex-wrap items-center gap-3 mb-3">
                           <span className="text-xs text-fg-faint">{formatDate(post.date)}</span>
-                          <span aria-hidden="true" className="text-zinc-700">·</span>
+                          <span aria-hidden="true" className="text-fg-faint">·</span>
                           <span className="text-xs text-fg-faint">{post.readTime}</span>
                         </div>
 

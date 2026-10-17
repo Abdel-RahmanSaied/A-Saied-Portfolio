@@ -66,44 +66,20 @@ export default function LetsTalkPage() {
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 py-24">
 
-        {/* Header */}
-        <motion.div
-          className="mb-16 max-w-2xl"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <motion.p
-            className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-3"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1, duration: 0.5 }}
-          >
-            Contact
-          </motion.p>
+        {/* Header paints immediately: it is the page's largest content. */}
+        <header className="mb-16 max-w-2xl">
+          <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-3">Contact</p>
           <h1 className="text-4xl sm:text-5xl font-black text-white mb-5 leading-tight">
             Let&apos;s talk about
             <br />
-            <motion.span
-              className="text-fg-muted inline-block"
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.25, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            >
-              technical leadership
-            </motion.span>
+            <span className="text-fg-muted">technical leadership</span>
           </h1>
-          <motion.p
-            className="text-fg-muted leading-relaxed text-sm"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-          >
-            I&apos;m focused on Senior Backend, Technical Lead, Staff Backend, AI infrastructure,
-            and distributed systems roles where architecture ownership and hands-on delivery both matter.
+          <p className="text-fg-muted leading-relaxed text-sm">
+            I&apos;m looking for Senior Backend, Technical Lead, and Staff-level backend roles in
+            distributed systems and AI-backed products, where architecture ownership and hands-on delivery both matter.
             Pick your preferred channel below.
-          </motion.p>
-        </motion.div>
+          </p>
+        </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
@@ -173,7 +149,7 @@ export default function LetsTalkPage() {
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                   <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint">Available</p>
                 </div>
-                <h3 className="font-semibold text-zinc-300 text-sm mb-3">Open for</h3>
+                <h2 className="font-semibold text-zinc-300 text-sm mb-3">Open for</h2>
                 <ul className="space-y-2.5">
                   {availableFor.map((a, i) => (
                     <motion.li
@@ -198,7 +174,7 @@ export default function LetsTalkPage() {
               transition={{ delay: 0.38, duration: 0.5 }}
             >
               <GlowCard className="p-6 rounded-2xl border border-zinc-800 bg-zinc-900/40" glowSize={220}>
-                <h3 className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-4">I can help with</h3>
+                <h2 className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-4">I can help with</h2>
                 <ul className="space-y-2">
                   {canHelpWith.map((item, i) => (
                     <motion.li

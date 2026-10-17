@@ -7,7 +7,7 @@ import type { CaseStudy } from "@/lib/case-study-types";
 function SectionLabel({ number, label }: { number: number; label: string }) {
   return (
     <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-3">
-      <span aria-hidden="true" className="text-zinc-600 mr-2">
+      <span aria-hidden="true" className="text-fg-faint mr-2">
         {String(number).padStart(2, "0")}
       </span>
       {label}
@@ -107,7 +107,7 @@ export default function CaseStudyView({ study, next }: { study: CaseStudy; next?
             <ul className="mt-5 space-y-2 text-sm text-fg-muted leading-relaxed">
               {study.architecture.notes.map((note) => (
                 <li key={note} className="flex gap-2">
-                  <span aria-hidden="true" className="text-zinc-600">—</span>
+                  <span aria-hidden="true" className="text-fg-faint">—</span>
                   {note}
                 </li>
               ))}
@@ -143,7 +143,7 @@ export default function CaseStudyView({ study, next }: { study: CaseStudy; next?
               <li key={d.title}>
                 <GlowCard className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6">
                   <div className="flex gap-4">
-                    <span aria-hidden="true" className="text-xs font-mono text-zinc-600 mt-1">
+                    <span aria-hidden="true" className="text-xs font-mono text-fg-faint mt-1">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <div>

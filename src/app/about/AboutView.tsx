@@ -118,9 +118,9 @@ export default function AboutView() {
                       {role.company}
                       {role.engagement === "Freelance" ? " · Freelance" : ""}
                     </span>
-                    <span aria-hidden="true" className="text-zinc-600">·</span>
+                    <span aria-hidden="true" className="text-fg-faint">·</span>
                     <span className="text-fg-muted">{role.start} – {role.end}</span>
-                    <span aria-hidden="true" className="text-zinc-600">·</span>
+                    <span aria-hidden="true" className="text-fg-faint">·</span>
                     <span className="text-fg-muted">{role.location}</span>
                   </p>
                   <p className="text-sm text-zinc-400 leading-relaxed">{role.summary}</p>

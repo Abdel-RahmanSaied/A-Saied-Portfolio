@@ -136,13 +136,13 @@ export default function PostClient({ post }: { post: Post }) {
             <span>{formatDate(post.date)}</span>
             {post.updated && (
               <>
-                <span aria-hidden="true" className="text-zinc-700">·</span>
+                <span aria-hidden="true" className="text-fg-faint">·</span>
                 <span>Updated {formatDate(post.updated)}</span>
               </>
             )}
-            <span aria-hidden="true" className="text-zinc-700">·</span>
+            <span aria-hidden="true" className="text-fg-faint">·</span>
             <span>{post.readTime}</span>
-            <span aria-hidden="true" className="text-zinc-700">·</span>
+            <span aria-hidden="true" className="text-fg-faint">·</span>
             <span>Abdel-Rahman Saied</span>
           </div>
 
