@@ -1,9 +1,9 @@
 import { pageMetadata } from "@/lib/seo";
-import CaseStudiesClient from "./CaseStudiesClient";
 import { pages } from "@/lib/pages";
+import CaseStudiesIndex from "./CaseStudiesIndex";
 
 export const metadata = pageMetadata(pages.caseStudies);
 
 export default function CaseStudiesPage() {
-  return <CaseStudiesClient />;
+  return <CaseStudiesIndex />;
 }
