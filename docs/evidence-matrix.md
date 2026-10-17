@@ -68,6 +68,7 @@ runs deployments and security scans only, so none of their claims is rated **Tes
 | Claim | Class | Evidence / note |
 |---|---|---|
 | Creator and sole maintainer | Implementation | Only member of the Fendix-app org; ~95% of commits across engine, backend, frontend, tap |
+| Go listed as a skill | Implementation | The Fendix engine is a Go codebase; ~96% of its commits are the owner's |
 | Confidence-gated build decisions since v2.0; legacy gate restorable exactly | Tests | Engine decision package; oracle test across 54 combinations; CI passing |
 | Hosted release decisions PASS / WARN / BLOCK / INCOMPLETE | Tests | `fendix-backend` decision policy; backend test run passing |
 | 85 checks across 18 categories (v3.6.3 catalog) | Production | Public security catalog and fendix.dev checks page |
