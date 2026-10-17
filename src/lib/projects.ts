@@ -1,110 +1,107 @@
-// Single source of truth for all projects: rendered by the /portfolio page and
-// consumed by the GEO surfaces (llms.txt, JSON-LD) so wording never drifts.
+// Single source of truth for all projects: rendered by the homepage,
+// /portfolio and /resume, and consumed by llms.txt and JSON-LD so wording
+// never drifts. Claims here must match docs/evidence-matrix.md.
 export type Project = {
+  slug: string;
   title: string;
   tagline: string;
   description: string;
+  /** One line for the résumé's "Selected projects" section. */
+  resume?: string;
   techStack: string[];
+  category: "Platform" | "AI / ML" | "Security" | "Hospitality" | "Mobility" | "Marketplace" | "Mobile";
+  /** Who the work was for: employer, freelance client, or independent. */
+  engagement: string;
+  role: string;
   image?: string;
   github?: string;
   live?: string;
   caseStudy?: string;
-  category: string;
   featured?: boolean;
 };
 
 export const projects: Project[] = [
   {
+    slug: "twiscope",
     title: "Twiscope",
-    tagline: "OSINT Analytics Platform",
+    tagline: "Social intelligence platform",
     description:
-      "Social intelligence platform built around Deep-In (X keyword and user analytics), Influencer Impact (monitoring), Sadeed / Decision Hub (decision centers and scoring), an X-focused alert engine, and a multi-channel notification system. Its services use Django, FastAPI, Celery, PostgreSQL, Elasticsearch, and AWS.",
-    techStack: ["Python", "Django", "Celery", "Redis", "AWS", "Angular", "React", "ML"],
+      "Arabic/English social-intelligence SaaS with five products on one backend: Deep-In (X keyword and account reports), Influencer Impact, Sadeed / Decision Hub (brand-vs-competitor scoring), an alert engine, and notifications. Django/DRF and Celery behind a Kong gateway, with PostgreSQL, Elasticsearch and Terraform-managed AWS. I was its sole backend developer for two years and now lead the team.",
+    techStack: ["Django / DRF", "Celery", "Redis", "PostgreSQL", "Elasticsearch", "Kong", "FastAPI", "Terraform", "AWS"],
+    category: "Platform",
+    engagement: "ASAS IT",
+    role: "Backend lead → Team Lead",
     live: "https://twiscope.net/",
     caseStudy: "/case-studies/twiscope",
-    category: "Analytics",
     featured: true,
     image: "/assets/twiscope-logo.png",
   },
   {
-    title: "Fendix",
-    tagline: "API Security Scanner",
+    slug: "sanad-ai",
+    title: "Sanad AI",
+    tagline: "Twiscope's RAG analytics assistant",
     description:
-      "Application security decision platform combining SAST, DAST, and software composition analysis evidence with coverage-aware release policies. Offers an open-source CLI and commercial hosted workflows; supports signed releases and auditable decisions.",
-    techStack: ["Go", "Next.js", "TypeScript", "Docker", "GitHub Actions"],
-    github: "https://github.com/Fendix-app/Fendix",
-    live: "https://fendix.dev",
-    caseStudy: "/case-studies/fendix",
-    category: "Security",
+      "Twiscope's Arabic/English retrieval-augmented assistant for analytics reports: hybrid BM25 + kNN retrieval over BGE-M3 embeddings fused with reciprocal rank fusion, LLM index routing bounded by deterministic allow-lists, and SQS-based report ingestion. I lead the team and personally own ingestion, deployment and tracing.",
+    techStack: ["FastAPI", "Elasticsearch", "BGE-M3", "AWS SQS", "OpenRouter", "Elastic APM"],
+    category: "AI / ML",
+    engagement: "ASAS IT",
+    role: "Team lead & contributor",
+    caseStudy: "/case-studies/sanad-ai",
     featured: true,
   },
   {
-    title: "Maxpeak",
-    tagline: "Elite Talent Marketplace",
+    slug: "fendix",
+    title: "Fendix",
+    tagline: "Application security decision platform",
     description:
-      "Curated hiring platform connecting Saudi companies with vetted Egyptian engineers through a rigorous 3-stage AI-powered vetting process. Bilingual (Arabic/English), with in-app chat, analytics dashboards, payment billing, and a quality-guarantee — free replacement if the hire doesn't meet expectations.",
-    techStack: ["Django 4.2", "React 18", "TypeScript", "PostgreSQL", "Redis", "Nginx"],
-    live: "http://maxpeak.net/",
-    caseStudy: "/case-studies/maxpeak",
-    category: "Backend",
+      "Turns SAST, DAST, SCA and imported SARIF results into deterministic, confidence-scored findings and a coverage-aware release decision for CI. An open-source Go CLI (MIT) with signed releases and SBOMs, plus a commercial hosted workspace.",
+    resume:
+      "Independent project I created and maintain — application security decision platform: confidence-scored SAST/DAST/SCA findings and coverage-aware release decisions; open-source Go CLI (MIT) with signed releases, plus a hosted platform (fendix.dev).",
+    techStack: ["Go", "Python", "Semgrep", "Django", "Next.js", "Sigstore cosign"],
+    category: "Security",
+    engagement: "Independent",
+    role: "Creator & maintainer",
+    github: "https://github.com/Fendix-app/Fendix",
+    live: "https://www.fendix.dev",
+    caseStudy: "/case-studies/fendix",
+    featured: true,
   },
   {
-    title: "Sanad AI",
-    tagline: "Twiscope AI Assistant",
-    description:
-      "Twiscope's multilingual RAG analytics service: FastAPI, BGE-M3 embeddings, Elasticsearch KNN/BM25 hybrid retrieval with reciprocal rank fusion, constrained LLM index routing, multi-report queries, and AWS SQS ingestion.",
-    techStack: ["FastAPI", "OpenAI", "AWS SQS", "Elasticsearch", "PostgreSQL", "Redis", "Kibana"],
-    category: "AI / ML",
-  },
-  {
+    slug: "muri",
     title: "MURI",
-    tagline: "Student Transportation Platform",
+    tagline: "Student transportation platform",
     description:
-      "Student transportation platform serving three roles — client, driver, and admin — each with a dedicated app (Flutter Student & Driver apps, Angular 19 admin dashboard). Modular Django API with PostGIS geospatial routing, package-based subscriptions, HyperPay payments, driver wallet accounting, Firebase push, and real-time trip tracking.",
-    techStack: ["Django 4.2", "Flutter", "Angular 19", "PostGIS", "Redis", "Celery", "HyperPay", "Firebase", "PostgreSQL", "AWS S3"],
+      "Subscription-based student transportation platform with student, driver and admin apps on a Django/PostGIS backend: seat allocation under row locks, generated trips, geofenced trip validation, HyperPay with reconciliation, and a double-entry driver ledger. I led the team and set up the backend and its delivery pipeline.",
+    techStack: ["Django", "DRF", "PostgreSQL / PostGIS", "Celery", "Redis", "HyperPay", "Flutter", "Angular"],
+    category: "Mobility",
+    engagement: "ASAS IT",
+    role: "Team lead",
     caseStudy: "/case-studies/muri",
-    category: "Backend",
   },
   {
-    title: "Check-In App",
-    tagline: "Attendance & Check-In System",
+    slug: "hayyak",
+    title: "Check-In (Hayyak)",
+    tagline: "Hotel guest self check-in platform",
     description:
-      "Mobile attendance solution with QR-based check-ins, real-time presence tracking, and administrative reporting — built end-to-end with Flutter and Dart.",
-    techStack: ["Flutter", "Dart"],
-    live: "https://check-in.sa/",
-    category: "Mobile",
-  },
-  {
-    title: "Hayyak",
-    tagline: "Hospitality Management Platform",
-    description:
-      "Enterprise multi-tenant hotel management and reservation system integrating with Opera PMS (OHIP) and dual payment gateways (Tap Payments + HyperPay). Full guest lifecycle from booking to check-out, with identity verification, Firebase push notifications, real-time WebSocket updates, and bilingual Arabic/English support.",
-    techStack: ["Django 5.1", "Opera PMS", "Tap Payments", "HyperPay", "Celery", "Firebase", "WebSockets", "PostgreSQL"],
+      "Backend for a hotel guest app, first branded Hayyak: guests claim their Oracle OPERA reservation, add co-guests, check in, extend and check out with in-app payment. Multi-hotel data model, OPERA Cloud (OHIP) integration with folio settlement, Tap and HyperPay behind one gateway layer, support chat, and a FastAPI adapter for Saudi Shomoos reporting.",
+    techStack: ["Django", "DRF", "Oracle OPERA (OHIP)", "Tap Payments", "HyperPay", "Celery", "Django Channels", "FastAPI"],
+    category: "Hospitality",
+    engagement: "Freelance",
+    role: "Technical Lead, Backend",
     caseStudy: "/case-studies/hayyak",
-    category: "Backend",
   },
   {
-    title: "Shmoos",
-    tagline: "Accommodation System Integration",
+    slug: "maxpeak",
+    title: "Maxpeak",
+    tagline: "Technical hiring marketplace (pre-launch)",
     description:
-      "FastAPI adapter for the Shomoos Saudi accommodation management system — exposing a clean REST layer over the Shomoos API for guest and visitor lifecycle management. Features automatic retry with exponential backoff, standardized response formatting, comprehensive logging, and Swagger UI docs. Deployed on GCP.",
-    techStack: ["FastAPI", "GCP", "Python", "Docker", "Swagger"],
-    category: "Backend",
-  },
-  {
-    title: "ElevenLabs Dubbing",
-    tagline: "AI Voice Dubbing Service",
-    description:
-      "Automated video dubbing pipeline powered by ElevenLabs API. Handles multi-language voice synthesis with async task queuing, orchestrating end-to-end audio replacement workflows.",
-    techStack: ["Django", "ElevenLabs API", "Redis", "Celery", "Python"],
-    category: "AI / ML",
-  },
-  {
-    title: "Gymawy",
-    tagline: "Fitness Mobile App",
-    description:
-      "Cross-platform fitness app with custom workout plans, real-time progress tracking, and push notifications. Flutter frontend backed by Django REST Framework and Firebase.",
-    techStack: ["Flutter", "Django REST Framework", "Firebase", "Dart"],
-    category: "Mobile",
+      "Pre-launch marketplace connecting Saudi companies with engineers from Egypt. Django API with RS256/JWKS authentication and social sign-in, plus the automated first vetting stage: a Celery pipeline that extracts CV text and scores it with an LLM.",
+    techStack: ["Django 5.2", "DRF", "Celery", "Redis", "PostgreSQL", "OpenRouter", "Next.js"],
+    category: "Marketplace",
+    engagement: "Independent",
+    role: "Backend & frontend",
+    caseStudy: "/case-studies/maxpeak",
   },
 ];
+
+export const getProject = (slug: string) => projects.find((p) => p.slug === slug);
