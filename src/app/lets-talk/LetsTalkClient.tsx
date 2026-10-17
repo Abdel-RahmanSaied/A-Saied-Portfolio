@@ -3,59 +3,60 @@
 import { motion } from "framer-motion";
 import { Mail, Linkedin, Github, MessageCircleMore, Twitter, ArrowUpRight, Clock, Briefcase, Zap } from "lucide-react";
 import GlowCard from "@/components/GlowCard";
+import { site } from "@/lib/site";
 
 const contacts = [
   {
     icon: <Mail className="w-5 h-5" />,
     label: "Email",
-    value: "abdelrahman.saied@asasit.com",
-    href: "mailto:abdelrahman.saied@asasit.com",
+    value: site.email,
+    href: `mailto:${site.email}`,
     desc: "Best for role and architecture conversations",
   },
   {
     icon: <Linkedin className="w-5 h-5" />,
     label: "LinkedIn",
     value: "abdel-rahman-saied",
-    href: "https://www.linkedin.com/in/abdel-rahman-saied",
+    href: site.social.linkedin,
     desc: "Professional background & updates",
   },
   {
     icon: <Twitter className="w-5 h-5" />,
     label: "X",
-    value: "@asaied_dev",
-    href: "https://x.com/asaied_dev",
+    value: site.social.xHandle,
+    href: site.social.x,
     desc: "Public updates and product notes",
   },
   {
     icon: <MessageCircleMore className="w-5 h-5" />,
     label: "WhatsApp",
-    value: "+966 55 804 6143",
-    href: "https://wa.me/966558046143",
+    value: site.social.whatsappDisplay,
+    href: site.social.whatsapp,
     desc: "Quick responses during work hours",
   },
   {
     icon: <Github className="w-5 h-5" />,
     label: "GitHub",
     value: "Abdel-RahmanSaied",
-    href: "https://github.com/Abdel-RahmanSaied",
-    desc: "Open-source work & code",
+    href: site.social.github,
+    desc: "Code and open-source work",
   },
 ];
 
 const availableFor = [
   { icon: <Briefcase className="w-4 h-4" />,         label: "Senior Backend Roles" },
   { icon: <Zap className="w-4 h-4" />,               label: "Technical Lead Roles" },
-  { icon: <MessageCircleMore className="w-4 h-4" />, label: "Staff Backend Roles" },
+  { icon: <MessageCircleMore className="w-4 h-4" />, label: "Staff-level Backend Roles" },
   { icon: <Clock className="w-4 h-4" />,             label: "Architecture Advisory" },
 ];
 
 const canHelpWith = [
-  "Distributed backend systems with Python, Django, FastAPI, Redis, and PostGIS",
-  "AI infrastructure and production ML integration",
-  "High-throughput data pipelines and analytics platforms",
-  "Reliability, observability, CI/CD, and cloud delivery",
-  "Hands-on technical leadership for senior engineering teams",
-  "Security-first API platforms and developer tooling",
+  "Python backends and multi-service platforms with Django, DRF, FastAPI, Celery, and PostgreSQL",
+  "Search and AI-backed features: Elasticsearch, retrieval pipelines, and LLM integrations",
+  "Payment, PMS, and third-party API integrations that fail safely",
+  "Deployment pipelines, observability, and AWS infrastructure with Terraform",
+  "Hands-on technical leadership for cross-functional teams",
+  "Application security tooling and secure-by-default APIs",
 ];
 
 export default function LetsTalkPage() {
