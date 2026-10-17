@@ -672,7 +672,7 @@ const maxpeak: CaseStudy = {
     "The backend for a bilingual marketplace connecting Saudi companies with engineers from Egypt. I built the Django API, its authentication, and the automated first stage of a three-stage vetting flow: a Celery pipeline that extracts CV text and scores it with an LLM. The product is pre-launch.",
   readTime: "6 min read",
   role: "Backend and frontend · independent build · 2025–2026",
-  links: [],
+  links: [{ label: "maxpeak.net", href: "https://www.maxpeak.net/" }],
   tags: ["Django 5.2", "DRF", "Celery", "Redis", "PostgreSQL", "OpenRouter", "Next.js"],
   facts: [
     { value: "3", label: "Vetting stages modelled" },
@@ -733,7 +733,7 @@ const maxpeak: CaseStudy = {
     "Built the Next.js frontend with Arabic right-to-left support.",
   ],
   scopeNotes: [
-    "Pre-launch: the marketing site is public, but the platform backend is not publicly deployed.",
+    "Pre-launch: the product website (maxpeak.net) is public, but the platform backend is not publicly deployed yet.",
     "Only the first vetting stage is automated; assessment scoring, interviews, payments, in-app messaging and the replacement guarantee are planned, not built.",
     "No hiring or user numbers are claimed.",
   ],

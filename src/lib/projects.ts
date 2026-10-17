@@ -100,6 +100,7 @@ export const projects: Project[] = [
     category: "Marketplace",
     engagement: "Independent",
     role: "Backend & frontend",
+    live: "https://www.maxpeak.net/",
     caseStudy: "/case-studies/maxpeak",
   },
 ];
