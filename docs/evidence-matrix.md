@@ -112,6 +112,7 @@ runs deployments and security scans only, so none of their claims is rated **Tes
 | Celery pipeline: PDF/DOCX extraction → LLM parse → 0–100 score; ≥ 70 advances stage 1 | Implementation | cv_processing, cv_parsing, candidate tasks |
 | 94 unit tests on CV extraction | Implementation | Tests present; no CI runs |
 | Pre-launch; platform backend not publicly deployed | Production | API domain does not resolve (2026-10-17) |
+| Product website maxpeak.net is live and linked | Production | Fetched 2026-10-17; the owner asked for it to be linked |
 
 ## Claims removed from the site
 
