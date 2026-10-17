@@ -18,7 +18,8 @@
     "dev": "NODE_OPTIONS='--localstorage-file=/tmp/nextjs-ls.json' next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "framer-motion": "^12.17.0",
