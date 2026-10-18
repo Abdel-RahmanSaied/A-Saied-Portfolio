@@ -78,6 +78,26 @@ runs deployments and security scans only, so none of their claims is rated **Tes
 | CI-gated synthetic corpora (e.g. 56-case SAST corpus) | Tests | BENCHMARKS.md; corpus-limited, not a real-world rate |
 | Managed CI / tamper-evident records in limited availability | Implementation | Feature flag off by default |
 
+## Qatf (independent, open source)
+
+Checked on 2026-10-18 against `Abdel-RahmanSaied/Qatf` (default branch, last push 2026-10-17).
+
+| Claim | Class | Evidence / note |
+|---|---|---|
+| Creator and maintainer; 117 of 119 commits | Implementation | Git history: the owner's commits, including 69 under an unconfigured "Your Name" identity with the owner's email; 2 by @Dabash99 |
+| Current UI design and Arabic interface contributed by @Dabash99 | Implementation | PR #4 (`ui-redesign`), merged 2026-09-28 |
+| Apache-2.0, DCO sign-off | Production | LICENSE, NOTICE, CONTRIBUTING.md |
+| Five stages; the model returns MM:SS only and stage 4 snaps cuts onto word boundaries | Implementation | `qatf/pipeline/select.py` (prompt and schema), `qatf/pipeline/cuts.py` (`snap`) |
+| 8 model presets (anthropic, openai, openai-legacy, kimi, glm, ollama, vllm, openrouter) | Implementation | `qatf/llm/presets.py` |
+| YouTube exact-host allowlist; media-root sandbox for server paths | Implementation | `qatf/core/constants.py`; docs/security.md |
+| 4 word-by-word caption styles plus a one-line fallback | Implementation | `qatf/pipeline/captions.py` |
+| RTL caption order checked by rendering frames | Implementation | `tests/verify_render.py` fixture C. CI run 39038661084 (2026-10-17) **skipped** it: fontconfig on the runner could not resolve the caption font. Stated on the site as a scope note |
+| CI: backend suites on Python 3.10 and 3.12, 24-thread load test, frontend tests and type check, ffmpeg render check, Docker build | Tests | `.github/workflows/ci.yml` |
+| End-to-end run: 12-minute 4K ProRes Arabic video → 8 clips, via CLI on a GPU and via the API | Documented | README "Status"; owner's run, not reproduced here |
+| Arabic transcription errors 23 → 3 (vocab + denoise + fix-ups) on that recording | Documented | docs/quality.md, "Transcription — 23 errors to 3" |
+| Crop keeps ~3× the subject pixels of blur and rendered 1.8× faster in the recorded test | Documented | docs/quality.md, "Reframe" (synthetic 1080p source) |
+| Working prototype: no API auth, jobs don't survive a restart, only OpenRouter run against its real endpoint | Documented | README "Status"; stated on the site as scope notes |
+
 ## MURI (ASAS IT)
 
 | Claim | Class | Evidence / note |
