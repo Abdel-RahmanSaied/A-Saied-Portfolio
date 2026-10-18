@@ -20,7 +20,8 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "resume:pdf": "node scripts/export-resume-pdf.mjs"
+    "resume:pdf": "node scripts/export-resume-pdf.mjs",
+    "resume:pdf:ar": "node scripts/export-resume-pdf.mjs --url http://localhost:3000/ar/resume --out public/assets/Abdelrahman_Saied_resume_ar.pdf"
   },
   "dependencies": {
     "framer-motion": "^12.17.0",

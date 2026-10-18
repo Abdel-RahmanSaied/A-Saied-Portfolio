@@ -4,6 +4,7 @@
 //
 //   npm run build && npm start          # in one terminal
 //   npm run resume:pdf                  # in another
+//   npm run resume:pdf:ar               # the Arabic résumé, from /ar/resume
 //
 // Options: --url <page>  (default http://localhost:3000/resume)
 //          --out <file>  (default public/assets/Abdelrahman_Saied_resume.pdf)
