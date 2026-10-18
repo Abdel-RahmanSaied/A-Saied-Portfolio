@@ -10,9 +10,9 @@ const twiscope: CaseStudy = {
   kicker: "Social intelligence platform",
   headline: "Twiscope: one backend, five products for social-media intelligence",
   summary:
-    "An Arabic/English B2B SaaS for social-media analytics. I was its sole backend developer for its first two years and now lead the team; I built the X analysis pipelines, Decision Hub (Sadeed), the alert engine, subscriptions and access control, and the service edge on AWS.",
+    "An Arabic/English B2B SaaS for social-media analytics. I joined as its sole backend developer and later took on team leadership alongside the backend role; I built the X analysis pipelines, Decision Hub (Sadeed), the alert engine, subscriptions and access control, and the service edge on AWS.",
   readTime: "11 min read",
-  role: "Sole backend developer (Oct 2023 – Oct 2025), then Software Team Lead · ASAS IT",
+  role: "Sole backend developer (Oct 2023 – Oct 2025) · Software Team Lead since Aug 2024 · ASAS IT",
   links: [{ label: "twiscope.net", href: "https://twiscope.net/" }],
   tags: ["Django / DRF", "Celery", "Redis", "PostgreSQL", "Elasticsearch", "Kong", "FastAPI", "AWS", "Terraform"],
   facts: [
@@ -174,7 +174,7 @@ const twiscope: CaseStudy = {
     { title: "Repeatable deployments", body: "Each deploy runs a security gate, restarts the service, health-checks it and bakes a new machine image; deploy jobs typically finish in under two minutes." },
   ],
   myRole: [
-    "Sole backend developer from October 2023 to October 2025; since then I lead the team and remain the largest contributor (about 70% of backend commits overall).",
+    "Sole backend developer from October 2023 to October 2025; I took on team leadership in August 2024 alongside the backend role and remain the largest contributor (about 70% of backend commits overall).",
     "Built the X analysis pipelines and the shared clients for X, Instagram, TikTok and Google.",
     "Built Decision Hub (Sadeed) end to end and the Alert System engine; a teammate built most of the alert delivery tasks.",
     "Built the influencer-monitoring backend, subscriptions and quotas, JWT authentication and organisation roles.",
@@ -215,7 +215,7 @@ const sanad: CaseStudy = {
   constraints: [
     "Questions arrive in Modern Standard Arabic, Gulf and Egyptian colloquial Arabic, English, or a mix.",
     "Access control must be deterministic: subscription entitlements and report scoping are enforced by code, never delegated to a language model.",
-    "The Elasticsearch cluster targeted versions older than 8.14, so native reciprocal rank fusion was not available.",
+    "Reciprocal rank fusion had to run in the application rather than rely on native Elasticsearch support, to remain compatible with the target cluster.",
     "Reports keep arriving from the Twiscope platform; ingestion has to be idempotent and able to resume a half-processed report.",
     "Every extra model call adds latency and cost, so the number of LLM calls per question had to stay small and bounded.",
   ],
@@ -762,7 +762,7 @@ const qatf: CaseStudy = {
   ],
   constraints: [
     "Arabic and right-to-left captions have to work as well as English, and be checked on rendered frames rather than assumed.",
-    "The model may choose passages but never timings: every cut must land on a real word boundary from the audio.",
+    "The model may choose passages and propose approximate timings, but code places every final cut on a real word boundary from the audio.",
     "Switching model provider, hosted or local, must need no code change and must not affect cut accuracy.",
     "One command to run on a laptop or a GPU machine; a GPU speeds things up but is not required.",
     "Every default needs a recorded measurement, including the options that were tried and rejected.",
@@ -829,7 +829,7 @@ const qatf: CaseStudy = {
     {
       group: "Picking the moments",
       items: [
-        "Choose how many clips (5 by default) and how long each may be (30–75 s; 52 s keeps YouTube Shorts under its limit).",
+        "Choose how many clips (5 by default) and how long each may be (30–75 s; 52 s is the product's conservative default for short-form clips).",
         "A clip outside the requested length is kept and flagged, never silently dropped.",
         "Any provider, with thinking on or off. Stop before rendering to edit starts, ends, titles and order; edited cuts are moved back onto words.",
       ],
@@ -862,8 +862,8 @@ const qatf: CaseStudy = {
   ],
   decisions: [
     {
-      title: "The model never emits timing",
-      body: "Stage 3 reads the transcript at roughly 12-second resolution and answers in MM:SS. Stage 4 then moves each boundary onto a real word from Whisper. Meaning comes from the model and timing comes from the audio, and the two are never mixed — so swapping providers can't make clips open mid-word.",
+      title: "The model proposes the moment; code places the cut",
+      body: "Stage 3 reads the transcript in roughly 12-second windows and proposes the start and end in MM:SS. Stage 4 moves each proposal onto a real word timestamp from Whisper. The model can change which passage is selected, but the audio determines the final cut boundary, so swapping providers cannot make a clip open mid-word.",
     },
     {
       title: "Arabic captions are verified on rendered frames",
@@ -883,7 +883,7 @@ const qatf: CaseStudy = {
     },
   ],
   tradeoffs: [
-    { choice: "Model picks, code cuts", cost: "Snapping to words adds a few seconds per clip, so asking for 60 s can produce 63 s; 52 s is the safe maximum for YouTube Shorts." },
+    { choice: "Model picks, code cuts", cost: "Snapping to words can add a few seconds per clip, so asking for 60 s can produce 63 s. The 52-second default leaves a conservative margin for short-form clips; it is a product choice, not a YouTube Shorts limit." },
     { choice: "Track the largest face", cost: "There is no active-speaker model yet, so a two-person shot can frame the listener, and the tracking constants are unmeasured starting values." },
     { choice: "An in-process job queue on SQLite", cost: "One command to run, but jobs don't survive a restart and cancel only takes effect between steps." },
     { choice: "No built-in authentication", cost: "The API has to sit behind something else before a port is exposed." },

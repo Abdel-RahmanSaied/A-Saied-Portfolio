@@ -67,7 +67,7 @@ export const career = {
       summary:
         "Lead a cross-functional team of up to 13 engineers (backend, frontend, mobile, AI, QA); own architecture, code review, planning, and production delivery for Twiscope and MURI.",
       highlights: [
-        "Twiscope: sole backend developer until Oct 2025, now leading the team on a five-product social-intelligence platform (Django/DRF, Celery, PostgreSQL, Elasticsearch). Built Decision Hub (Celery-chord pipelines, deterministic scoring, Elasticsearch snapshots), the X alert engine, subscriptions and RBAC, a Kong gateway with a FastAPI auth service, and Terraform-managed AWS infrastructure.",
+        "Twiscope: sole backend developer until Oct 2025, with team leadership beginning in Aug 2024 alongside the backend role, on a five-product social-intelligence platform (Django/DRF, Celery, PostgreSQL, Elasticsearch). Built Decision Hub (Celery-chord pipelines, deterministic scoring, Elasticsearch snapshots), the X alert engine, subscriptions and RBAC, a Kong gateway with a FastAPI auth service, and Terraform-managed AWS infrastructure.",
         "Sanad AI: lead the team building Twiscope's Arabic/English RAG assistant (FastAPI, BGE-M3, Elasticsearch BM25 + kNN with reciprocal rank fusion, allow-list-bounded LLM index routing); personally built its SQS ingestion pipeline, deployment workflows, and Elastic APM tracing.",
         "MURI: led the team building a student-transportation platform (Django/DRF, PostGIS, Celery, HyperPay); personally set up the backend, JWT/OTP auth and deployment pipeline, and built its PostGIS geography models and geofenced trip validation.",
       ],

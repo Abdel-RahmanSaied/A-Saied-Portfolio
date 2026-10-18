@@ -33,7 +33,7 @@ export const projects: Project[] = [
     title: "Twiscope",
     tagline: "Social intelligence platform",
     description:
-      "Arabic/English social-intelligence SaaS with five products on one backend: Deep-In (X keyword and account reports), Influencer Impact, Sadeed / Decision Hub (brand-vs-competitor scoring), an alert engine, and notifications. Django/DRF and Celery behind a Kong gateway, with PostgreSQL, Elasticsearch and Terraform-managed AWS. I was its sole backend developer for two years and now lead the team.",
+      "Arabic/English social-intelligence SaaS with five products on one backend: Deep-In (X keyword and account reports), Influencer Impact, Sadeed / Decision Hub (brand-vs-competitor scoring), an alert engine, and notifications. Django/DRF and Celery behind a Kong gateway, with PostgreSQL, Elasticsearch and Terraform-managed AWS. I remained its sole backend developer for two years and took on team leadership as the work grew.",
     techStack: ["Django / DRF", "Celery", "Redis", "PostgreSQL", "Elasticsearch", "Kong", "FastAPI", "Terraform", "AWS"],
     category: "Platform",
     engagement: "ASAS IT",

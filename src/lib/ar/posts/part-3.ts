@@ -13,11 +13,11 @@ export const postsPart3: Post[] = [
     readTime: "قراءة 5 دقايق",
     tags:     ["Serverless", "AWS Lambda", "Cloud", "Architecture"],
     summary:
-      "الـ serverless بيدّي مرونة حقيقية و scaling تلقائي — بس معاه قيود أغلب الـ tutorials بتفوّتها. هنا بشرح الـ cold starts وحدود وقت التنفيذ والـ statelessness معناها إيه فعلًا في الشغل الحقيقي، وإزاي نتحايل عليها.",
+      "الـ serverless بيدّي مرونة حقيقية و scaling تلقائي — بس معاه قيود أغلب الـ tutorials بتفوّتها. هنا بشرح الـ cold starts وحدود وقت التنفيذ والـ statelessness معناها إيه في الشغل الحقيقي، وإزاي نصمم وإحنا عاملين حسابها.",
     content: [
       {
         type: "p",
-        text: "الـ serverless computing عنده مشكلة في التسويق. الوعد اللي بيتسوّق بيه — «مفيش سيرفرات محتاجة إدارة، scale بلا حدود، والدفع على قد الاستخدام بس» — صحيح، بس ناقص. كل pattern في الـ architecture ليه تمن، وتمن الـ serverless محدد ومش بديهي. وفهم التمن ده هو الفرق بين deployment ناجح على الـ serverless، ونظام يحرجكم في الـ production.",
+        text: "الـ serverless بيتسوّق غالبًا بوعد بسيط: إدارة أقل للسيرفرات، scaling تلقائي، ودفع على قد الاستخدام. ده صحيح في حالات كتير، لكنه محكوم بحصص وحدود تشغيل، وكل اختيار فيه تمن. فهم القيود دي هو اللي يحدد إذا كان مناسب للـ workload ولا لأ.",
       },
       {
         type: "h2",
@@ -70,7 +70,7 @@ def handler(event, context):
       },
       {
         type: "callout",
-        text: "مع الـ endpoints الحساسة للـ latency، استخدموا Provisioned Concurrency على AWS Lambda — بيسيب pool من الـ containers المتهيّأة شغالة وجاهزة على طول، فبيلغي الـ cold starts، بس التمن إنكم بتدفعوا على capacity واقفة من غير استخدام. استخدموه بانتقائية على الـ hot paths، مش على كل حاجة.",
+        text: "مع الـ endpoints الحساسة للـ latency، Provisioned Concurrency على AWS Lambda بيسيب capacity متهيّأة وجاهزة، فبيقلّل الـ cold starts للطلبات اللي جوه السعة المحجوزة. الطلبات اللي تزيد عنها ممكن تشتغل بسعة عادية وتتعرض لـ cold start، والتمن إنكم بتدفعوا على capacity محجوزة حتى لو مفيش استخدام. استخدموه بانتقائية على الـ hot paths.",
       },
       {
         type: "h2",
@@ -121,7 +121,7 @@ def process_batch(event, context):
       },
       {
         type: "p",
-        text: "ودي ميزة، مش bug — الـ statelessness هي اللي بتخلّي الـ horizontal scaling اللي ملوش حدود ممكن. بس ده محتاج تغيير في طريقة التفكير: كل الـ persistent state لازم يتخزن في storage خارجي.",
+        text: "الـ statelessness هي اللي بتسهّل الـ horizontal scaling، لكن التوسع نفسه بيقف عند quotas وحدود كل provider. وكل state لازم تعيش بين invocation والتاني تتحط في storage خارجي، مش في memory الـ function.",
       },
       {
         type: "list",
@@ -159,7 +159,7 @@ def process_batch(event, context):
       },
       {
         type: "p",
-        text: "الـ serverless أداة قوية، بس مناسبة لحالات محددة. استخدموه في الحالات اللي قيوده فيها ماشية مع طبيعة الـ workload بتاعكم، ومتفرضوهوش في الحالات اللي مش كده. والمهندسين اللي بيطلّعوا أكبر استفادة من الـ serverless هما اللي فاهمين حدوده بنفس الوضوح اللي فاهمين بيه مميزاته.",
+        text: "الـ serverless مناسب لما طبيعة الـ workload ماشية مع قيوده: شغل قصير، event-driven، وحمل متغيّر. لو احتجتم latency ثابتة جدًا، أو تشغيل طويل، أو compute مستمر، قارنوه بخدمة أو container شغال على طول قبل ما تقرروا.",
       },
     ],
   },

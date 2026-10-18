@@ -9,7 +9,7 @@ export const projectsAr: Project[] = [
     title: "Twiscope",
     tagline: "منصة social intelligence",
     description:
-      "منصة SaaS للـ social intelligence بالعربي والإنجليزي، فيها خمس منتجات على backend واحد: Deep-In (تقارير الكلمات المفتاحية والحسابات على X)، و Influencer Impact، و Sadeed / Decision Hub (scoring للبراند مقارنةً بالمنافسين)، ومحرك تنبيهات، والإشعارات. مبنية بـ Django/DRF و Celery ورا Kong gateway، مع PostgreSQL و Elasticsearch و AWS بيتدار بـ Terraform. كنت مطور الـ backend الوحيد فيها لمدة سنتين، ودلوقتي بقود الفريق.",
+      "منصة SaaS للـ social intelligence بالعربي والإنجليزي، فيها خمس منتجات على backend واحد: Deep-In (تقارير الكلمات المفتاحية والحسابات على X)، و Influencer Impact، و Sadeed / Decision Hub (scoring للبراند مقارنةً بالمنافسين)، ومحرك تنبيهات، والإشعارات. مبنية بـ Django/DRF و Celery ورا Kong gateway، مع PostgreSQL و Elasticsearch و AWS بيتدار بـ Terraform. فضلت مطور الـ backend الوحيد فيها لمدة سنتين، وتولّيت قيادة الفريق مع توسّع الشغل.",
     techStack: ["Django / DRF", "Celery", "Redis", "PostgreSQL", "Elasticsearch", "Kong", "FastAPI", "Terraform", "AWS"],
     category: "Platform",
     engagement: "ASAS IT",
@@ -65,7 +65,7 @@ export const projectsAr: Project[] = [
     title: "Qatf",
     tagline: "فيديوهات طويلة لمقاطع بالطول، والعربي أولًا",
     description:
-      "أداة مفتوحة المصدر بتحوّل الفيديو الطويل لمقاطع 9:16 بترجمة على الفيديو (captions) كلمة بكلمة لـ Reels و Shorts و TikTok. Whisper بيعمل التفريغ، وموديل لغة ممكن يتبدّل بيختار اللحظات، وكل cut بيتظبط على حدود كلمة حقيقية. والترجمة على الفيديو بالعربي من اليمين للشمال مسار أساسي في الأداة. فيها CLI و service بـ FastAPI وواجهة ويب بـ React، وهي نموذج أولي شغال.",
+      "أداة مفتوحة المصدر بتحوّل الفيديو الطويل لمقاطع 9:16 عليها captions كلمة بكلمة لـ Reels و Shorts و TikTok. Whisper بيعمل التفريغ، وموديل لغة ممكن يتبدّل بيختار اللحظات، وكل cut بيتظبط على حدود كلمة حقيقية. والـ captions بالعربي من اليمين للشمال جزء أساسي من الأداة. فيها CLI و service بـ FastAPI وواجهة ويب بـ React، وهي نموذج أولي شغال.",
     techStack: ["Python", "FastAPI", "faster-whisper", "ffmpeg", "React", "TypeScript", "SQLite", "Docker"],
     category: "AI / ML",
     engagement: "مستقل",
@@ -77,7 +77,7 @@ export const projectsAr: Project[] = [
       status: "نموذج أولي شغال",
       highlights: [
         "Whisper بيعمل التفريغ، وموديل لغة بيختار اللحظات، وكل cut بيتظبط على حدود كلمة حقيقية.",
-        "ترجمة على الفيديو (captions) كلمة بكلمة للعربي من اليمين للشمال وللإنجليزي كمان، بأربع styles، والتحقق منها على frames بعد الـ render.",
+        "captions كلمة بكلمة للعربي من اليمين للشمال وللإنجليزي كمان، بأربع styles، والتحقق منها على frames بعد الـ render.",
         "أي موديل بإعداد واحد: Anthropic أو OpenAI أو Kimi أو GLM أو OpenRouter، أو Ollama و vLLM شغالين local.",
         "مراجعة قبل الـ render: ممكن تعديل الاختيارات والعناوين والترتيب؛ والـ cuts اللي اتعدّلت بتتظبط تاني على الكلمات.",
         "CLI و HTTP API وواجهة ويب بالإنجليزي والعربي، وكلهم بيشتغلوا بـ docker compose up واحد.",
@@ -99,9 +99,9 @@ export const projectsAr: Project[] = [
   {
     slug: "hayyak",
     title: "Check-In (Hayyak)",
-    tagline: "منصة تسجيل دخول ذاتي (self check-in) لضيوف الفنادق",
+    tagline: "منصة تسجيل وصول ذاتي (self check-in) لضيوف الفنادق",
     description:
-      "الـ backend بتاع تطبيق لضيوف الفنادق، اسمه في الأول كان Hayyak: الضيوف بيربطوا حجزهم اللي على Oracle OPERA بالتطبيق، ويضيفوا المرافقين، ويسجلوا دخولهم (check-in)، ويمدّوا الإقامة، ويسجلوا خروجهم (check-out)، مع الدفع من جوه التطبيق. فيه data model بيدعم أكتر من فندق، وربط مع OPERA Cloud (OHIP) فيه تسوية الـ folio، و Tap و HyperPay ورا طبقة gateway واحدة، وشات للدعم، و adapter بـ FastAPI لتقارير Shomoos في السعودية.",
+      "الـ backend بتاع تطبيق لضيوف الفنادق، اسمه في الأول كان Hayyak: الضيوف بيربطوا حجزهم اللي على Oracle OPERA بالتطبيق، ويضيفوا المرافقين، ويسجّلوا وصولهم (check-in)، ويمدّوا الإقامة، ويسجّلوا مغادرتهم (check-out)، مع الدفع من جوه التطبيق. فيه data model بيدعم أكتر من فندق، وربط مع OPERA Cloud (OHIP) فيه تسوية الـ folio، و Tap و HyperPay ورا طبقة gateway واحدة، وشات للدعم، و adapter بـ FastAPI لتقارير Shomoos في السعودية.",
     techStack: ["Django", "DRF", "Oracle OPERA (OHIP)", "Tap Payments", "HyperPay", "Celery", "Django Channels", "FastAPI"],
     category: "Hospitality",
     engagement: "فريلانس",

@@ -8,7 +8,7 @@ export const postsPart4: Post[] = [
     readTime: "قراءة 8 دقايق",
     tags:     ["Django", "Celery", "Elasticsearch", "Architecture"],
     summary:
-      "سنتين كمطور الـ backend الوحيد على منصة social intelligence فيها كذا منتج، وبعدها قيادة الفريق اللي كبر حواليها. اللي أثبت نفسه: شغل async من أول endpoint، واستراتيجية جمع واحدة لكذا منتج، و chords عشان الـ scores تبقى قابلة للمقارنة، ومنع التكرار (deduplication) جوه قاعدة البيانات.",
+      "سنتين كمطور الـ backend الوحيد على منصة social intelligence فيها كذا منتج، ومع توسّع الشغل تولّيت قيادة الفريق كمان. اللي أثبت نفسه: شغل async من أول endpoint، واستراتيجية جمع واحدة لكذا منتج، و chords عشان الـ scores تبقى قابلة للمقارنة، ومنع التكرار (deduplication) جوه قاعدة البيانات.",
     content: [
       {
         type: "callout",
@@ -16,7 +16,7 @@ export const postsPart4: Post[] = [
       },
       {
         type: "p",
-        text: "Twiscope منصة SaaS للـ social intelligence بالعربي والإنجليزي. من أكتوبر 2023 لأكتوبر 2025 كنت مطور الـ backend الوحيد فيها، ومن ساعتها بقود الفريق اللي كبر حواليها. دلوقتي فيها خمس منتجات شغالة على backend واحد بـ Django/DRF و Celery: تقارير عند الطلب (Deep-In)، ومتابعة المؤثرين، ولوحات تحكم لاتخاذ القرار بتقيّم البراندات قصاد المنافسين (Sadeed / Decision Hub)، ومحرك تنبيهات، والإشعارات.",
+        text: "Twiscope منصة SaaS للـ social intelligence بالعربي والإنجليزي. بدأت مطور الـ backend الوحيد فيها في أكتوبر 2023، وتولّيت قيادة الفريق في أغسطس 2024، مع استمراري مطور الـ backend الوحيد لحد أكتوبر 2025. دلوقتي فيها خمس منتجات شغالة على backend واحد بـ Django/DRF و Celery: تقارير عند الطلب (Deep-In)، ومتابعة المؤثرين، ولوحات تحكم لاتخاذ القرار بتقيّم البراندات قصاد المنافسين (Sadeed / Decision Hub)، ومحرك تنبيهات، والإشعارات.",
       },
       {
         type: "p",
@@ -34,10 +34,14 @@ export const postsPart4: Post[] = [
         type: "code",
         lang: "python",
         code: `# Simplified
+from django.db import transaction
+
 class KeywordReportSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         report = KeywordReport.objects.create(status="pending", **validated_data)
-        keyword_analysis.delay(report.id)          # never analyse in the request
+        transaction.on_commit(
+            lambda: keyword_analysis.delay(report.id)
+        )                                          # enqueue after commit
         return report
 
 
@@ -48,6 +52,10 @@ def keyword_analysis(report_id):
     posts = collect(report.query, strategy="report")
     save_results(report, analyse(posts))
     charge_usage(report.owner, len(posts))`,
+      },
+      {
+        type: "p",
+        text: "إرسال الـ task بعد الـ commit مهم لو إنشاء التقرير جوه transaction؛ غير كده الـ worker ممكن يبدأ بسرعة ويحاول يقرأ التقرير قبل ما يظهر له في قاعدة البيانات.",
       },
       {
         type: "h2",
@@ -165,9 +173,9 @@ def run_center(center_id):
 SELECT driver_id, distance_km
 FROM (
   SELECT driver_id,
-         6371 * acos(least(1.0,
+         6371 * acos(greatest(-1.0, least(1.0,
            cos(radians(:lat)) * cos(radians(lat)) * cos(radians(lng) - radians(:lng)) +
-           sin(radians(:lat)) * sin(radians(lat)))) AS distance_km
+           sin(radians(:lat)) * sin(radians(lat))))) AS distance_km
   FROM drivers
   WHERE status = 'available'
 ) d
@@ -215,7 +223,7 @@ WHERE ST_Covers(boundary, ST_SetSRID(ST_MakePoint(:lng, :lat), 4326)::geography)
       },
       {
         type: "p",
-        text: "نفس الفرق موجود في GeoDjango: على geography field استخدموا الـ covers lookup (أو dwithin والـ distance lookups). الـ contains lookup مش مدعوم للـ geography في الـ PostGIS backend بتاع Django، وبيرمي error بدل ما يرجّع نتيجة فاضية من غير ما حد ياخد باله.",
+        text: "في GeoDjango، الـ contains lookup على geography field ممكن يتحوّل داخليًا لـ geometry عشان العملية تتنفّذ. ده معناه إنكم مش بتستخدموا نفس دلالة الـ geography الأصلية، والـ cast ممكن يأثر على استخدام الـ index. لو المطلوب نقطة جوه حدود منطقة على سطح الأرض، استخدموا covers مباشرةً؛ و dwithin والـ distance lookups للمسافات.",
       },
       {
         type: "code",

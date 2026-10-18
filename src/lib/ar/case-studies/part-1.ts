@@ -9,9 +9,9 @@ const twiscope: CaseStudy = {
   kicker: "منصة social intelligence",
   headline: "Twiscope: backend واحد وخمس منتجات للـ social media intelligence",
   summary:
-    "منصة B2B SaaS بالعربي والإنجليزي لتحليلات السوشيال ميديا. كنت مطور الـ backend الوحيد فيها أول سنتين، ودلوقتي بقود الفريق؛ بنيت الـ pipelines بتاعة تحليل X، و Decision Hub (Sadeed)، ومحرك التنبيهات، والاشتراكات والتحكم في الصلاحيات، وطبقة الـ edge للخدمات على AWS.",
+    "منصة B2B SaaS بالعربي والإنجليزي لتحليلات السوشيال ميديا. بدأت فيها مطور الـ backend الوحيد، وبعدها تولّيت قيادة الفريق بالتوازي مع شغلي في الـ backend؛ بنيت الـ pipelines بتاعة تحليل X، و Decision Hub (Sadeed)، ومحرك التنبيهات، والاشتراكات والتحكم في الصلاحيات، وطبقة الـ edge للخدمات على AWS.",
   readTime: "قراءة 11 دقيقة",
-  role: "مطور الـ backend الوحيد (أكتوبر 2023 – أكتوبر 2025)، وبعدها قائد فريق برمجيات · ASAS IT",
+  role: "مطور الـ backend الوحيد (أكتوبر 2023 – أكتوبر 2025) · قائد فريق برمجيات من أغسطس 2024 · ASAS IT",
   links: [{ label: "twiscope.net", href: "https://twiscope.net/" }],
   tags: ["Django / DRF", "Celery", "Redis", "PostgreSQL", "Elasticsearch", "Kong", "FastAPI", "AWS", "Terraform"],
   facts: [
@@ -173,7 +173,7 @@ const twiscope: CaseStudy = {
     { title: "deployments قابلة للتكرار", body: "كل deploy بيشغّل بوابة أمان، ويعمل restart للخدمة، ويعمل لها health check، ويعمل bake لـ machine image جديدة؛ والـ deploy jobs عادةً بتخلص في أقل من دقيقتين." },
   ],
   myRole: [
-    "كنت مطور الـ backend الوحيد من أكتوبر 2023 لحد أكتوبر 2025؛ ومن ساعتها بقود الفريق، ولسه أكبر مساهم (حوالي 70% من commits الـ backend في المجمل).",
+    "كنت مطور الـ backend الوحيد من أكتوبر 2023 لحد أكتوبر 2025، وتولّيت قيادة الفريق في أغسطس 2024 بالتوازي مع دوري في الـ backend؛ ولسه أكبر مساهم (حوالي 70% من commits الـ backend في المجمل).",
     "بنيت الـ pipelines بتاعة تحليل X، والـ clients المشتركة لـ X و Instagram و TikTok و Google.",
     "بنيت Decision Hub (Sadeed) من أوله لآخره، والمحرك بتاع الـ Alert System؛ وزميل في الفريق بنى أغلب الـ tasks بتاعة توصيل التنبيهات.",
     "بنيت الـ backend بتاع متابعة المؤثرين، والاشتراكات والـ quotas، والـ JWT authentication، وأدوار المؤسسات.",
@@ -214,7 +214,7 @@ const sanad: CaseStudy = {
   constraints: [
     "الأسئلة بتيجي بالعربي الفصحى، أو بالعامية الخليجية والمصرية، أو بالإنجليزي، أو خليط منهم.",
     "التحكم في الصلاحيات لازم يكون deterministic: الـ entitlements بتاعة الاشتراك وتحديد نطاق التقارير بيطبّقهم الكود، وعمرهم ما بيتسابوا لموديل لغوي.",
-    "الـ Elasticsearch cluster المستهدف كان على إصدارات أقدم من 8.14، فالـ reciprocal rank fusion الـ native مكانش متاح.",
+    "الـ reciprocal rank fusion كان لازم يتنفّذ في التطبيق بدل ما يعتمد على دعم native في Elasticsearch، عشان يفضل متوافق مع الـ cluster المستهدف.",
     "التقارير بتفضل توصل من منصة Twiscope على طول؛ فالـ ingestion لازم يكون idempotent، ويقدر يكمّل تقرير معالجته وقفت في النص.",
     "كل call زيادة للموديل بيزوّد الـ latency والتكلفة، فعدد الـ LLM calls لكل سؤال كان لازم يفضل قليل وليه حد أقصى.",
   ],

@@ -9,7 +9,7 @@ export const faqsAr: Faq[] = [
   },
   {
     q: "إيه هي Twiscope؟",
-    a: "Twiscope منصة SaaS للـ social intelligence بالعربي والإنجليزي، اتبنت في ASAS IT. منتجاتها — Deep-In (تقارير الكلمات المفتاحية والحسابات على X)، و Influencer Impact، و Sadeed / Decision Hub، ومحرك تنبيهات، والإشعارات — كلها شغالة على backend واحد بـ Django/DRF و Celery ورا Kong gateway. عبدالرحمن كان مطور الـ backend الوحيد فيها من أكتوبر 2023 لحد أكتوبر 2025، ودلوقتي بيقود الفريق.",
+    a: "Twiscope منصة SaaS للـ social intelligence بالعربي والإنجليزي، اتبنت في ASAS IT. منتجاتها — Deep-In (تقارير الكلمات المفتاحية والحسابات على X)، و Influencer Impact، و Sadeed / Decision Hub، ومحرك تنبيهات، والإشعارات — كلها شغالة على backend واحد بـ Django/DRF و Celery ورا Kong gateway. عبدالرحمن كان مطور الـ backend الوحيد فيها من أكتوبر 2023 لحد أكتوبر 2025، وتولّى قيادة الفريق من أغسطس 2024 بالتوازي مع دوره في الـ backend.",
   },
   {
     q: "إيه هو Sanad AI؟",
@@ -25,7 +25,7 @@ export const faqsAr: Faq[] = [
   },
   {
     q: "إيه هي Check-In (Hayyak)؟",
-    a: "Check-In، اللي كان اسمها في الأول Hayyak، منصة تسجيل دخول ذاتي (self check-in) لضيوف الفنادق، مربوطة بـ Oracle OPERA Cloud. عبدالرحمن قاد الـ backend بتاعها المبني بـ Django بنظام الفريلانس من أبريل 2024 لحد يناير 2026: data model بيدعم أكتر من فندق، وربط مع OPERA (OHIP) فيه تسوية الـ folio عند تسجيل الخروج (check-out)، و Tap Payments و HyperPay، و adapter لتقارير Shomoos.",
+    a: "Check-In، اللي كان اسمها في الأول Hayyak، منصة تسجيل وصول ذاتي (self check-in) لضيوف الفنادق، مربوطة بـ Oracle OPERA Cloud. عبدالرحمن قاد الـ backend بتاعها المبني بـ Django بنظام الفريلانس من أبريل 2024 لحد يناير 2026: data model بيدعم أكتر من فندق، وربط مع OPERA (OHIP) فيه تسوية الـ folio عند تسجيل المغادرة (check-out)، و Tap Payments و HyperPay، و adapter لتقارير Shomoos.",
   },
   {
     q: "إزاي أتواصل مع عبدالرحمن سعيد؟",

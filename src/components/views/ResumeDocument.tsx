@@ -97,8 +97,8 @@ export default function ResumeDocument({
                 <div key={`${role.company}-${role.title}`} className="print:break-inside-avoid">
                   <div className="flex flex-wrap items-baseline justify-between gap-x-4">
                     <h3 className="font-bold text-zinc-100 print:text-black print:text-[9.5pt]">
-                      {role.title}
-                      <span className="font-normal text-fg-muted print:text-zinc-800"> — {role.company}</span>
+                      <bdi>{role.title}</bdi>
+                      <span className="font-normal text-fg-muted print:text-zinc-800"> — <bdi>{role.company}</bdi></span>
                       {role.engagement === "Freelance" && (
                         <span className="font-normal text-fg-muted print:text-zinc-800"> {t.freelance}</span>
                       )}

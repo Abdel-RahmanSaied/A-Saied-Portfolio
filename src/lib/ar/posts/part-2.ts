@@ -12,7 +12,7 @@ export const postsPart2: Post[] = [
     readTime: "قراءة 6 دقايق",
     tags:     ["Django", "Redis", "Performance", "Backend"],
     summary:
-      "Django جاي معاه caching framework قوي، وأغلب المطورين مش بيستغلوه كفاية. المقال ده بيشرح إزاي نطبقه صح — من الـ cache للـ view كله، لحد الـ caching الدقيق على مستوى الـ object — وإزاي نحافظ على مصداقية الـ cache بالـ invalidation ومراقبة الـ hit rate.",
+      "Django جاي معاه caching framework مرن، والمقال ده بيشرح إمتى يفيد وإزاي نستخدمه — من cache للـ view كله لحد نتائج functions بعينها — مع invalidation واضح وقياس للـ hit rate.",
     content: [
       {
         type: "p",
@@ -157,12 +157,13 @@ def get_top_influencers(platform: str, limit: int = 10) -> list:
       },
       {
         type: "p",
-        text: "في علوم الكمبيوتر فيه حاجتين بس صعبين: الـ cache invalidation وتسمية الحاجات. Django بيديكم أدوات للأسلوبين — الـ expiry على أساس الـ TTL، والـ invalidation الصريح.",
+        text: "الجزء السهل هو تخزين القيمة؛ القرار الأصعب هو إمتى تبقى قديمة. في Django عندكم اختيارين أساسيين: expiry بمدة TTL، أو invalidation صريح لما البيانات تتغيّر.",
       },
       {
         type: "code",
         lang: "python",
         code: `from django.core.cache import cache
+from django.db import transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -170,15 +171,33 @@ from django.dispatch import receiver
 def invalidate_influencer_cache(sender, instance, **kwargs):
     # Clear all cached influencer lists for this platform
     pattern = f"top_influencers:{instance.platform}:*"
-    cache.delete_pattern(pattern)  # requires django-redis
+    transaction.on_commit(
+        lambda: cache.delete_pattern(pattern)  # requires django-redis
+    )
 
 
 # Or use versioned cache keys — increment version on write
 def get_cache_version(platform: str) -> int:
-    return cache.get(f"version:{platform}", default=1)
+    key = f"version:{platform}"
+    cache.add(key, 1, timeout=None)
+    return cache.get(key)
 
 def bump_cache_version(platform: str):
-    cache.incr(f"version:{platform}", delta=1)`,
+    key = f"version:{platform}"
+
+    def increment():
+        cache.add(key, 1, timeout=None)
+        cache.incr(key, delta=1)
+
+    transaction.on_commit(increment)
+
+def versioned_cache_key(platform: str, limit: int) -> str:
+    version = get_cache_version(platform)
+    return f"top_influencers:{platform}:v{version}:{limit}"`,
+      },
+      {
+        type: "p",
+        text: "الإبطال المرتبط بكتابة في قاعدة البيانات يتنفّذ بعد نجاح الـ transaction، مش قبلها؛ وإلا request تاني ممكن يقرأ البيانات القديمة ويخزّنها من جديد قبل الـ commit. ولو هتستخدموا versioned keys، لازم الـ version يدخل فعلًا في الـ cache key، ويتعمله initialization قبل أول incr، ويفضل من غير expiry.",
       },
       {
         type: "h2",
@@ -199,7 +218,7 @@ def bump_cache_version(platform: str):
       },
       {
         type: "p",
-        text: "الـ cache اللي مش قادرين تقيسوه مش هتقدروا تحسّنوه. تابعوا الـ hit rate والـ miss rate والـ eviction rate. مع Redis، الأرقام دي بتطلع من INFO stats. لو الـ hit rate أقل من 80%، ده غالبًا معناه إن الـ keys عندكم محددة زيادة عن اللزوم أو إن الـ TTL قصير زيادة عن اللزوم.",
+        text: "الـ cache اللي مش قادرين تقيسوه مش هتعرفوا إذا كان بيفيد فعلًا. تابعوا الـ hit rate والـ miss rate والـ eviction rate، واربطوهم بزمن الاستجابة وتكلفة الـ queries. مع Redis، الأرقام الأساسية بتطلع من INFO stats. مفيش hit rate مناسب لكل الأنظمة؛ الرقم المطلوب بيتحدد من تكلفة الـ miss وطبيعة البيانات.",
       },
       {
         type: "code",
@@ -212,7 +231,7 @@ redis-cli INFO stats | grep -E "keyspace_hits|keyspace_misses"
       },
       {
         type: "p",
-        text: "الـ caching framework في Django واحد من أدوات الأداء المتاحة اللي بتدي أعلى عائد قصاد المجهود. الـ API بسيط، والتأثير فوري، وعلى عكس تحسينات قاعدة البيانات مش محتاج أي تغيير في الـ schema ولا migrations. ابدأوا بأغلى الـ queries اللي بتتكرر — اللي بتتنادي مع كل تحميل صفحة أو مع كل API response — وبعد كده كمّلوا على اللي بعدها في التكلفة.",
+        text: "الـ caching framework في Django ممكن يدي نتيجة سريعة لما نفس الشغل المكلف بيتكرر، لكنه مش بديل عن query سليمة أو index ناقص. ابدأوا بأغلى queries المتكررة، قيسوا النتيجة، وحددوا بوضوح قد إيه البيانات مسموح لها تبقى قديمة قبل ما توسّعوا استخدام الـ cache.",
       },
     ],
   },
@@ -224,11 +243,11 @@ redis-cli INFO stats | grep -E "keyspace_hits|keyspace_misses"
     readTime: "قراءة 8 دقايق",
     tags:     ["Backend", "Distributed Systems", "Architecture", "Security"],
     summary:
-      "تطوير الـ backend أكبر بكتير من مجرد كتابة APIs. دي 8 مجالات لازم كل مهندس backend يفهمها عشان يوصل لاحترافية حقيقية — من الأنظمة الموزّعة ونماذج الـ consistency، لحد الـ serverless والـ disaster recovery.",
+      "شغل الـ backend أكبر من كتابة APIs. المقال بيجمع 8 مجالات بتظهر أهميتها مع نمو الأنظمة — من الأنظمة الموزّعة ونماذج الـ consistency، لحد الـ serverless والـ disaster recovery.",
     content: [
       {
         type: "p",
-        text: "الـ backend دايمًا بيتقال عليه إنه العمود الفقري لأي تطبيق. لو شغلكم backend وعايزين توصلوا للاحترافية، لازم تعرفوا إن الموضوع أكبر بكتير من مجرد APIs. بعد سنين من بناء أنظمة شغالة على الـ production في مجالات الضيافة والنقل والـ social intelligence والأمان — دي الـ 8 مجالات اللي بتفرق بين مهندس backend متمكن ومهندس backend ممتاز.",
+        text: "كتابة الـ APIs جزء واحد من شغل الـ backend. أول ما النظام يكبر، بتظهر أسئلة عن توزيع البيانات، والـ consistency، والـ caching، والأمان، والتشغيل وقت الأعطال. المجالات التمانية الجايين مش checklist للخبرة؛ هم أساس كويس لفهم القرارات اللي بتظهر في أنظمة production.",
       },
       {
         type: "h2",
@@ -236,7 +255,7 @@ redis-cli INFO stats | grep -E "keyspace_hits|keyspace_misses"
       },
       {
         type: "p",
-        text: "أول ما النظام بتاعكم يتوزع على أكتر من machine، تبقوا بتتعاملوا مع نظام موزّع — والقواعد بتتغير. الـ CAP theorem بيقول إن في أي نظام موزّع تقدروا تضمنوا خاصيتين بس من تلاتة: الـ Consistency والـ Availability والـ Partition Tolerance. عمليًا، الـ partition tolerance مش اختيارية (الشبكات بتقع)، فالاختيار بيبقى بين الـ strong consistency والـ high availability.",
+        text: "أول ما النظام بتاعكم يتوزع على أكتر من machine، تبقوا بتتعاملوا مع نظام موزّع والقواعد بتتغير. وقت انقسام الشبكة تحديدًا، الـ CAP theorem بيقول إن النظام مش هيقدر يضمن في نفس الوقت consistency قوية و availability لكل request. بما إن أعطال الشبكة واردة، لازم تعرفوا النظام هيفضّل أنهي ضمان وقتها، وإيه السلوك اللي المستخدم هيشوفه.",
       },
       {
         type: "list",

@@ -258,7 +258,7 @@ def process_event(event):
       },
       {
         type: "p",
-        text: "The prototype loaded models when the module was imported. If a download was slow or failed, the process died before it could answer anything, and the orchestrator saw a crash loop instead of a service that wasn't ready yet. Moving loading into FastAPI's lifespan, with a readiness endpoint, separates the two.",
+        text: "The prototype loaded models when the module was imported, so a download failure happened before the application's startup lifecycle was clear. Moving loading into FastAPI's lifespan makes startup responsible for the work: either loading completes and the service begins accepting requests, or startup fails and the orchestrator handles it as a startup failure.",
       },
       {
         type: "code",
@@ -284,7 +284,7 @@ def ready(response: Response):
       },
       {
         type: "p",
-        text: "One correction to how I first described this: an exception inside the lifespan still stops the application from starting. That's the intended behaviour — fail fast and let the orchestrator restart it — while the readiness endpoint keeps traffic away until the models are loaded.",
+        text: "An exception inside the lifespan stops the application from starting, which is the intended behaviour: fail fast and let the orchestrator restart it. The readiness endpoint describes application state after startup; it is not called while the models load, because FastAPI does not accept requests before the lifespan reaches yield.",
       },
       {
         type: "h2",
@@ -529,6 +529,7 @@ def get_top_influencers(platform: str, limit: int = 10) -> list:
         type: "code",
         lang: "python",
         code: `from django.core.cache import cache
+from django.db import transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -536,15 +537,33 @@ from django.dispatch import receiver
 def invalidate_influencer_cache(sender, instance, **kwargs):
     # Clear all cached influencer lists for this platform
     pattern = f"top_influencers:{instance.platform}:*"
-    cache.delete_pattern(pattern)  # requires django-redis
+    transaction.on_commit(
+        lambda: cache.delete_pattern(pattern)  # requires django-redis
+    )
 
 
 # Or use versioned cache keys — increment version on write
 def get_cache_version(platform: str) -> int:
-    return cache.get(f"version:{platform}", default=1)
+    key = f"version:{platform}"
+    cache.add(key, 1, timeout=None)
+    return cache.get(key)
 
 def bump_cache_version(platform: str):
-    cache.incr(f"version:{platform}", delta=1)`,
+    key = f"version:{platform}"
+
+    def increment():
+        cache.add(key, 1, timeout=None)
+        cache.incr(key, delta=1)
+
+    transaction.on_commit(increment)
+
+def versioned_cache_key(platform: str, limit: int) -> str:
+    version = get_cache_version(platform)
+    return f"top_influencers:{platform}:v{version}:{limit}"`,
+      },
+      {
+        type: "p",
+        text: "Cache invalidation tied to a database write should run after the transaction commits. Otherwise another request can read the old rows and repopulate the cache before commit. With versioned keys, initialize the counter before the first increment, keep it out of expiry, and actually include it in the cache key.",
       },
       {
         type: "h2",
@@ -602,7 +621,7 @@ redis-cli INFO stats | grep -E "keyspace_hits|keyspace_misses"
       },
       {
         type: "p",
-        text: "Once your system spans more than one machine, you're dealing with distributed systems — and the rules change. The CAP theorem tells you that in a distributed system you can only guarantee two of three properties: Consistency, Availability, and Partition Tolerance. In practice, partition tolerance is non-negotiable (networks fail), so you're choosing between strong consistency and high availability.",
+        text: "Once your system spans more than one machine, you're dealing with distributed systems and the rules change. During a network partition specifically, CAP says the system cannot guarantee both strong consistency and availability for every request. Because network failures happen, you need to decide which guarantee the system preserves during the partition and what users see as a result.",
       },
       {
         type: "list",
@@ -719,7 +738,7 @@ redis-cli INFO stats | grep -E "keyspace_hits|keyspace_misses"
     content: [
       {
         type: "p",
-        text: "Serverless computing has a marketing problem. The pitch — 'no servers to manage, infinite scale, pay only for what you use' — is accurate but incomplete. Every architectural pattern has trade-offs, and serverless trade-offs are specific and non-obvious. Understanding them is the difference between a successful serverless deployment and a system that embarrasses you in production.",
+        text: "Serverless is often pitched as fewer servers to manage, automatic scaling, and pay-per-use. That is true for many workloads, but quotas and operational limits still apply. The useful question is whether those limits fit the workload.",
       },
       {
         type: "h2",
@@ -772,7 +791,7 @@ def handler(event, context):
       },
       {
         type: "callout",
-        text: "For latency-sensitive endpoints, use Provisioned Concurrency on AWS Lambda — it keeps a pool of initialized containers always warm, eliminating cold starts at the cost of paying for idle capacity. Use it selectively on hot paths, not across the board.",
+        text: "For latency-sensitive endpoints, Provisioned Concurrency on AWS Lambda keeps capacity initialized and ready, reducing cold starts for requests within the provisioned capacity. Spillover can still use standard capacity and see cold starts, while you pay for provisioned capacity even when it is idle. Use it selectively on hot paths.",
       },
       {
         type: "h2",
@@ -823,7 +842,7 @@ def process_batch(event, context):
       },
       {
         type: "p",
-        text: "This is a feature, not a bug — statelessness is what enables infinite horizontal scaling. But it requires a mindset shift: all persistent state must live in external storage.",
+        text: "Statelessness makes horizontal scaling easier, but scaling still stops at each provider's quotas and limits. Any state that must survive between invocations belongs in external storage, not function memory.",
       },
       {
         type: "list",
@@ -1007,7 +1026,7 @@ bands: HIGH >= 70, MEDIUM >= 40, LOW < 40`,
     readTime: "8 min read",
     tags:     ["Django", "Celery", "Elasticsearch", "Architecture"],
     summary:
-      "Two years as the only backend developer on a multi-product social-intelligence platform, then leading the team that grew around it. What held up: async work from the first endpoint, one collection strategy for several products, chords for comparable scores, and deduplication in the database.",
+      "Two years as the only backend developer on a multi-product social-intelligence platform, taking on team leadership as the work grew. What held up: async work from the first endpoint, one collection strategy for several products, chords for comparable scores, and deduplication in the database.",
     content: [
       {
         type: "callout",
@@ -1015,7 +1034,7 @@ bands: HIGH >= 70, MEDIUM >= 40, LOW < 40`,
       },
       {
         type: "p",
-        text: "Twiscope is an Arabic/English social-intelligence SaaS. From October 2023 to October 2025 I was its only backend developer; since then I lead the team that has grown around it. It now runs five products on one Django/DRF and Celery backend: on-demand reports (Deep-In), influencer monitoring, decision dashboards that score brands against competitors (Sadeed / Decision Hub), an alert engine, and notifications.",
+        text: "Twiscope is an Arabic/English social-intelligence SaaS. I joined as its only backend developer in October 2023 and took on team leadership in August 2024 while remaining the sole backend developer until October 2025. It now runs five products on one Django/DRF and Celery backend: on-demand reports (Deep-In), influencer monitoring, decision dashboards that score brands against competitors (Sadeed / Decision Hub), an alert engine, and notifications.",
       },
       {
         type: "p",
@@ -1033,10 +1052,14 @@ bands: HIGH >= 70, MEDIUM >= 40, LOW < 40`,
         type: "code",
         lang: "python",
         code: `# Simplified
+from django.db import transaction
+
 class KeywordReportSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         report = KeywordReport.objects.create(status="pending", **validated_data)
-        keyword_analysis.delay(report.id)          # never analyse in the request
+        transaction.on_commit(
+            lambda: keyword_analysis.delay(report.id)
+        )                                          # enqueue after commit
         return report
 
 
@@ -1047,6 +1070,10 @@ def keyword_analysis(report_id):
     posts = collect(report.query, strategy="report")
     save_results(report, analyse(posts))
     charge_usage(report.owner, len(posts))`,
+      },
+      {
+        type: "p",
+        text: "Enqueueing after commit matters when report creation runs inside a transaction; otherwise a fast worker can try to read the report before the row is visible to it.",
       },
       {
         type: "h2",
@@ -1164,9 +1191,9 @@ def run_center(center_id):
 SELECT driver_id, distance_km
 FROM (
   SELECT driver_id,
-         6371 * acos(least(1.0,
+         6371 * acos(greatest(-1.0, least(1.0,
            cos(radians(:lat)) * cos(radians(lat)) * cos(radians(lng) - radians(:lng)) +
-           sin(radians(:lat)) * sin(radians(lat)))) AS distance_km
+           sin(radians(:lat)) * sin(radians(lat))))) AS distance_km
   FROM drivers
   WHERE status = 'available'
 ) d
@@ -1214,7 +1241,7 @@ WHERE ST_Covers(boundary, ST_SetSRID(ST_MakePoint(:lng, :lat), 4326)::geography)
       },
       {
         type: "p",
-        text: "The same distinction exists in GeoDjango: on a geography field, use the covers lookup (or dwithin and the distance lookups). The contains lookup isn't supported for geography by Django's PostGIS backend and raises an error instead of quietly returning nothing.",
+        text: "In GeoDjango, a contains lookup on a geography field can be cast internally to geometry so the operation can run. That changes the semantics from the native geography operation, and the cast can affect index use. For a point inside a surface boundary, use covers directly; use dwithin and the distance lookups for distance queries.",
       },
       {
         type: "code",

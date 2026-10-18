@@ -34,7 +34,7 @@ export const pagesAr: Record<keyof typeof pages, PageCopy> = {
       "دراسات حالة هندسية — المشكلة، والقيود، والـ architecture، والقرارات، والمفاضلات، والنتايج — لـ Twiscope و Sanad AI و Fendix و Qatf و MURI و Check-In (Hayyak) و Maxpeak.",
     og: {
       eyebrow: "دراسات الحالة",
-      title: "قرارات هندسية ورا أنظمة نزلت فعلًا",
+      title: "قرارات هندسية ورا شغل اتنفّذ فعلًا",
       subtitle: "المشكلة ← القيود ← الـ architecture ← القرارات ← المفاضلات ← النتايج",
     },
   },

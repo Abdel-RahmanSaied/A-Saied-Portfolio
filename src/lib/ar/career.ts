@@ -31,7 +31,7 @@ export const careerAr: Career = {
       summary:
         "بقود فريق متعدد التخصصات بيوصل لـ 13 مهندس (backend، frontend، mobile، AI، QA)؛ ومسؤول عن الـ architecture ومراجعة الكود والتخطيط والـ delivery على الـ production لـ Twiscope و MURI.",
       highlights: [
-        "Twiscope: كنت مطور الـ backend الوحيد لحد أكتوبر 2025، ودلوقتي بقود الفريق في منصة social intelligence فيها خمس منتجات (Django/DRF، Celery، PostgreSQL، Elasticsearch). بنيت Decision Hub (pipelines بـ Celery chords، و scoring deterministic، و snapshots في Elasticsearch)، ومحرك تنبيهات X، والاشتراكات والـ RBAC، و gateway بـ Kong معاه auth service بـ FastAPI، والـ infrastructure على AWS اللي بتتدار بـ Terraform.",
+        "Twiscope: كنت مطور الـ backend الوحيد لحد أكتوبر 2025، وتولّيت قيادة الفريق من أغسطس 2024 بالتوازي مع دوري في الـ backend، على منصة social intelligence فيها خمس منتجات (Django/DRF، Celery، PostgreSQL، Elasticsearch). بنيت Decision Hub (pipelines بـ Celery chords، و scoring deterministic، و snapshots في Elasticsearch)، ومحرك تنبيهات X، والاشتراكات والـ RBAC، و gateway بـ Kong معاه auth service بـ FastAPI، والـ infrastructure على AWS اللي بتتدار بـ Terraform.",
         "Sanad AI: بقود الفريق اللي بيبني مساعد RAG بالعربي والإنجليزي لـ Twiscope (FastAPI، BGE-M3، BM25 + kNN في Elasticsearch مع reciprocal rank fusion، و index routing بالـ LLM محكوم بـ allow-list)؛ وبنيت فيه بنفسي الـ ingestion pipeline على SQS، والـ deployment workflows، والـ tracing بـ Elastic APM.",
         "MURI: قُدت الفريق اللي كان بيبني منصة لنقل الطلاب (Django/DRF، PostGIS، Celery، HyperPay)؛ وأسست بنفسي الـ backend والـ auth بـ JWT/OTP والـ deployment pipeline، وبنيت فيها الـ geography models على PostGIS والتحقق من الرحلات بالـ geofencing.",
       ],
@@ -55,7 +55,7 @@ export const careerAr: Career = {
       start: "أبريل 2024",
       end: "يناير 2026",
       summary:
-        "قائد الـ backend والمساهم الأساسي في منصة تسجيل دخول ذاتي (self check-in) لضيوف الفنادق: data model بيدعم أكتر من فندق، وربط مع Oracle OPERA Cloud (OHIP) فيه تسوية الـ folio عند تسجيل الخروج (check-out)، و Tap Payments و HyperPay ورا طبقة gateway واحدة، وشات للدعم، و adapter بـ FastAPI لتقارير Shomoos في السعودية.",
+        "قائد الـ backend والمساهم الأساسي في منصة تسجيل وصول ذاتي (self check-in) لضيوف الفنادق: data model بيدعم أكتر من فندق، وربط مع Oracle OPERA Cloud (OHIP) فيه تسوية الـ folio عند تسجيل المغادرة (check-out)، و Tap Payments و HyperPay ورا طبقة gateway واحدة، وشات للدعم، و adapter بـ FastAPI لتقارير Shomoos في السعودية.",
       highlights: [],
     },
     {

@@ -96,9 +96,9 @@ Use these fixed Arabic forms for common words, so the whole site is consistent:
 | release (software) | الإصدار |
 | vulnerability / finding | الثغرة / الـ finding |
 | severity / confidence / coverage | الخطورة (severity) / الثقة (confidence) / التغطية (coverage) — English in brackets only on first use in a section |
-| clip / caption(s) / transcript | المقطع / الترجمة على الفيديو (captions) / التفريغ |
+| clip / caption(s) / transcript | المقطع / الـ captions أو النص المكتوب على الفيديو / التفريغ |
 | driver / student / trip / seat | السواق / الطالب / الرحلة / المقعد |
-| guest / hotel / reservation / check-in | الضيف / الفندق / الحجز / تسجيل الدخول (check-in) |
+| guest / hotel / reservation / check-in / check-out | الضيف / الفندق / الحجز / تسجيل الوصول (check-in) / تسجيل المغادرة (check-out) |
 | freelance / independent / full-time | فريلانس / مستقل / دوام كامل |
 | Software Team Lead | قائد فريق برمجيات |
 | Senior Backend Engineer | مهندس Backend أول |
@@ -169,9 +169,9 @@ Month names use the Egyptian forms: يناير، فبراير، مارس، أب�
 >
 > أغلب بوابات الأمان في الـ CI بتوقّف الـ build على أساس الخطورة بس.
 
-> The model never emits timing.
+> The model proposes approximate timing; code snaps the final cut to word timestamps.
 >
-> الموديل عمره ما بيحدد التوقيت.
+> الموديل بيقترح توقيت تقريبي، والكود بيضبط مكان القص النهائي على توقيتات الكلمات.
 
 > A working prototype, not production: the API has no authentication.
 >

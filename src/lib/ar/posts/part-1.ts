@@ -239,7 +239,7 @@ def process_event(event):
       },
       {
         type: "p",
-        text: "النموذج الأولي كان بيحمّل الموديلات وقت ما الـ module بيتعمله import. لو الـ download كان بطيء أو فشل، الـ process كانت بتموت قبل ما ترد على أي حاجة، والـ orchestrator كان بيشوف crash loop بدل ما يشوف service لسه مش جاهزة. نقل التحميل لجوه الـ lifespan بتاع FastAPI، مع endpoint للـ readiness، بيفصل الحالتين عن بعض.",
+        text: "النموذج الأولي كان بيحمّل الموديلات وقت ما الـ module بيتعمله import، فخطأ في الـ download كان بيحصل قبل ما دورة تشغيل التطبيق تبدأ بشكل واضح. نقل التحميل للـ lifespan بتاع FastAPI خلّى الـ startup هو المسؤول عن التحميل: يا يكتمل وتبدأ الـ service تستقبل requests، يا يفشل فيتعامل معاه الـ orchestrator كفشل startup.",
       },
       {
         type: "code",
@@ -265,7 +265,7 @@ def ready(response: Response):
       },
       {
         type: "p",
-        text: "تصحيح للطريقة اللي وصفت بيها النقطة دي أول مرة: لو حصل exception جوه الـ lifespan، التطبيق برضه مش هيبدأ. وده السلوك المقصود — fail fast، ونسيب الـ orchestrator يعيد تشغيله — وفي نفس الوقت الـ readiness endpoint بيبعّد الـ traffic لحد ما الموديلات تتحمّل.",
+        text: "لو حصل exception جوه الـ lifespan، التطبيق مش هيبدأ، وده السلوك المقصود: يفشل بسرعة والـ orchestrator يقدر يعيد تشغيله. والـ readiness endpoint هنا بيعبّر عن حالة التطبيق بعد الـ startup؛ مش بيتنادى أثناء تحميل الموديلات، لأن FastAPI مبيستقبلش requests قبل ما الـ lifespan يوصل لـ yield.",
       },
       {
         type: "h2",
