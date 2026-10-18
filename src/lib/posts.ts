@@ -1026,7 +1026,7 @@ bands: HIGH >= 70, MEDIUM >= 40, LOW < 40`,
     readTime: "8 min read",
     tags:     ["Django", "Celery", "Elasticsearch", "Architecture"],
     summary:
-      "Two years as the only backend developer on a multi-product social-intelligence platform, taking on team leadership as the work grew. What held up: async work from the first endpoint, one collection strategy for several products, chords for comparable scores, and deduplication in the database.",
+      "Two years as the only backend developer on a multi-product media-intelligence platform, taking on team leadership as the work grew. What held up: async work from the first endpoint, one collection strategy for several product areas, chords for comparable scores, and deduplication in the database.",
     content: [
       {
         type: "callout",
@@ -1034,7 +1034,7 @@ bands: HIGH >= 70, MEDIUM >= 40, LOW < 40`,
       },
       {
         type: "p",
-        text: "Twiscope is an Arabic/English social-intelligence SaaS. I joined as its only backend developer in October 2023 and took on team leadership in August 2024 while remaining the sole backend developer until October 2025. It now runs five products on one Django/DRF and Celery backend: on-demand reports (Deep-In), influencer monitoring, decision dashboards that score brands against competitors (Sadeed / Decision Hub), an alert engine, and notifications.",
+        text: "Twiscope is an Arabic/English media-monitoring, analysis and decision-support platform. I joined as its only backend developer in October 2023 and took on team leadership in August 2024 while remaining the sole backend developer until October 2025. At the point covered by this article, the shared Django/DRF and Celery backend supported five product areas: on-demand reports (Deep-In), influencer monitoring, decision dashboards that score brands against competitors (Sadeed / Decision Hub), an alert engine, and notifications. The public product suite has continued to evolve since then.",
       },
       {
         type: "p",

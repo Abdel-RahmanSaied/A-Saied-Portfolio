@@ -33,10 +33,10 @@ export const projects: Project[] = [
   {
     slug: "twiscope",
     title: "Twiscope",
-    tagline: "Social intelligence platform",
-    caseStudyHook: "How five products share one backend with explicit permissions, queues, and service boundaries",
+    tagline: "Media intelligence and decision-support platform",
+    caseStudyHook: "How shared collection, permissions, and queues support a growing media-intelligence platform",
     description:
-      "Arabic/English social-intelligence SaaS with five products on one backend: Deep-In (X keyword and account reports), Influencer Impact, Sadeed / Decision Hub (brand-vs-competitor scoring), an alert engine, and notifications. Django/DRF and Celery behind a Kong gateway, with PostgreSQL, Elasticsearch and Terraform-managed AWS. I remained its sole backend developer for two years and took on team leadership as the work grew.",
+      "Arabic/English media-intelligence platform for monitoring and analysing accounts, topics, hashtags, influencers and channels, then turning reports into decision support through products including Deep-In, Twiscope Influence Index and Sanad AI. My work covered the shared Django/DRF and Celery backend behind Deep-In, influencer monitoring, Decision Hub, alerts, subscriptions and access control, plus Kong, PostgreSQL, Elasticsearch and Terraform-managed AWS. I was its sole backend developer for two years before moving into team leadership.",
     techStack: ["Django / DRF", "Celery", "Redis", "PostgreSQL", "Elasticsearch", "Kong", "FastAPI", "Terraform", "AWS"],
     category: "Platform",
     engagement: "ASAS IT",

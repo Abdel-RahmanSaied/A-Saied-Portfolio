@@ -57,7 +57,9 @@ Always keep in Latin letters, unchanged:
 
 - Product, company and project names: Twiscope, Sanad AI, Fendix, Qatf, MURI,
   Check-In (Hayyak), Maxpeak, ASAS IT, Deep-In, Influencer Impact, Sadeed,
-  Decision Hub, HyperPay, Tap Payments, Oracle OPERA, OHIP, Shomoos, OpenRouter.
+  Decision Hub, مؤشر تويسكوب للتأثير, رصد القنوات, لينكرز, انطباع,
+  إدارة حسابات التواصل (CRM), HyperPay, Tap Payments, Oracle OPERA, OHIP,
+  Shomoos, OpenRouter.
 - Technologies, libraries, protocols, file formats, standards: Python, Django,
   DRF, FastAPI, Celery, Redis, PostgreSQL, PostGIS, Elasticsearch, Kong, AWS,
   SQS, Terraform, Docker, Go, Semgrep, SARIF, JWT, OTP, RBAC, REST, BM25, kNN,

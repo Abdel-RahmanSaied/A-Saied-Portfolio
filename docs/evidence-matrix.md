@@ -38,7 +38,7 @@ runs deployments and security scans only, so none of their claims is rated **Tes
 | Claim | Class | Evidence / note |
 |---|---|---|
 | Sole backend developer Oct 2023 – Oct 2025; ~70% of backend commits overall | Implementation | `TwiScope-backend` git history (939 of 940 non-merge commits before 2025-10-22; 69% overall) |
-| Five products on one backend: Deep-In, Influencer Impact, Sadeed / Decision Hub, Alert System, Notification System | Implementation | `TwiScope-backend`: X_Apps, InfluencersApp + X_Statistics_Monitor, DecisionHub_App, Alert_System, notificationApp + notifications_service |
+| Five backend product areas in the implementation scope: Deep-In, Influencer Impact, Sadeed / Decision Hub, Alert System, Notification System | Implementation | `TwiScope-backend`: X_Apps, InfluencersApp + X_Statistics_Monitor, DecisionHub_App, Alert_System, notificationApp + notifications_service. This is the case-study scope, not a count of the current public product suite. |
 | Decision Hub: Beat dispatcher → Celery chord per centre; six deterministic weighted indices; tenant-scoped Elasticsearch snapshots; replay/rescore | Implementation | `DecisionHub_App` (dispatch, pipeline, scoring strategies, es_query, replay tasks). X only; forecasting `not_implemented` |
 | Alert engine: per-alert Beat schedules, AND conditions, DB-level dedup, email/webhook digests with public-IP SSRF guard | Implementation | `Alert_System` (scheduling, engine, evaluation and delivery tasks, webhook_security). X only; at-least-once |
 | Notifications: in-app records, FCM push, SMTP, Redis idempotency keys | Implementation | `notificationApp`, `notifications_service` — mainly teammates' code |
@@ -50,6 +50,7 @@ runs deployments and security scans only, so none of their claims is rated **Tes
 | Prometheus metrics for Django and Celery; Elastic APM | Implementation | `monitoring/`, django-prometheus, APM config |
 | Web app and mobile app built by teammates | Implementation | Contributor history of the frontend/mobile repos |
 | twiscope.net is live | Production | Fetched 2026-10-17 |
+| Current public positioning: Arabic media monitoring, analysis and decision support across accounts/topics, influencer intelligence, AI-assisted reports, channel monitoring, campaign tools, audience-opinion research and social-account management | Public | `twiscope.net`, `/our-products/` and `/about-us/`, fetched 2026-10-18. The public suite lists seven offerings and marks some as coming soon; use the live site for current names and availability. |
 | Twiscope's internal product names may be published | Owner — confirmed 2026-10-17 | Deep-In, Sadeed / Decision Hub, Influencer Impact |
 
 ## Sanad AI (ASAS IT)

@@ -7,23 +7,23 @@ import type { CaseStudy } from "./case-study-types";
 const twiscope: CaseStudy = {
   slug: "twiscope",
   title: "Twiscope",
-  kicker: "Social intelligence platform",
-  headline: "Twiscope: one backend, five products for social-media intelligence",
+  kicker: "Media intelligence and decision support",
+  headline: "Twiscope: a shared backend for a growing media-intelligence platform",
   summary:
-    "An Arabic/English B2B SaaS for social-media analytics. I joined as its sole backend developer and later took on team leadership alongside the backend role; I built the X analysis pipelines, Decision Hub (Sadeed), the alert engine, subscriptions and access control, and the service edge on AWS.",
+    "Twiscope is an Arabic/English platform for media monitoring, analysis and decision support. Its public suite now spans account and topic analysis, influencer intelligence, AI-assisted report analysis, channel monitoring and more. This study focuses on the shared backend scope I built: X analysis pipelines, Decision Hub (Sadeed), the alert engine, subscriptions, access control and the service edge on AWS.",
   readTime: "11 min read",
   role: "Sole backend developer (Oct 2023 – Oct 2025) · Software Team Lead since Aug 2024 · ASAS IT",
   links: [{ label: "twiscope.net", href: "https://twiscope.net/" }],
   tags: ["Django / DRF", "Celery", "Redis", "PostgreSQL", "Elasticsearch", "Kong", "FastAPI", "AWS", "Terraform"],
   facts: [
-    { value: "5", label: "Products on one backend" },
+    { value: "5", label: "Backend product areas covered here" },
     { value: "6", label: "Data sources integrated" },
     { value: "2 yrs", label: "As sole backend developer" },
     { value: "Kong", label: "Gateway in front of 4 services" },
   ],
   problem: [
     "Communications and research teams in the region need to understand conversations about keywords, accounts, influencers and brands on X and other networks — in Arabic as well as English. Generic social-listening tools handle Arabic poorly and don't map to how these teams work.",
-    "Twiscope needed several products on one platform: deep on-demand reports, influencer monitoring by quarter, decision dashboards that score a brand against its competitors, and scheduled alerts — all sharing the same data collection, subscriptions and organisation permissions.",
+    "The backend scope covered by this study had five product areas on one platform: deep on-demand reports, influencer monitoring by quarter, decision dashboards that score a brand against its competitors, scheduled alerts and notifications — all sharing the same data collection, subscriptions and organisation permissions.",
   ],
   constraints: [
     "X API v2 has strict rate limits and a cost per request, so every collection path needs budgets and quotas.",
@@ -168,7 +168,7 @@ const twiscope: CaseStudy = {
     { choice: "Self-managed Elasticsearch on EC2", cost: "Full control and lower cost, at the price of operating backups and upgrades ourselves." },
   ],
   outcomes: [
-    { title: "Five products, one platform", body: "Deep-In, Influencer Impact, Decision Hub, the Alert System and notifications share collection, subscriptions, permissions and infrastructure." },
+    { title: "Five backend product areas, one platform", body: "In the scope covered here, Deep-In, Influencer Impact, Decision Hub, the Alert System and notifications share collection, subscriptions, permissions and infrastructure." },
     { title: "Six data sources", body: "X API v2, EnsembleData for Instagram and TikTok, Google Custom Search, LinkedIn, and a news feed indexed into Elasticsearch every five minutes." },
     { title: "A secured service edge", body: "Every request passes JWT verification and rate limiting at the gateway; services sit in private subnets behind internal load balancers." },
     { title: "Repeatable deployments", body: "Each deploy runs a security gate, restarts the service, health-checks it and bakes a new machine image; deploy jobs typically finish in under two minutes." },
@@ -187,6 +187,7 @@ const twiscope: CaseStudy = {
     "Sentiment comes from pretrained Hugging Face models served by a separate service; no models are trained in this platform.",
     "The repositories contain large test suites (about 3,300 test functions), but CI currently runs security scans and deployments, not the tests.",
     "Twiscope is an ASAS IT product; this study stays at architecture level and omits internal configuration.",
+    "Twiscope's public product suite has evolved beyond the five backend areas covered here; twiscope.net is the source of truth for current product names and availability.",
   ],
   next: "sanad-ai",
 };

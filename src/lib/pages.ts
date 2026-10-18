@@ -25,7 +25,7 @@ export const pages = {
     path: "/portfolio",
     title: "Portfolio",
     description:
-      "Projects by Abdel-Rahman Saied: Twiscope's social-intelligence products, Sanad AI, the MURI transportation backend, the Check-In (Hayyak) hospitality platform, Fendix, and Qatf.",
+      "Projects by Abdel-Rahman Saied: the Twiscope media-intelligence platform, Sanad AI, the MURI transportation backend, the Check-In (Hayyak) hospitality platform, Fendix, and Qatf.",
     og: {
       eyebrow: "Portfolio",
       title: "Production systems and products",

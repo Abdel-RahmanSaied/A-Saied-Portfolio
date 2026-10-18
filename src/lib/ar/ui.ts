@@ -111,7 +111,7 @@ export const uiAr: Ui = {
       [
         "من 2022 وأنا بشتغل على منصات backend — REST APIs وعمليات ربط في ClouDev Solutions، وبعدين ASAS IT في الرياض، واتنقلت هناك من مهندس برمجيات أول لقائد فريق برمجيات. بقود فريق متعدد التخصصات بيوصل لـ 13 مهندس في الـ backend والـ frontend والـ mobile والـ AI والـ QA، بنشتغل على ",
         { href: "/case-studies/twiscope", text: "Twiscope" },
-        " — منصة social intelligence فيها كذا منتج، ومساعد التحليلات بتاعها ",
+        " — منصة للرصد والتحليل الإعلامي ودعم القرار، ومساعد التحليلات بتاعها ",
         { href: "/case-studies/sanad-ai", text: "Sanad AI" },
         " — وعلى ",
         { href: "/case-studies/muri", text: "MURI" },

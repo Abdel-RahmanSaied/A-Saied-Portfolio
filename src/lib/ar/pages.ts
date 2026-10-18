@@ -20,7 +20,7 @@ export const pagesAr: Record<keyof typeof pages, PageCopy> = {
     path: "/portfolio",
     title: "أعمالي",
     description:
-      "مشاريع عبدالرحمن سعيد: منتجات Twiscope للـ social intelligence، و Sanad AI، والـ backend بتاع MURI للنقل، ومنصة الضيافة Check-In (Hayyak)، و Fendix، و Qatf.",
+      "مشاريع عبدالرحمن سعيد: منصة Twiscope للرصد والتحليل الإعلامي، و Sanad AI، والـ backend بتاع MURI للنقل، ومنصة الضيافة Check-In (Hayyak)، و Fendix، و Qatf.",
     og: {
       eyebrow: "أعمالي",
       title: "أنظمة production ومنتجات",

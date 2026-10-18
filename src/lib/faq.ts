@@ -10,7 +10,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "What is Twiscope?",
-    a: "Twiscope is an Arabic/English social-intelligence SaaS built at ASAS IT. Its products — Deep-In (X keyword and account reports), Influencer Impact, Sadeed / Decision Hub, an alert engine, and notifications — share one Django/DRF and Celery backend behind a Kong gateway. Abdel-Rahman was its sole backend developer from October 2023 to October 2025 and now leads the team.",
+    a: "Twiscope is an Arabic/English media-monitoring, analysis and decision-support platform built at ASAS IT. Its public suite spans account and topic analysis, influencer intelligence, AI-assisted report analysis, channel monitoring, campaign tools, audience-opinion research and social-account management. Abdel-Rahman's case study covers the shared Django/DRF and Celery backend scope he built for Deep-In, influencer monitoring, Decision Hub, alerts, subscriptions and access control. He was Twiscope's sole backend developer from October 2023 to October 2025 and now leads the team.",
   },
   {
     q: "What is Sanad AI?",

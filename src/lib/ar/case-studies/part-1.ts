@@ -6,23 +6,23 @@ import type { CaseStudy } from "@/lib/case-study-types";
 const twiscope: CaseStudy = {
   slug: "twiscope",
   title: "Twiscope",
-  kicker: "منصة social intelligence",
-  headline: "Twiscope: backend واحد وخمس منتجات للـ social media intelligence",
+  kicker: "منصة للرصد والتحليل الإعلامي ودعم القرار",
+  headline: "Twiscope: الـ backend المشترك لمنصة رصد وتحليل إعلامي بتتوسع",
   summary:
-    "منصة B2B SaaS بالعربي والإنجليزي لتحليلات السوشيال ميديا. بدأت فيها مطور الـ backend الوحيد، وبعدها تولّيت قيادة الفريق بالتوازي مع شغلي في الـ backend؛ بنيت الـ pipelines بتاعة تحليل X، و Decision Hub (Sadeed)، ومحرك التنبيهات، والاشتراكات والتحكم في الصلاحيات، وطبقة الـ edge للخدمات على AWS.",
+    "Twiscope منصة بالعربي والإنجليزي للرصد والتحليل الإعلامي ودعم القرار. مجموعة المنتجات اللي بيعرضها الموقع الرسمي دلوقتي بتغطي تحليل الحسابات والمواضيع، وقياس تأثير المؤثرين، وتحليل التقارير بالـ AI، ورصد القنوات، ومجالات تانية. دراسة الحالة دي بتركّز على نطاق الـ backend المشترك اللي بنيته: pipelines تحليل X، و Decision Hub (Sadeed)، ومحرك التنبيهات، والاشتراكات والصلاحيات، وطبقة الـ edge للخدمات على AWS.",
   readTime: "قراءة 11 دقيقة",
   role: "مطور الـ backend الوحيد (أكتوبر 2023 – أكتوبر 2025) · قائد فريق برمجيات من أغسطس 2024 · ASAS IT",
   links: [{ label: "twiscope.net", href: "https://twiscope.net/" }],
   tags: ["Django / DRF", "Celery", "Redis", "PostgreSQL", "Elasticsearch", "Kong", "FastAPI", "AWS", "Terraform"],
   facts: [
-    { value: "5", label: "منتجات على backend واحد" },
+    { value: "5", label: "نطاقات backend بتغطيها الدراسة" },
     { value: "6", label: "مصادر بيانات مربوطة" },
     { value: "سنتين", label: "كمطور الـ backend الوحيد" },
     { value: "Kong", label: "الـ gateway قدام 4 خدمات" },
   ],
   problem: [
     "فرق الـ communications والأبحاث في المنطقة محتاجة تفهم الكلام اللي بيدور حوالين كلمات مفتاحية وحسابات ومؤثرين وبراندات على X وشبكات تانية — بالعربي، مش بالإنجليزي بس. وأدوات الـ social listening العامة بتتعامل مع العربي بشكل ضعيف، ومش ماشية مع طريقة شغل الفرق دي.",
-    "Twiscope كانت محتاجة كذا منتج على منصة واحدة: تقارير معمّقة عند الطلب، ومتابعة المؤثرين لكل ربع سنة، ولوحات تحكم للقرار بتقيّم البراند قصاد منافسينه، وتنبيهات مجدولة — وكلهم بيتشاركوا نفس جمع البيانات والاشتراكات وصلاحيات المؤسسة.",
+    "نطاق الـ backend اللي بتغطيه الدراسة كان فيه خمس أجزاء على منصة واحدة: تقارير معمّقة عند الطلب، ومتابعة المؤثرين لكل ربع سنة، ولوحات تحكم للقرار بتقيّم البراند قصاد منافسينه، وتنبيهات مجدولة، وإشعارات — وكلهم بيتشاركوا نفس جمع البيانات والاشتراكات وصلاحيات المؤسسة.",
   ],
   constraints: [
     "الـ X API v2 عليه rate limits صارمة وتكلفة على كل request، فكل مسار لجمع البيانات لازم يبقى له budget و quotas.",
@@ -167,7 +167,7 @@ const twiscope: CaseStudy = {
     { choice: "Elasticsearch على EC2 بنديره بنفسنا", cost: "تحكم كامل وتكلفة أقل، في مقابل إننا بنشغّل الـ backups والـ upgrades بنفسنا." },
   ],
   outcomes: [
-    { title: "خمس منتجات، ومنصة واحدة", body: "Deep-In، و Influencer Impact، و Decision Hub، و Alert System، والإشعارات، كلهم بيتشاركوا جمع البيانات والاشتراكات والصلاحيات والبنية التحتية." },
+    { title: "خمس نطاقات backend، ومنصة واحدة", body: "في النطاق اللي بتغطيه الدراسة، Deep-In، و Influencer Impact، و Decision Hub، و Alert System، والإشعارات، كلهم بيتشاركوا جمع البيانات والاشتراكات والصلاحيات والبنية التحتية." },
     { title: "ست مصادر بيانات", body: "X API v2، و EnsembleData لـ Instagram و TikTok، و Google Custom Search، و LinkedIn، و news feed بيتعمله index في Elasticsearch كل خمس دقايق." },
     { title: "طبقة edge مؤمَّنة للخدمات", body: "كل request بيعدّي على التحقق من الـ JWT والـ rate limiting في الـ gateway؛ والخدمات موجودة في private subnets ورا internal load balancers." },
     { title: "deployments قابلة للتكرار", body: "كل deploy بيشغّل بوابة أمان، ويعمل restart للخدمة، ويعمل لها health check، ويعمل bake لـ machine image جديدة؛ والـ deploy jobs عادةً بتخلص في أقل من دقيقتين." },
@@ -186,6 +186,7 @@ const twiscope: CaseStudy = {
     "الـ sentiment جاي من موديلات pretrained من Hugging Face، بتشغّلها خدمة منفصلة؛ ومفيش أي موديل بيتدرّب في المنصة دي.",
     "الـ repositories فيها test suites كبيرة (حوالي 3,300 test function)، بس الـ CI دلوقتي بيشغّل الـ security scans والـ deployments، مش الاختبارات.",
     "Twiscope منتج من منتجات ASAS IT؛ ودراسة الحالة دي بتفضل على مستوى الـ architecture، ومش بتدخل في الإعدادات الداخلية.",
+    "مجموعة منتجات Twiscope المعروضة للناس اتطورت بعد نطاقات الـ backend الخمسة اللي بتغطيها الدراسة؛ والموقع الرسمي twiscope.net هو المرجع لأسماء المنتجات المتاحة دلوقتي وحالتها.",
   ],
   next: "sanad-ai",
 };

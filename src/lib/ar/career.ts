@@ -31,7 +31,7 @@ export const careerAr: Career = {
       summary:
         "بقود فريق متعدد التخصصات بيوصل لـ 13 مهندس (backend، frontend، mobile، AI، QA)؛ ومسؤول عن الـ architecture ومراجعة الكود والتخطيط والـ delivery على الـ production لـ Twiscope و MURI.",
       highlights: [
-        "Twiscope: كنت مطور الـ backend الوحيد لحد أكتوبر 2025، وتولّيت قيادة الفريق من أغسطس 2024 بالتوازي مع دوري في الـ backend، على منصة social intelligence فيها خمس منتجات (Django/DRF، Celery، PostgreSQL، Elasticsearch). بنيت Decision Hub (pipelines بـ Celery chords، و scoring deterministic، و snapshots في Elasticsearch)، ومحرك تنبيهات X، والاشتراكات والـ RBAC، و gateway بـ Kong معاه auth service بـ FastAPI، والـ infrastructure على AWS اللي بتتدار بـ Terraform.",
+        "Twiscope: كنت مطور الـ backend الوحيد لحد أكتوبر 2025، وتولّيت قيادة الفريق من أغسطس 2024 بالتوازي مع دوري في الـ backend، على منصة عربية وإنجليزية للرصد والتحليل الإعلامي ودعم القرار (Django/DRF، Celery، PostgreSQL، Elasticsearch). بنيت Decision Hub (pipelines بـ Celery chords، و scoring deterministic، و snapshots في Elasticsearch)، ومحرك تنبيهات X، والاشتراكات والـ RBAC، و gateway بـ Kong معاه auth service بـ FastAPI، والـ infrastructure على AWS اللي بتتدار بـ Terraform.",
         "Sanad AI: بقود الفريق اللي بيبني مساعد RAG بالعربي والإنجليزي لـ Twiscope (FastAPI، BGE-M3، BM25 + kNN في Elasticsearch مع reciprocal rank fusion، و index routing بالـ LLM محكوم بـ allow-list)؛ وبنيت فيه بنفسي الـ ingestion pipeline على SQS، والـ deployment workflows، والـ tracing بـ Elastic APM.",
         "MURI: قُدت الفريق اللي كان بيبني منصة لنقل الطلاب (Django/DRF، PostGIS، Celery، HyperPay)؛ وأسست بنفسي الـ backend والـ auth بـ JWT/OTP والـ deployment pipeline، وبنيت فيها الـ geography models على PostGIS والتحقق من الرحلات بالـ geofencing.",
       ],
@@ -103,7 +103,7 @@ export const careerAr: Career = {
   highlights: [
     { value: 6, suffix: "+", label: "سنين في بناء برمجيات للـ production" },
     { value: 13, suffix: "", label: "مهندس في خمس تخصصات تحت قيادتي" },
-    { value: 5, suffix: "", label: "منتجات Twiscope على backend واحد" },
+    { value: 2, suffix: " سنة", label: "كمطور الـ backend الوحيد في Twiscope" },
     { value: 2, suffix: "", label: "بوابات دفع متربطة (Tap، HyperPay)" },
   ],
 };

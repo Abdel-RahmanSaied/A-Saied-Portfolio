@@ -113,7 +113,7 @@ export const uiEn = {
       [
         "Since 2022 my work has been backend platforms — REST APIs and integrations at ClouDev Solutions, then ASAS IT in Riyadh, where I moved from Senior Software Engineer to Software Team Lead. I lead a cross-functional team of up to 13 engineers across backend, frontend, mobile, AI, and QA, working on ",
         { href: "/case-studies/twiscope", text: "Twiscope" },
-        " — a multi-product social-intelligence platform and its ",
+        " — a media-intelligence and decision-support platform and its ",
         { href: "/case-studies/sanad-ai", text: "Sanad AI" },
         " analytics assistant — and on ",
         { href: "/case-studies/muri", text: "MURI" },

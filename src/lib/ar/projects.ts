@@ -7,10 +7,10 @@ export const projectsAr: Project[] = [
   {
     slug: "twiscope",
     title: "Twiscope",
-    tagline: "منصة social intelligence",
-    caseStudyHook: "إزاي خمس منتجات بتشارك backend واحد بصلاحيات و queues وحدود خدمات واضحة",
+    tagline: "منصة للرصد والتحليل الإعلامي ودعم القرار",
+    caseStudyHook: "إزاي backend مشترك بيدعم منصة للرصد والتحليل الإعلامي وهي بتتوسع",
     description:
-      "منصة SaaS للـ social intelligence بالعربي والإنجليزي، فيها خمس منتجات على backend واحد: Deep-In (تقارير الكلمات المفتاحية والحسابات على X)، و Influencer Impact، و Sadeed / Decision Hub (scoring للبراند مقارنةً بالمنافسين)، ومحرك تنبيهات، والإشعارات. مبنية بـ Django/DRF و Celery ورا Kong gateway، مع PostgreSQL و Elasticsearch و AWS بيتدار بـ Terraform. فضلت مطور الـ backend الوحيد فيها لمدة سنتين، وتولّيت قيادة الفريق مع توسّع الشغل.",
+      "منصة بالعربي والإنجليزي للرصد والتحليل الإعلامي، بتحلل الحسابات والمواضيع والهاشتاجات والمؤثرين والقنوات، وبتحوّل التقارير لمعلومات تساعد في القرار من خلال منتجات منها Deep-In، ومؤشر تويسكوب للتأثير، و Sanad AI. شغلي كان في الـ backend المشترك بـ Django/DRF و Celery ورا Kong gateway: Deep-In، ومتابعة المؤثرين، و Decision Hub، والتنبيهات، والاشتراكات والصلاحيات، مع PostgreSQL و Elasticsearch و AWS بيتدار بـ Terraform. فضلت مطور الـ backend الوحيد لمدة سنتين قبل ما أنتقل لقيادة الفريق.",
     techStack: ["Django / DRF", "Celery", "Redis", "PostgreSQL", "Elasticsearch", "Kong", "FastAPI", "Terraform", "AWS"],
     category: "Platform",
     engagement: "ASAS IT",
