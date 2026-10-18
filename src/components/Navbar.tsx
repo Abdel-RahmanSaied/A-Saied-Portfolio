@@ -12,6 +12,7 @@ const navItems = [
   { name: "About",         href: "/about" },
   { name: "Portfolio",     href: "/portfolio" },
   { name: "Case Studies",  href: "/case-studies" },
+  { name: "Open Source",   href: "/open-source" },
   { name: "Philosophy",    href: "/engineering-philosophy" },
   { name: "Blog",          href: "/blog" },
   { name: "Resume",        href: "/resume" },
@@ -66,7 +67,8 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop */}
-          <div className="hidden md:flex items-center gap-1">
+          {/* Nine items need ~950px; below lg they wrap, so tablets get the menu button. */}
+          <div className="hidden lg:flex items-center gap-1">
             {navItems.map((item) => {
               const active = pathname === item.href;
               return (
@@ -74,7 +76,7 @@ export default function Navbar() {
                   key={item.href}
                   href={item.href}
                   aria-current={active ? "page" : undefined}
-                  className={`relative px-3 lg:px-4 py-2 rounded-lg text-sm transition-colors duration-200 ${
+                  className={`relative px-3 xl:px-4 py-2 rounded-lg text-sm transition-colors duration-200 ${
                     active ? "text-white font-medium" : "text-fg-muted hover:text-zinc-200 font-normal"
                   }`}
                 >
@@ -97,7 +99,7 @@ export default function Navbar() {
             aria-expanded={isOpen}
             aria-controls="mobile-menu"
             aria-label={isOpen ? "Close menu" : "Open menu"}
-            className="md:hidden p-2 rounded-lg text-fg-muted hover:text-zinc-200 hover:bg-zinc-800/60 transition-all"
+            className="lg:hidden p-2 rounded-lg text-fg-muted hover:text-zinc-200 hover:bg-zinc-800/60 transition-all"
           >
             {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -113,7 +115,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.15 }}
-            className="md:hidden border-t border-zinc-800/60 bg-zinc-950/95 backdrop-blur-xl"
+            className="lg:hidden border-t border-zinc-800/60 bg-zinc-950/95 backdrop-blur-xl"
           >
             <div className="max-w-5xl mx-auto px-6 py-3 space-y-1">
               {navItems.map((item) => {
