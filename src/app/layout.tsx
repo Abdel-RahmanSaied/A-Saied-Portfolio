@@ -23,6 +23,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icon.svg",
     shortcut: "/icon.svg",
+    apple: "/apple-icon.png",
   },
   alternates: {
     types: { "application/rss+xml": "/feed.xml" },

@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { site } from "@/lib/site";
+import { fullMark } from "@/lib/brand";
 
 // Shared renderer for every route's opengraph-image.tsx, so link previews
 // on LinkedIn/X/Slack carry the page's own title instead of a generic card.
@@ -41,20 +42,10 @@ export function renderOg({ eyebrow, title, subtitle, tags = [], footer }: OgInpu
           }}
         />
 
-        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-          <div
-            style={{
-              width: "44px",
-              height: "44px",
-              background: "#f4f4f5",
-              borderRadius: "10px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <span style={{ color: "#09090b", fontWeight: 900, fontSize: "17px", letterSpacing: "-1px" }}>AS</span>
-          </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+          <svg width="96" height="56" viewBox={fullMark.viewBox}>
+            <path fill="#f4f4f5" fillRule="evenodd" d={fullMark.d} />
+          </svg>
           <span style={{ color: "#a1a1aa", fontSize: "20px", fontWeight: 600 }}>
             asaied<span style={{ color: "#8e8e98" }}>.dev</span>
           </span>

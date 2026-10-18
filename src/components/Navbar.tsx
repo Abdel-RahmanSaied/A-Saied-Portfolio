@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { asIconSmall } from "@/lib/brand";
 
 const navItems = [
   { name: "Home",          href: "/" },
@@ -52,9 +53,13 @@ export default function Navbar() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div aria-hidden="true" className="w-7 h-7 bg-zinc-100 rounded-md flex items-center justify-center group-hover:bg-white transition-colors duration-200">
-              <span className="text-zinc-950 font-black text-xs leading-none">AS</span>
-            </div>
+            <svg
+              aria-hidden="true"
+              viewBox={asIconSmall.viewBox}
+              className="h-7 w-[23px] text-zinc-100 group-hover:text-white transition-colors duration-200"
+            >
+              <path fill="currentColor" fillRule="evenodd" d={asIconSmall.d} />
+            </svg>
             <span className="font-semibold text-zinc-200 group-hover:text-white transition-colors text-sm tracking-tight">
               asaied<span className="text-zinc-400">.dev</span>
             </span>
