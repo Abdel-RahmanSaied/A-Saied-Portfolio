@@ -13,12 +13,12 @@ export const pages = {
     path: "/about",
     title: "About",
     description:
-      "Software Team Lead and Senior Backend Engineer in Riyadh, Saudi Arabia — background, experience, skills, and how I work across backend, AI, mobile, and QA teams.",
+      "Software Team Lead and Senior Software Engineer in Riyadh, Saudi Arabia — backend and distributed systems across stacks, technical leadership, experience, and working style.",
     og: {
       eyebrow: "About",
       title: "How I build and lead",
-      subtitle: "Software Team Lead | Senior Backend Engineer · Riyadh, Saudi Arabia",
-      tags: ["Python", "Django", "FastAPI", "PostgreSQL", "Engineering leadership"],
+      subtitle: "Software Team Lead | Senior Software Engineer, Backend · Riyadh, Saudi Arabia",
+      tags: ["Software engineering", "Backend architecture", "Distributed systems", "Cloud", "Engineering leadership"],
     },
   },
   portfolio: {
@@ -81,23 +81,23 @@ export const pages = {
     path: "/resume",
     title: "Resume",
     description:
-      "One-page résumé of Abdel-Rahman Saied, Software Team Lead | Senior Backend Engineer in Riyadh — Python, Django, FastAPI, Celery, PostgreSQL, Redis, Elasticsearch, and AWS.",
+      "One-page résumé of Abdel-Rahman Saied, Software Team Lead and Senior Software Engineer in Riyadh — backend architecture, distributed systems, cloud delivery, data, AI, and technical leadership.",
     og: {
       eyebrow: "Résumé",
       title: "Abdel-Rahman Saied",
-      subtitle: "Software Team Lead | Senior Backend Engineer",
-      tags: ["Python", "Django / DRF", "FastAPI", "PostgreSQL", "AWS"],
+      subtitle: "Software Team Lead | Senior Software Engineer, Backend",
+      tags: ["Software engineering", "Backend architecture", "Distributed systems", "Cloud", "Leadership"],
     },
   },
   letsTalk: {
     path: "/lets-talk",
     title: "Let's Talk",
     description:
-      "Contact Abdel-Rahman Saied about Senior Backend, Technical Lead, and Staff-level backend roles — based in Riyadh, Saudi Arabia.",
+      "Contact Abdel-Rahman Saied about Senior Software Engineer, Senior Backend, Technical Lead, and Staff-level roles — based in Riyadh, Saudi Arabia.",
     og: {
       eyebrow: "Contact",
       title: "Let's talk",
-      subtitle: "Senior Backend · Technical Lead · Staff-level backend roles",
+      subtitle: "Senior Software Engineer · Technical Lead · Staff-level roles",
     },
   },
 } satisfies Record<string, PageCopy>;

@@ -8,12 +8,12 @@ export const pagesAr: Record<keyof typeof pages, PageCopy> = {
     path: "/about",
     title: "عنّي",
     description:
-      "قائد فريق برمجيات ومهندس Backend أول في الرياض، السعودية — الخلفية والخبرة والمهارات، وإزاي بشتغل مع فرق الـ backend والـ AI والـ mobile والـ QA.",
+      "قائد فريق برمجيات ومهندس برمجيات أول في الرياض، السعودية — أنظمة backend وأنظمة موزّعة بأكتر من stack، وقيادة تقنية، وخبرة، وأسلوب شغل.",
     og: {
       eyebrow: "عنّي",
       title: "إزاي ببني وبقود",
-      subtitle: "قائد فريق برمجيات | مهندس Backend أول · الرياض، السعودية",
-      tags: ["Python", "Django", "FastAPI", "PostgreSQL", "قيادة هندسية"],
+      subtitle: "قائد فريق برمجيات | مهندس برمجيات أول متخصص في الـ Backend · الرياض، السعودية",
+      tags: ["هندسة برمجيات", "Backend architecture", "أنظمة موزّعة", "Cloud", "قيادة هندسية"],
     },
   },
   portfolio: {
@@ -76,23 +76,23 @@ export const pagesAr: Record<keyof typeof pages, PageCopy> = {
     path: "/resume",
     title: "السيرة الذاتية",
     description:
-      "السيرة الذاتية لعبدالرحمن سعيد في صفحة واحدة، قائد فريق برمجيات | مهندس Backend أول في الرياض — Python، Django، FastAPI، Celery، PostgreSQL، Redis، Elasticsearch و AWS.",
+      "السيرة الذاتية لعبدالرحمن سعيد في صفحة واحدة، قائد فريق برمجيات ومهندس برمجيات أول في الرياض — backend architecture، وأنظمة موزّعة، وcloud delivery، وبيانات، وAI، وقيادة تقنية.",
     og: {
       eyebrow: "السيرة الذاتية",
       title: "عبدالرحمن سعيد",
-      subtitle: "قائد فريق برمجيات | مهندس Backend أول",
-      tags: ["Python", "Django / DRF", "FastAPI", "PostgreSQL", "AWS"],
+      subtitle: "قائد فريق برمجيات | مهندس برمجيات أول متخصص في الـ Backend",
+      tags: ["هندسة برمجيات", "Backend architecture", "أنظمة موزّعة", "Cloud", "قيادة"],
     },
   },
   letsTalk: {
     path: "/lets-talk",
     title: "تواصل معايا",
     description:
-      "تواصلوا مع عبدالرحمن سعيد بخصوص وظايف مهندس Backend أول، وقائد تقني، ووظايف backend على مستوى Staff — مقيم في الرياض، السعودية.",
+      "تواصلوا مع عبدالرحمن سعيد بخصوص فرص مهندس برمجيات أول، أو مهندس Backend أول، أو قائد تقني، أو Staff Engineer — مقيم في الرياض، السعودية.",
     og: {
       eyebrow: "التواصل",
       title: "خلّينا نتكلم",
-      subtitle: "مهندس Backend أول · قائد تقني · وظايف backend على مستوى Staff",
+      subtitle: "مهندس برمجيات أول · قائد تقني · Staff Engineer",
     },
   },
 };

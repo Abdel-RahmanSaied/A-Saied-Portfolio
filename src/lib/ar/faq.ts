@@ -5,7 +5,7 @@ import type { Faq } from "@/lib/faq";
 export const faqsAr: Faq[] = [
   {
     q: "مين عبدالرحمن سعيد؟",
-    a: "عبدالرحمن محمد سعيد (Abdel-Rahman Mohamed Saied)، واسمه بيتكتب كمان Abdelrahman Saied أو Abdelrahman Saeed، قائد فريق برمجيات ومهندس Backend أول في ASAS IT في الرياض بالسعودية. بيبني أنظمة backend بـ Python ومنصات فيها أكتر من service، وبيقود فريق متعدد التخصصات بيوصل لـ 13 مهندس في الـ backend والـ frontend والـ mobile والـ AI والـ QA.",
+    a: "عبدالرحمن محمد سعيد (Abdel-Rahman Mohamed Saied)، واسمه بيتكتب كمان Abdelrahman Saied أو Abdelrahman Saeed، قائد فريق برمجيات ومهندس برمجيات أول في ASAS IT في الرياض بالسعودية، متخصص في الـ backend والأنظمة الموزّعة. بيشتغل بأكتر من لغة وstack حسب احتياج المشكلة، وبيقود فريق متعدد التخصصات بيوصل لـ 13 مهندس في الـ backend والـ frontend والـ mobile والـ AI والـ QA.",
   },
   {
     q: "إيه هي Twiscope؟",

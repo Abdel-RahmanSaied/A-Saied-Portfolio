@@ -23,7 +23,7 @@ export function GET() {
 
 > ${site.description} This site is the personal portfolio, résumé, case-study archive and blog of ${site.name}.
 
-بالعربية: ${site.nameArabic} — قائد فريق برمجيات ومهندس أنظمة خلفية (Backend) أول في الرياض، المملكة العربية السعودية.
+بالعربية: ${site.nameArabic} — قائد فريق برمجيات ومهندس برمجيات أول متخصص في أنظمة الـ Backend والأنظمة الموزّعة في الرياض، المملكة العربية السعودية.
 
 Key facts:
 - Full name: ${site.nameFull} (Arabic: ${site.nameArabic})

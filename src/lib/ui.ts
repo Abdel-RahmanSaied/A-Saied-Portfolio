@@ -7,10 +7,10 @@ import type { Rich } from "@/lib/i18n";
 export const uiEn = {
   site: {
     name: "Abdel-Rahman Saied",
-    title: "Abdel-Rahman Saied | Software Team Lead | Senior Backend Engineer",
-    jobTitle: "Software Team Lead | Senior Backend Engineer",
+    title: "Abdel-Rahman Saied | Software Team Lead | Senior Software Engineer, Backend",
+    jobTitle: "Software Team Lead | Senior Software Engineer, Backend",
     description:
-      "Software Team Lead and Senior Backend Engineer in Riyadh, Saudi Arabia, building Python backends, multi-service platforms, and search/AI services, and leading the cross-functional teams that ship them.",
+      "Software Team Lead and Senior Software Engineer in Riyadh, Saudi Arabia, specializing in backend and distributed systems across languages and stacks, and leading the cross-functional teams that ship them.",
     location: "Riyadh, Saudi Arabia",
   },
   common: {
@@ -58,11 +58,11 @@ export const uiEn = {
     switchLang: "ar",
   },
   home: {
-    badge: "Open to Senior Backend, Technical Lead, and Staff-level roles",
+    badge: "Open to Senior Software Engineer, Technical Lead, and Staff-level roles",
     nameFirst: "Abdel-Rahman",
     nameLast: "Saied",
     intro:
-      "I build Python backends and multi-service platforms — APIs, async pipelines, search, payments, and integrations — and lead the cross-functional team that ships them, while staying close to the code and production.",
+      "I build backend and distributed systems — APIs, async pipelines, search, payments, and integrations. I choose the language and stack around the problem, the team, and production constraints, while staying close to the code and leading delivery.",
     scroll: "Scroll",
     howIWork: "How I work",
     howTitle: "Build systems the team can trust under pressure.",
@@ -85,7 +85,7 @@ export const uiEn = {
     expertiseLabel: "Expertise",
     expertiseTitle: "Where I create leverage",
     services: [
-      { title: "Distributed backend systems", desc: "Django/DRF and FastAPI services, Celery pipelines, data models, and APIs built for operational load." },
+      { title: "Backend & distributed systems", desc: "APIs, async pipelines, data models, and services across stacks, designed around domain and operational constraints." },
       { title: "Search, data & AI services", desc: "Elasticsearch, PostgreSQL/PostGIS, and retrieval-augmented analytics wired into real products." },
       { title: "Product architecture", desc: "Service boundaries, gateways, payments and third-party integrations, deployment flow, and failure handling." },
       { title: "Technical leadership", desc: "Architecture reviews, code review, planning, and mentoring across backend, frontend, mobile, AI, and QA." },
@@ -93,15 +93,15 @@ export const uiEn = {
     stackLabel: "Stack",
     stackTitle: "Technologies I work with",
     ctaLabel: "Let's work together",
-    ctaTitle: "Hiring for senior backend leadership?",
-    ctaBody: "I'm best suited to roles where backend architecture, hands-on delivery, and team leadership have to move together.",
+    ctaTitle: "Hiring for hands-on engineering leadership?",
+    ctaBody: "I'm best suited to roles where software architecture, hands-on delivery, and team leadership have to move together.",
   },
   about: {
     eyebrow: "About",
     title: "How I build and lead.",
     introPrefix: "I'm",
     introRest:
-      "— a Software Team Lead and Senior Backend Engineer based in Riyadh, Saudi Arabia. I build Python backends and multi-service platforms, and I lead the cross-functional team that ships them.",
+      "— a Software Team Lead and Senior Software Engineer based in Riyadh, Saudi Arabia, specializing in backend and distributed systems. I choose languages and frameworks around the problem instead of treating one stack as an identity, and I lead the cross-functional team that ships the work.",
     summaryLabel: "Summary",
     summaryTitle: "Professional overview",
     overview: [
@@ -191,7 +191,7 @@ export const uiEn = {
     principles: [
       { title: "Reliability first", body: "The best architecture is the one users can depend on during peak load, partial failure, and ordinary maintenance. I design around clear ownership, graceful degradation, predictable recovery, and boring operational paths." },
       { title: "Observability before optimization", body: "Before tuning a system, I want traces, metrics, logs, and product signals that explain where time is spent and what users experience. Guesswork is expensive; visibility compounds." },
-      { title: "Simple systems over clever systems", body: "Cleverness usually moves cost from implementation to operations. I prefer explicit service boundaries, readable data flows, conservative dependencies, and abstractions that earn their place." },
+      { title: "Problem first, stack second", body: "I do not treat a language or framework as an identity. I choose tools around the domain, the team, performance needs, and operational constraints, then keep service boundaries and data flows explicit enough to change course later." },
       { title: "Measure before scaling", body: "Scale decisions should come from evidence: throughput, p95 latency, queue depth, error budgets, cost curves, and user impact. Premature scale adds complexity without buying reliability." },
       { title: "Product impact over tech hype", body: "AI, distributed systems, and platform work only matter when they improve a real workflow. I tie technical choices to faster decisions, better reliability, lower cost, or clearer customer value." },
       { title: "Security and privacy by design", body: "Security is not a release checklist. It belongs in API design, data modeling, access control, logging strategy, dependency management, and the defaults engineers use every day." },
@@ -238,7 +238,7 @@ export const uiEn = {
     titleLine1: "Let's talk about",
     titleLine2: "technical leadership",
     intro:
-      "I'm looking for Senior Backend, Technical Lead, and Staff-level backend roles in distributed systems and AI-backed products, where architecture ownership and hands-on delivery both matter. Pick your preferred channel below.",
+      "I'm looking for Senior Software Engineer, Technical Lead, and Staff-level roles focused on backend, distributed systems, or AI-backed products. I care about architecture ownership and hands-on delivery more than any particular language or framework. Pick your preferred channel below.",
     reachMe: "Reach me at",
     contacts: {
       email: { label: "Email", desc: "Best for role and architecture conversations" },
@@ -249,10 +249,10 @@ export const uiEn = {
     },
     available: "Available",
     openFor: "Open for",
-    availableFor: ["Senior Backend Roles", "Technical Lead Roles", "Staff-level Backend Roles", "Architecture Advisory"],
+    availableFor: ["Senior Software Engineer Roles", "Senior Backend Roles", "Technical Lead Roles", "Staff-level Roles"],
     helpTitle: "I can help with",
     canHelpWith: [
-      "Python backends and multi-service platforms with Django, DRF, FastAPI, Celery, and PostgreSQL",
+      "Backend and multi-service platforms across stacks; language and framework choices based on the problem and production constraints",
       "Search and AI-backed features: Elasticsearch, retrieval pipelines, and LLM integrations",
       "Payment, PMS, and third-party API integrations that fail safely",
       "Deployment pipelines, observability, and AWS infrastructure with Terraform",
@@ -270,7 +270,7 @@ export const uiEn = {
     blog: "Blog",
     blogAlt: "Blog post by Abdel-Rahman Saied",
     caseStudyAlt: "Engineering case study by Abdel-Rahman Saied",
-    homeTags: ["Python · Django · FastAPI", "PostgreSQL · Redis · Celery", "Elasticsearch · AWS", "Engineering leadership"],
+    homeTags: ["Software engineering", "Backend · distributed systems", "Cloud · data · AI", "Engineering leadership"],
   },
 };
 

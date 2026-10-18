@@ -41,8 +41,9 @@ function WordReveal({ text, className }: { text: string; className?: string }) {
 
 // ── Tech marquee (decorative) ────────────────────────────────
 const MARQUEE_ITEMS = [
-  "Python", "Django", "FastAPI", "Celery", "PostgreSQL", "PostGIS", "Redis",
-  "Elasticsearch", "Kong", "AWS", "Docker", "Go", "SAST", "DAST", "CI/CD",
+  "Software Engineering", "Backend Architecture", "Distributed Systems", "APIs",
+  "Python", "Go", "TypeScript", "PostgreSQL", "Redis", "Elasticsearch", "AWS",
+  "Docker", "Terraform", "Application Security", "CI/CD",
 ];
 
 // CSS animation rather than framer-motion: it runs on the compositor

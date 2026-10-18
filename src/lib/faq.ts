@@ -6,7 +6,7 @@ export type Faq = { q: string; a: string };
 export const faqs: Faq[] = [
   {
     q: "Who is Abdel-Rahman Saied?",
-    a: "Abdel-Rahman Mohamed Saied (عبدالرحمن محمد سعيد), also written Abdelrahman Saied or Abdelrahman Saeed, is a Software Team Lead and Senior Backend Engineer at ASAS IT in Riyadh, Saudi Arabia. He builds Python backends and multi-service platforms and leads a cross-functional team of up to 13 engineers across backend, frontend, mobile, AI, and QA.",
+    a: "Abdel-Rahman Mohamed Saied (عبدالرحمن محمد سعيد), also written Abdelrahman Saied or Abdelrahman Saeed, is a Software Team Lead and Senior Software Engineer at ASAS IT in Riyadh, Saudi Arabia, specializing in backend and distributed systems. He works across languages and stacks and leads a cross-functional team of up to 13 engineers across backend, frontend, mobile, AI, and QA.",
   },
   {
     q: "What is Twiscope?",

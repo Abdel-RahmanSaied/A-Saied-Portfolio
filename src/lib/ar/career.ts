@@ -5,13 +5,13 @@ import type { Career } from "@/lib/career";
 
 export const careerAr: Career = {
   name: "عبدالرحمن محمد سعيد",
-  headline: "قائد فريق برمجيات | مهندس Backend أول",
+  headline: "قائد فريق برمجيات | مهندس برمجيات أول متخصص في الـ Backend",
   location: "الرياض، السعودية",
   availability:
-    "متاح لوظايف مهندس Backend أول، وقائد تقني، ووظايف backend على مستوى Staff — حضوري في الرياض، أو عن بُعد، أو مع الانتقال لمكان الشغل.",
+    "متاح لفرص كمهندس برمجيات أول، أو مهندس Backend أول، أو قائد تقني، أو Staff Engineer — حضوري في الرياض، أو عن بُعد، أو مع الانتقال لمكان الشغل.",
 
   summary:
-    "قائد فريق برمجيات ومهندس Backend أول، عندي خبرة مهنية 6 سنين وأكتر، أغلبها في بناء منصات SaaS بـ Python وأنظمة backend موزّعة. بقود فريق متعدد التخصصات بيوصل لـ 13 مهندس في الـ backend والـ frontend والـ mobile والـ AI والـ QA، ولسه بشتغل بإيدي في الـ architecture ومراجعة الكود وتخطيط الـ delivery وتشغيل الـ production.",
+    "قائد فريق برمجيات ومهندس برمجيات أول، عندي خبرة مهنية 6 سنين وأكتر في بناء منصات SaaS وخدمات backend وأنظمة موزّعة بأكتر من stack. بختار اللغة والأدوات حسب المشكلة وقيود التشغيل، وبقود فريق متعدد التخصصات بيوصل لـ 13 مهندس مع استمرار شغلي العملي في الـ architecture ومراجعة الكود والـ delivery والـ production.",
 
   skills: [
     { label: "Backend", items: ["Python", "Go", "Django", "Django REST Framework", "FastAPI", "Celery", "تصميم REST API", "الـ Authentication والـ RBAC"] },
@@ -24,7 +24,7 @@ export const careerAr: Career = {
     {
       company: "ASAS IT",
       location: "الرياض، السعودية",
-      title: "قائد فريق برمجيات | مهندس Backend أول",
+      title: "قائد فريق برمجيات | مهندس برمجيات أول متخصص في الـ Backend",
       engagement: "Full-time",
       start: "أغسطس 2024",
       end: "لحد دلوقتي",
@@ -39,7 +39,7 @@ export const careerAr: Career = {
     {
       company: "ASAS IT",
       location: "الرياض، السعودية",
-      title: "مهندس برمجيات أول، Backend",
+      title: "مهندس برمجيات أول متخصص في الـ Backend",
       engagement: "Full-time",
       start: "سبتمبر 2023",
       end: "أغسطس 2024",

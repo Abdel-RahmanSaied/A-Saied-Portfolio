@@ -42,12 +42,12 @@ export type Career = {
 
 export const career = {
   name: "Abdel-Rahman Mohamed Saied",
-  headline: "Software Team Lead | Senior Backend Engineer",
+  headline: "Software Team Lead | Senior Software Engineer, Backend",
   location: "Riyadh, Saudi Arabia",
-  availability: "Open to Senior Backend, Technical Lead, and Staff-level backend roles — on-site in Riyadh, remote, or relocation.",
+  availability: "Open to Senior Software Engineer, Senior Backend, Technical Lead, and Staff-level roles — on-site in Riyadh, remote, or relocation.",
 
   summary:
-    "Software Team Lead and Senior Backend Engineer with 6+ years of professional experience, most of it building Python SaaS platforms and distributed backends. I lead a cross-functional team of up to 13 engineers across backend, frontend, mobile, AI, and QA while staying hands-on with architecture, code review, delivery planning, and production operations.",
+    "Software Team Lead and Senior Software Engineer with 6+ years building SaaS platforms, backend services, and distributed systems across stacks. I choose languages and tools around the problem and operating constraints, and lead a cross-functional team of up to 13 engineers while staying hands-on with architecture, code review, delivery, and production.",
 
   skills: [
     { label: "Backend", items: ["Python", "Go", "Django", "Django REST Framework", "FastAPI", "Celery", "REST API design", "Authentication & RBAC"] },
@@ -60,7 +60,7 @@ export const career = {
     {
       company: "ASAS IT",
       location: "Riyadh, Saudi Arabia",
-      title: "Software Team Lead | Senior Backend Engineer",
+      title: "Software Team Lead | Senior Software Engineer, Backend",
       engagement: "Full-time",
       start: "Aug 2024",
       end: "Present",
