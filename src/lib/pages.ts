@@ -25,22 +25,34 @@ export const pages = {
     path: "/portfolio",
     title: "Portfolio",
     description:
-      "Projects by Abdel-Rahman Saied: Twiscope's social-intelligence products, Sanad AI, the MURI transportation backend, the Check-In (Hayyak) hospitality platform, and Fendix.",
+      "Projects by Abdel-Rahman Saied: Twiscope's social-intelligence products, Sanad AI, the MURI transportation backend, the Check-In (Hayyak) hospitality platform, Fendix, and Qatf.",
     og: {
       eyebrow: "Portfolio",
       title: "Production systems and products",
-      subtitle: "Twiscope · Sanad AI · MURI · Check-In (Hayyak) · Fendix",
+      subtitle: "Twiscope · Sanad AI · MURI · Check-In (Hayyak) · Fendix · Qatf",
     },
   },
   caseStudies: {
     path: "/case-studies",
     title: "Case Studies",
     description:
-      "Engineering case studies — problem, constraints, architecture, decisions, trade-offs, and outcomes — for Twiscope, Sanad AI, Fendix, MURI, Check-In (Hayyak), and Maxpeak.",
+      "Engineering case studies — problem, constraints, architecture, decisions, trade-offs, and outcomes — for Twiscope, Sanad AI, Fendix, Qatf, MURI, Check-In (Hayyak), and Maxpeak.",
     og: {
       eyebrow: "Case studies",
       title: "Engineering decisions behind shipped systems",
       subtitle: "Problem → constraints → architecture → decisions → trade-offs → outcomes",
+    },
+  },
+  openSource: {
+    path: "/open-source",
+    title: "Open Source",
+    description:
+      "Open-source projects by Abdel-Rahman Saied: Qatf, an Arabic-first tool that turns long videos into vertical clips (Apache-2.0), and the Fendix application security engine (MIT). Licences, status, features, and case studies.",
+    og: {
+      eyebrow: "Open source",
+      title: "Code I publish in the open",
+      subtitle: "Qatf (Apache-2.0) · Fendix engine (MIT)",
+      tags: ["Python", "Go", "FastAPI", "Whisper", "ffmpeg"],
     },
   },
   philosophy: {

@@ -435,7 +435,7 @@ const fendix: CaseStudy = {
     "Fendix holds no third-party security certification, and I don't claim customer or adoption numbers.",
     "--offline is not yet fully hermetic when the Python dependency check runs; the README documents the workaround.",
   ],
-  next: "hayyak",
+  next: "qatf",
 };
 
 const muri: CaseStudy = {
@@ -739,6 +739,177 @@ const maxpeak: CaseStudy = {
   ],
 };
 
-export const caseStudies: CaseStudy[] = [twiscope, sanad, fendix, hayyak, muri, maxpeak];
+const qatf: CaseStudy = {
+  slug: "qatf",
+  title: "Qatf",
+  kicker: "Open-source video tool",
+  headline: "Qatf: long videos into vertical clips, with Arabic done properly",
+  summary:
+    "An open-source tool (Apache-2.0) that turns a long video into 9:16 clips with word-by-word captions. A language model picks the moments; transcription, cut placement and rendering stay deterministic, and right-to-left Arabic captions are a first-class path. I created it and maintain it; it is a working prototype.",
+  readTime: "8 min read",
+  role: "Creator and maintainer · independent, open source · Aug 2026 – present",
+  links: [{ label: "Source (Apache-2.0)", href: "https://github.com/Abdel-RahmanSaied/Qatf" }],
+  tags: ["Python", "FastAPI", "faster-whisper", "ffmpeg", "libass", "SQLite", "React", "TypeScript", "Docker"],
+  facts: [
+    { value: "5", label: "Pipeline stages" },
+    { value: "8", label: "Model presets" },
+    { value: "4", label: "Word-by-word caption styles" },
+    { value: "Apache-2.0", label: "Open-source licence" },
+  ],
+  problem: [
+    "Cutting a long talk into Reels, Shorts and TikTok clips by hand is slow, and the tools that automate it are built around English. On Arabic they mishear technical terms, and right-to-left captions can render with the words in the wrong order.",
+    "Letting a language model choose the clips creates a second problem: models are good at finding the interesting passages and bad at timing, so clips open or close in the middle of a word.",
+  ],
+  constraints: [
+    "Arabic and right-to-left captions have to work as well as English, and be checked on rendered frames rather than assumed.",
+    "The model may choose passages but never timings: every cut must land on a real word boundary from the audio.",
+    "Switching model provider, hosted or local, must need no code change and must not affect cut accuracy.",
+    "One command to run on a laptop or a GPU machine; a GPU speeds things up but is not required.",
+    "Every default needs a recorded measurement, including the options that were tried and rejected.",
+  ],
+  architecture: {
+    intro:
+      "Five stages behind one job model. Whisper turns speech into words with timings, one model call picks the passages, and everything about where a cut lands is deterministic. The same pipeline runs behind a CLI, a FastAPI service and a React web UI.",
+    layers: [
+      {
+        name: "Inputs",
+        nodes: [
+          { label: "Upload", detail: "Multipart upload, 2 GB by default." },
+          { label: "Server path", detail: "Sandboxed to a media root, so a request can't name an arbitrary file." },
+          { label: "YouTube link", detail: "Fetched with yt-dlp, on an exact-host allowlist." },
+        ],
+      },
+      {
+        name: "Pipeline",
+        nodes: [
+          { label: "Audio", detail: "ffmpeg demux, with optional denoising." },
+          { label: "Transcribe", detail: "faster-whisper large-v3 on the GPU when usable, or the video's own caption track." },
+          { label: "Select", detail: "The only model call: which passages, at MM:SS resolution." },
+          { label: "Snap", detail: "Each boundary moved onto a real word; deterministic." },
+          { label: "Render", detail: "9:16 reframe and burned-in word-by-word captions, H.265 or H.264." },
+        ],
+      },
+      {
+        name: "Interfaces",
+        nodes: [
+          { label: "CLI", detail: "Plan only, edit plan.json, then render exactly that plan." },
+          { label: "HTTP API", detail: "FastAPI; every start returns 202 and a job id, and the client polls." },
+          { label: "Web UI", detail: "React and Vite, in English and Arabic with a mirrored layout." },
+        ],
+      },
+      {
+        name: "State",
+        nodes: [
+          { label: "SQLite (WAL)", detail: "Job records, word corrections, and a transcript cache keyed on model, language and vocabulary." },
+        ],
+      },
+    ],
+    notes: [
+      "Imports run one way, api → jobs → pipeline → llm → core. A smoke test reads the core package's source and fails on any import that points back up.",
+      "Stages 1, 4 and 5 never call a model, so changing the provider can't change where a cut lands or how a clip renders.",
+    ],
+  },
+  features: [
+    {
+      group: "Bring a video",
+      items: [
+        "Upload a file (2 GB by default), name a file already on the server, or paste a YouTube link.",
+        "Only youtube.com, m.youtube.com, music.youtube.com and youtu.be are accepted; anything else is refused.",
+      ],
+    },
+    {
+      group: "Speech to words",
+      items: [
+        "Whisper from tiny to large-v3, on the GPU when one is usable, or forced to CUDA or CPU. A named device never silently falls back.",
+        "Language forced or detected; for a YouTube link, the video's own caption track can replace Whisper when it has per-word timings.",
+        "For Arabic: a vocabulary list to spell terms your way, denoising for noisy audio, and fix-ups that respell a word everywhere.",
+        "Correct any word afterwards, by hand or with model suggestions you accept one by one. Only caption text changes, never a cut.",
+      ],
+    },
+    {
+      group: "Picking the moments",
+      items: [
+        "Choose how many clips (5 by default) and how long each may be (30–75 s; 52 s keeps YouTube Shorts under its limit).",
+        "A clip outside the requested length is kept and flagged, never silently dropped.",
+        "Any provider, with thinking on or off. Stop before rendering to edit starts, ends, titles and order; edited cuts are moved back onto words.",
+      ],
+    },
+    {
+      group: "Captions",
+      items: [
+        "Four word-by-word styles (box, pill, marker, youtube) where the spoken word lights up, on right-to-left Arabic as well as English.",
+        "A one-line-at-a-time fallback, or no captions at all; font and words per line are configurable.",
+        "Captions sit about 70% down the frame, above where TikTok and Shorts place their buttons.",
+      ],
+    },
+    {
+      group: "The video",
+      items: [
+        "Crop a 9:16 slice, blur the full frame over a blurred background, or track the largest face.",
+        "1080p, 1440p, 4K, any size, or the source resolution; H.265 tagged for Apple devices, or H.264.",
+        "Encode preset, quality (CRF 20 by default) and 10-bit output for 10-bit sources.",
+      ],
+    },
+    {
+      group: "While it runs, and after",
+      items: [
+        "Live progress for the download and the render, measured from ffmpeg rather than guessed, plus a cancel button.",
+        "Download clips one by one or all at once; re-render with new options without transcribing again.",
+        "A health check reports ffmpeg, the active provider, its credential and whether transcription will get a GPU, before a job starts.",
+        "Provider, model and thinking can be changed from the Settings page without a restart.",
+      ],
+    },
+  ],
+  decisions: [
+    {
+      title: "The model never emits timing",
+      body: "Stage 3 reads the transcript at roughly 12-second resolution and answers in MM:SS. Stage 4 then moves each boundary onto a real word from Whisper. Meaning comes from the model and timing comes from the audio, and the two are never mixed — so swapping providers can't make clips open mid-word.",
+    },
+    {
+      title: "Arabic captions are verified on rendered frames",
+      body: "A libass bidi behaviour reordered Arabic words whenever the highlighted word changed style, and the obvious tests all passed. The fix gives every word its own caption cue. A render check walks the highlight along a line, renders one frame per position and asserts it moves right to left; the caption styles themselves were chosen from real renders of an Arabic video.",
+    },
+    {
+      title: "Text edits can never move a cut",
+      body: "The transcript editor changes words only, and hand-edited plan boundaries are always re-snapped onto word times. A spelling fix after rendering therefore only re-runs the render stage.",
+    },
+    {
+      title: "Every default has a number behind it",
+      body: "Crop is the default framing because it keeps about three times the subject pixels of blur and rendered 1.8× faster in the recorded test; the encode preset, codec and transcription levers each have a measurement, and the options that were tried and rejected are written down too.",
+    },
+    {
+      title: "Checks that can fail",
+      body: "Each render fixture renders a control and asserts that the control fails, and the API load test asserts rather than reports. The load test found the health check starting an ffmpeg process on every request, which no sequential test could see.",
+    },
+  ],
+  tradeoffs: [
+    { choice: "Model picks, code cuts", cost: "Snapping to words adds a few seconds per clip, so asking for 60 s can produce 63 s; 52 s is the safe maximum for YouTube Shorts." },
+    { choice: "Track the largest face", cost: "There is no active-speaker model yet, so a two-person shot can frame the listener, and the tracking constants are unmeasured starting values." },
+    { choice: "An in-process job queue on SQLite", cost: "One command to run, but jobs don't survive a restart and cancel only takes effect between steps." },
+    { choice: "No built-in authentication", cost: "The API has to sit behind something else before a port is exposed." },
+    { choice: "GPU reserved by default in Docker", cost: "Fast transcription on a GPU machine; without one, the compose file needs a small edit and large-v3 runs slowly on CPU." },
+  ],
+  outcomes: [
+    { title: "Verified end to end", body: "A 12-minute 4K ProRes Arabic video recorded in a moving car went through all five stages with a real provider and produced 8 vertical clips with burned-in Arabic captions — through the CLI on a GPU, and separately through the HTTP API." },
+    { title: "Arabic transcription: 23 errors to 3", body: "On that recording, tracked transcription errors fell from 23 to 3 with a 30-term vocabulary list, denoising and fix-ups, as recorded in the repository's quality notes." },
+    { title: "Tested without a GPU", body: "CI runs the database, pipeline, provider and API suites on Python 3.10 and 3.12, a 24-thread load test, the frontend tests and type check, a real ffmpeg render check and the Docker build." },
+    { title: "Open to contributors", body: "Apache-2.0 with DCO sign-off and a contributing guide ranked by value per effort. The first outside contribution, a redesign of every screen with an Arabic interface, has been merged." },
+  ],
+  myRole: [
+    "Created Qatf and maintain it: the pipeline, the provider layer, the job system, the HTTP API, the CLI, the first web UI and the documentation — 117 of its 119 commits.",
+    "Ran the measurements behind the defaults: transcription levers on Arabic, framing modes, codecs and encode presets, and the API under concurrent load.",
+    "Reviewed and merged the current UI design, including its Arabic and right-to-left layout, contributed by @Dabash99 (PR #4).",
+  ],
+  scopeNotes: [
+    "A working prototype, not production: the API has no authentication, jobs don't survive a restart, and cancel can't interrupt an ffmpeg or Whisper call already running.",
+    "Only OpenRouter has been run against its real endpoint; the other providers are tested on the requests Qatf sends, not on real replies.",
+    "Whisper's word-timing accuracy on Arabic hasn't been measured, although cuts and caption highlights both depend on it.",
+    "The right-to-left caption check runs where the caption font resolves; on the current CI runner it doesn't, so CI skips that check rather than failing.",
+    "No loudness normalisation, silence trimming or scene-change detection yet, and no usage or adoption numbers are claimed.",
+  ],
+  next: "hayyak",
+};
+
+export const caseStudies: CaseStudy[] = [twiscope, sanad, fendix, qatf, hayyak, muri, maxpeak];
 
 export const getCaseStudy = (slug: string) => caseStudies.find((c) => c.slug === slug);

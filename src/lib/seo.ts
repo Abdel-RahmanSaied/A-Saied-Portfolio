@@ -60,6 +60,7 @@ function projectEntity(p: Project) {
     keywords: p.techStack.join(", "),
     ...(p.live ? { url: p.live } : p.caseStudy ? { url: absoluteUrl(p.caseStudy) } : {}),
     ...(p.github ? { sameAs: [p.github] } : {}),
+    ...(p.openSource ? { license: `https://spdx.org/licenses/${p.openSource.license}.html` } : {}),
     ...(p.caseStudy ? { subjectOf: { "@type": "WebPage", "@id": absoluteUrl(p.caseStudy) } } : {}),
     // Only independent work is attributed as created by the person; employer
     // and client projects are described as contributions.
@@ -176,6 +177,21 @@ export function portfolioJsonLd(list: Project[]) {
     "@id": `${site.url}/portfolio#projects`,
     name: `Projects by ${site.name}`,
     description: `Platforms, products, and integrations that ${site.name} has led, built, or founded.`,
+    numberOfItems: list.length,
+    itemListElement: list.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: projectEntity(p),
+    })),
+  };
+}
+
+export function openSourceJsonLd(list: Project[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "@id": `${site.url}/open-source#projects`,
+    name: `Open-source projects by ${site.name}`,
     numberOfItems: list.length,
     itemListElement: list.map((p, i) => ({
       "@type": "ListItem",

@@ -54,7 +54,7 @@ ${projects
   .map((p) => {
     const links = [
       p.live && `Website: ${p.live}`,
-      p.github && `Source: ${p.github}`,
+      p.github && `Source: ${p.github}${p.openSource ? ` (${p.openSource.license})` : ""}`,
       p.caseStudy && `Case study: ${absoluteUrl(p.caseStudy)}`,
     ]
       .filter(Boolean)
@@ -79,6 +79,7 @@ ${caseStudies.map((c) => `- [${c.title}](${absoluteUrl(`/case-studies/${c.slug}`
 - [Résumé](${absoluteUrl("/resume")}): one-page résumé (PDF: ${absoluteUrl(site.resumePdf)})
 - [Engineering philosophy](${absoluteUrl("/engineering-philosophy")}): principles for reliable systems and technical leadership
 - [Portfolio](${absoluteUrl("/portfolio")}): all projects
+- [Open source](${absoluteUrl("/open-source")}): projects with public source, their licences and status
 - [Contact](${absoluteUrl("/lets-talk")}): availability and contact details
 
 ## Blog

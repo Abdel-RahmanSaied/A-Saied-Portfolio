@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     { url: absoluteUrl("/portfolio"), changeFrequency: "monthly", priority: 0.8 },
+    { url: absoluteUrl("/open-source"), changeFrequency: "monthly", priority: 0.8 },
     { url: absoluteUrl("/resume"), changeFrequency: "monthly", priority: 0.8 },
     { url: absoluteUrl("/engineering-philosophy"), changeFrequency: "yearly", priority: 0.7 },
     { url: absoluteUrl("/lets-talk"), changeFrequency: "yearly", priority: 0.6 },
