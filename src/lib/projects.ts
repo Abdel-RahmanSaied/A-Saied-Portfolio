@@ -5,6 +5,8 @@ export type Project = {
   slug: string;
   title: string;
   tagline: string;
+  /** Outcome-led headline used when this project is featured on the homepage. */
+  caseStudyHook?: string;
   description: string;
   /** One line for the résumé's "Selected projects" section. */
   resume?: string;
@@ -32,6 +34,7 @@ export const projects: Project[] = [
     slug: "twiscope",
     title: "Twiscope",
     tagline: "Social intelligence platform",
+    caseStudyHook: "How five products share one backend with explicit permissions, queues, and service boundaries",
     description:
       "Arabic/English social-intelligence SaaS with five products on one backend: Deep-In (X keyword and account reports), Influencer Impact, Sadeed / Decision Hub (brand-vs-competitor scoring), an alert engine, and notifications. Django/DRF and Celery behind a Kong gateway, with PostgreSQL, Elasticsearch and Terraform-managed AWS. I remained its sole backend developer for two years and took on team leadership as the work grew.",
     techStack: ["Django / DRF", "Celery", "Redis", "PostgreSQL", "Elasticsearch", "Kong", "FastAPI", "Terraform", "AWS"],
@@ -47,6 +50,7 @@ export const projects: Project[] = [
     slug: "sanad-ai",
     title: "Sanad AI",
     tagline: "Twiscope's RAG analytics assistant",
+    caseStudyHook: "How we built Arabic and English RAG with access control enforced outside the language model",
     description:
       "Twiscope's Arabic/English retrieval-augmented assistant for analytics reports: hybrid BM25 + kNN retrieval over BGE-M3 embeddings fused with reciprocal rank fusion, LLM index routing bounded by deterministic allow-lists, and SQS-based report ingestion. I lead the team and personally own ingestion, deployment and tracing.",
     techStack: ["FastAPI", "Elasticsearch", "BGE-M3", "AWS SQS", "OpenRouter", "Elastic APM"],
@@ -60,6 +64,7 @@ export const projects: Project[] = [
     slug: "fendix",
     title: "Fendix",
     tagline: "Application security decision platform",
+    caseStudyHook: "How Fendix turns noisy scanner output into deterministic release decisions",
     description:
       "Turns SAST, DAST, SCA and imported SARIF results into deterministic, confidence-scored findings and a coverage-aware release decision for CI. An open-source Go CLI (MIT) with signed releases and SBOMs, plus a commercial hosted workspace.",
     resume:

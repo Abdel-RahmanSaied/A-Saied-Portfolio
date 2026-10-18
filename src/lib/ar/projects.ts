@@ -8,6 +8,7 @@ export const projectsAr: Project[] = [
     slug: "twiscope",
     title: "Twiscope",
     tagline: "منصة social intelligence",
+    caseStudyHook: "إزاي خمس منتجات بتشارك backend واحد بصلاحيات و queues وحدود خدمات واضحة",
     description:
       "منصة SaaS للـ social intelligence بالعربي والإنجليزي، فيها خمس منتجات على backend واحد: Deep-In (تقارير الكلمات المفتاحية والحسابات على X)، و Influencer Impact، و Sadeed / Decision Hub (scoring للبراند مقارنةً بالمنافسين)، ومحرك تنبيهات، والإشعارات. مبنية بـ Django/DRF و Celery ورا Kong gateway، مع PostgreSQL و Elasticsearch و AWS بيتدار بـ Terraform. فضلت مطور الـ backend الوحيد فيها لمدة سنتين، وتولّيت قيادة الفريق مع توسّع الشغل.",
     techStack: ["Django / DRF", "Celery", "Redis", "PostgreSQL", "Elasticsearch", "Kong", "FastAPI", "Terraform", "AWS"],
@@ -23,6 +24,7 @@ export const projectsAr: Project[] = [
     slug: "sanad-ai",
     title: "Sanad AI",
     tagline: "مساعد التحليلات بالـ RAG في Twiscope",
+    caseStudyHook: "إزاي بنينا RAG بالعربي والإنجليزي والصلاحيات مفروضة برّه موديل اللغة",
     description:
       "مساعد RAG في Twiscope لتقارير التحليلات، بالعربي والإنجليزي: hybrid retrieval بـ BM25 + kNN على embeddings من BGE-M3، والنتايج بتتدمج بـ reciprocal rank fusion، و index routing بالـ LLM محكوم بـ allow-lists deterministic، و ingestion للتقارير على SQS. بقود الفريق، وأنا شخصيًا مسؤول عن الـ ingestion والـ deployment والـ tracing.",
     techStack: ["FastAPI", "Elasticsearch", "BGE-M3", "AWS SQS", "OpenRouter", "Elastic APM"],
@@ -36,6 +38,7 @@ export const projectsAr: Project[] = [
     slug: "fendix",
     title: "Fendix",
     tagline: "منصة لقرارات أمان التطبيقات",
+    caseStudyHook: "إزاي Fendix بيحوّل نتايج أدوات الفحص لقرار إصدار واضح وقابل للتفسير",
     description:
       "بتحوّل نتايج SAST و DAST و SCA، ونتايج SARIF المستوردة، لـ findings deterministic ليها درجة ثقة (confidence)، ولقرار إصدار للـ CI بياخد التغطية (coverage) في الحسبان. عبارة عن CLI مفتوح المصدر بـ Go (MIT) بإصدارات موقّعة و SBOMs، وكمان workspace تجاري hosted.",
     resume:

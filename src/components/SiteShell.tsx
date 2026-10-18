@@ -4,6 +4,7 @@ import JsonLd from "@/components/JsonLd";
 import MotionProvider from "@/components/MotionProvider";
 import Navbar from "@/components/Navbar";
 import ScrollProgress from "@/components/ScrollProgress";
+import SiteFooter from "@/components/SiteFooter";
 import { getContent } from "@/lib/content";
 import type { Locale } from "@/lib/i18n";
 import { personJsonLd } from "@/lib/seo";
@@ -32,6 +33,7 @@ export default function SiteShell({ locale, children }: { locale: Locale; childr
         <CursorFollower />
         <Navbar locale={locale} nav={ui.nav} />
         <main id="main-content" className="pt-16">{children}</main>
+        <SiteFooter locale={locale} ui={ui} />
       </MotionProvider>
     </>
   );

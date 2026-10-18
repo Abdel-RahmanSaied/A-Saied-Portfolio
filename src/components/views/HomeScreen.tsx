@@ -133,7 +133,7 @@ export default function HomeScreen({
   ];
 
   return (
-    <div className="bg-zinc-950 text-zinc-100 min-h-screen">
+    <div className="bg-zinc-950 text-zinc-100 min-h-screen overflow-x-clip">
 
       {/* ── Hero ──────────────────────────────────────────────── */}
       <section className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center px-5 sm:px-6 overflow-hidden">
@@ -142,13 +142,13 @@ export default function HomeScreen({
         <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-zinc-950 to-transparent pointer-events-none" />
 
         <motion.div
-          className="relative z-10 max-w-3xl mx-auto text-center py-16"
+          className="relative z-10 w-full min-w-0 max-w-3xl mx-auto text-center py-16"
           initial="hidden"
           animate="show"
           variants={{ show: { transition: { staggerChildren: 0.08 } } }}
         >
           <motion.div variants={fadeUp} custom={0} className="mb-8">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-zinc-700/60 bg-zinc-900/70 backdrop-blur-sm text-zinc-300 text-xs font-medium">
+            <span className="inline-flex max-w-full items-center justify-center gap-2 px-3.5 py-1.5 rounded-full border border-zinc-700/60 bg-zinc-900/70 backdrop-blur-sm text-zinc-300 text-center text-xs font-medium leading-relaxed">
               <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               {t.badge}
             </span>
@@ -166,7 +166,11 @@ export default function HomeScreen({
             {career.headline}
           </p>
 
-          <p className="text-base sm:text-lg text-zinc-400 max-w-xl mx-auto leading-relaxed mb-10">{t.intro}</p>
+          <p className="text-2xl sm:text-3xl font-bold text-white max-w-2xl mx-auto leading-tight mb-5">
+            {t.valueTitle}
+          </p>
+
+          <p className="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-10">{t.intro}</p>
 
           <motion.div variants={fadeUp} custom={4} className="flex flex-col sm:flex-row gap-3 justify-center mb-9">
             <Link href={lp("/case-studies")} className={primaryBtn}>
@@ -198,6 +202,23 @@ export default function HomeScreen({
             <ChevronDown className="w-4 h-4 motion-safe:animate-[nudge_1.7s_ease-in-out_infinite]" />
           </motion.div>
         </motion.div>
+      </section>
+
+      {/* ── Proof ────────────────────────────────────────────── */}
+      <section aria-label={t.highlightsLabel} className="py-12 px-5 sm:px-6 border-y border-zinc-800/40 bg-zinc-900/20">
+        <div className="max-w-5xl mx-auto">
+          <p className="text-center text-[10px] font-semibold uppercase tracking-[0.24em] text-fg-faint mb-8">{t.highlightsLabel}</p>
+          <dl className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+            {career.highlights.map((s) => (
+              <div key={s.label} className="flex flex-col-reverse">
+                <dt className="text-xs text-fg-muted font-medium uppercase tracking-wider leading-snug">{s.label}</dt>
+                <dd className="text-3xl sm:text-4xl font-black text-white mb-1">
+                  <AnimatedNumber value={s.value} suffix={s.suffix} />
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       </section>
 
       <TechMarquee />
@@ -259,20 +280,6 @@ export default function HomeScreen({
         </motion.div>
       </section>
 
-      {/* ── Highlights ────────────────────────────────────────── */}
-      <section aria-label={t.highlightsLabel} className="py-14 px-5 sm:px-6 border-t border-zinc-800/40">
-        <dl className="max-w-5xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-          {career.highlights.map((s) => (
-            <div key={s.label} className="flex flex-col-reverse">
-              <dt className="text-xs text-fg-muted font-medium uppercase tracking-wider leading-snug">{s.label}</dt>
-              <dd className="text-3xl sm:text-4xl font-black text-white mb-1">
-                <AnimatedNumber value={s.value} suffix={s.suffix} />
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </section>
-
       {/* ── Featured work ─────────────────────────────────────── */}
       <section className="py-24 px-5 sm:px-6 border-t border-zinc-800/40">
         <div className="max-w-5xl mx-auto">
@@ -293,10 +300,10 @@ export default function HomeScreen({
               <GlowCard key={p.slug} className="rounded-2xl border border-zinc-800 bg-zinc-900/40 hover:border-zinc-700 hover:bg-zinc-900/70 transition-colors duration-300">
                 <article className="p-6 sm:p-8 flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-8">
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-1">
-                      {p.tagline} · {p.engagement}
+                    <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-2">
+                      {p.title} · {p.engagement}
                     </p>
-                    <h3 className="text-xl font-bold text-white mb-3">{p.title}</h3>
+                    <h3 className="text-xl sm:text-2xl font-bold text-white leading-snug mb-3">{p.caseStudyHook ?? p.tagline}</h3>
                     <p className="text-sm text-zinc-400 leading-relaxed mb-5">{p.description}</p>
                     <ul className="flex flex-wrap gap-2" aria-label={ui.common.technology}>
                       {p.techStack.map((tech) => (

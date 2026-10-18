@@ -12,12 +12,8 @@ import type { Ui } from "@/lib/ui";
 const navItems = [
   { key: "home",        href: "/" },
   { key: "about",       href: "/about" },
-  { key: "portfolio",   href: "/portfolio" },
-  { key: "caseStudies", href: "/case-studies" },
-  { key: "openSource",  href: "/open-source" },
-  { key: "philosophy",  href: "/engineering-philosophy" },
+  { key: "work",        href: "/case-studies" },
   { key: "blog",        href: "/blog" },
-  { key: "resume",      href: "/resume" },
   { key: "letsTalk",    href: "/lets-talk" },
 ] as const;
 
@@ -67,7 +63,7 @@ export default function Navbar({ locale, nav }: { locale: Locale; nav: Ui["nav"]
         ? "bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-800/60 shadow-xl shadow-black/40"
         : "bg-transparent"
     }`}>
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="w-full max-w-7xl mx-auto px-5 sm:px-6">
         <div className="flex items-center gap-4 h-16">
 
           {/* Logo */}
@@ -85,7 +81,7 @@ export default function Navbar({ locale, nav }: { locale: Locale; nav: Ui["nav"]
           </Link>
 
           {/* Desktop: keep all labels on one line; narrower viewports use the compact menu. */}
-          <div className="hidden xl:flex items-center gap-1 mx-auto">
+          <div className="hidden lg:flex items-center gap-1 mx-auto">
             {navItems.map((item) => {
               const href = localePath(locale, item.href);
               const active = pathname === href;
@@ -111,12 +107,18 @@ export default function Navbar({ locale, nav }: { locale: Locale; nav: Ui["nav"]
             })}
           </div>
 
-          <div className="hidden xl:block">
+          <div className="hidden lg:flex items-center gap-2">
+            <Link
+              href={localePath(locale, "/resume")}
+              className="shrink-0 whitespace-nowrap px-4 py-2 rounded-lg bg-zinc-100 text-zinc-950 text-sm font-semibold hover:bg-white transition-colors"
+            >
+              {nav.resume}
+            </Link>
             {languageSwitch}
           </div>
 
           {/* Tablet and phone: the language switch stays visible next to the menu button */}
-          <div className="xl:hidden ms-auto flex items-center gap-2">
+          <div className="lg:hidden ms-auto flex items-center gap-2">
             {languageSwitch}
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -140,7 +142,7 @@ export default function Navbar({ locale, nav }: { locale: Locale; nav: Ui["nav"]
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.15 }}
-            className="xl:hidden border-t border-zinc-800/60 bg-zinc-950/95 backdrop-blur-xl"
+            className="lg:hidden border-t border-zinc-800/60 bg-zinc-950/95 backdrop-blur-xl"
           >
             <div className="max-w-7xl mx-auto px-6 py-3 space-y-1">
               {navItems.map((item) => {
@@ -160,6 +162,12 @@ export default function Navbar({ locale, nav }: { locale: Locale; nav: Ui["nav"]
                   </Link>
                 );
               })}
+              <Link
+                href={localePath(locale, "/resume")}
+                className="block px-4 py-3 rounded-xl bg-zinc-100 text-zinc-950 text-sm font-semibold hover:bg-white transition-colors"
+              >
+                {nav.resume}
+              </Link>
             </div>
           </motion.div>
         )}
