@@ -17,6 +17,29 @@ export type Role = {
 
 export type SkillGroup = { label: string; items: string[] };
 
+/** The shape both the English record below and src/lib/ar/career.ts satisfy. */
+export type Career = {
+  name: string;
+  headline: string;
+  location: string;
+  availability: string;
+  summary: string;
+  skills: readonly { label: string; items: readonly string[] }[];
+  experience: readonly {
+    company: string;
+    location?: string;
+    title: string;
+    engagement?: "Full-time" | "Freelance";
+    start: string;
+    end: string;
+    summary: string;
+    highlights: readonly string[];
+  }[];
+  education: { degree: string; school: string; location: string; year: string; note: string };
+  languages: readonly string[];
+  highlights: readonly { value: number; suffix: string; label: string }[];
+};
+
 export const career = {
   name: "Abdel-Rahman Mohamed Saied",
   headline: "Software Team Lead | Senior Backend Engineer",
@@ -120,4 +143,4 @@ export const career = {
     { value: 5, suffix: "", label: "Twiscope products on one backend" },
     { value: 2, suffix: "", label: "Payment gateways integrated (Tap, HyperPay)" },
   ],
-} as const;
+} as const satisfies Career;
