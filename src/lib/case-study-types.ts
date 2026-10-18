@@ -24,6 +24,8 @@ export type CaseStudy = {
   architecture: { intro: string; layers: ArchLayer[]; notes?: string[] };
   /** Optional product breakdown (Twiscope has several products on one platform). */
   products?: { name: string; summary: string; points: string[]; scope?: string }[];
+  /** Optional feature list, grouped; rendered at #features so other pages can link to it. */
+  features?: { group: string; items: string[] }[];
   decisions: { title: string; body: string }[];
   tradeoffs: { choice: string; cost: string }[];
   outcomes: { title: string; body: string }[];

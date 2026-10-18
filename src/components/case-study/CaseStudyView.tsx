@@ -15,9 +15,21 @@ function SectionLabel({ number, label }: { number: number; label: string }) {
   );
 }
 
-function Section({ number, label, title, children }: { number: number; label: string; title: string; children: React.ReactNode }) {
+function Section({
+  number,
+  label,
+  title,
+  id,
+  children,
+}: {
+  number: number;
+  label: string;
+  title: string;
+  id?: string;
+  children: React.ReactNode;
+}) {
   return (
-    <section aria-labelledby={`section-${number}`}>
+    <section id={id} aria-labelledby={`section-${number}`} className={id ? "scroll-mt-24" : undefined}>
       <SectionLabel number={number} label={label} />
       <h2 id={`section-${number}`} className="text-2xl sm:text-3xl font-bold text-white mb-6 leading-tight">
         {title}
@@ -132,6 +144,26 @@ export default function CaseStudyView({ study, next }: { study: CaseStudy; next?
                   </ul>
                   {p.scope && <p className="mt-4 text-xs text-fg-faint leading-relaxed border-t border-zinc-800 pt-3">{p.scope}</p>}
                 </GlowCard>
+              ))}
+            </div>
+          </Section>
+        )}
+
+        {study.features && (
+          <Section number={num()} label="Features" title="Everything it can do" id="features">
+            <div className="grid gap-4 md:grid-cols-2">
+              {study.features.map((f) => (
+                <div key={f.group} className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6">
+                  <h3 className="font-semibold text-zinc-100 mb-3">{f.group}</h3>
+                  <ul className="space-y-2">
+                    {f.items.map((item) => (
+                      <li key={item} className="flex gap-2 text-sm text-fg-muted leading-relaxed">
+                        <ArrowRight className="w-3.5 h-3.5 mt-1 shrink-0 text-zinc-600" aria-hidden="true" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
             </div>
           </Section>
