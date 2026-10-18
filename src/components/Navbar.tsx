@@ -68,7 +68,7 @@ export default function Navbar({ locale, nav }: { locale: Locale; nav: Ui["nav"]
         : "bg-transparent"
     }`}>
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center gap-4 h-16">
 
           {/* Logo */}
           <Link href={localePath(locale, "/")} className="shrink-0 flex items-center gap-2.5 group">
@@ -85,7 +85,7 @@ export default function Navbar({ locale, nav }: { locale: Locale; nav: Ui["nav"]
           </Link>
 
           {/* Desktop: keep all labels on one line; narrower viewports use the compact menu. */}
-          <div className="hidden xl:flex items-center gap-1">
+          <div className="hidden xl:flex items-center gap-1 mx-auto">
             {navItems.map((item) => {
               const href = localePath(locale, item.href);
               const active = pathname === href;
@@ -109,11 +109,14 @@ export default function Navbar({ locale, nav }: { locale: Locale; nav: Ui["nav"]
                 </Link>
               );
             })}
-            <span className="ms-2">{languageSwitch}</span>
+          </div>
+
+          <div className="hidden xl:block">
+            {languageSwitch}
           </div>
 
           {/* Tablet and phone: the language switch stays visible next to the menu button */}
-          <div className="xl:hidden flex items-center gap-2">
+          <div className="xl:hidden ms-auto flex items-center gap-2">
             {languageSwitch}
             <button
               onClick={() => setIsOpen(!isOpen)}
