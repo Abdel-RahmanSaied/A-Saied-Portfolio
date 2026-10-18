@@ -1,38 +1,52 @@
 import type { Metadata } from "next";
 import { absoluteUrl, site } from "@/lib/site";
-import { career } from "@/lib/career";
 import type { Post } from "@/lib/posts";
-import { projects, type Project } from "@/lib/projects";
+import type { Project } from "@/lib/projects";
 import type { CaseStudy } from "@/lib/case-study-types";
+import { uiAr } from "@/lib/ar/ui";
+import { getContent } from "@/lib/content";
+import { localePath, type Locale } from "@/lib/i18n";
+
+/** hreflang alternates for a page that exists in both languages. */
+export function languageAlternates(path: string) {
+  return { en: path, ar: localePath("ar", path), "x-default": path };
+}
 
 /**
  * Standard per-page metadata: canonical URL plus OpenGraph/Twitter cards that
  * match the page (fields set here fully replace the root layout's, so every
  * page needs its own). Share images come from each route's opengraph-image.
+ * `path` is the English path; Arabic pages live at /ar + path.
  */
-export function pageMetadata({
-  title,
-  description,
-  path,
-}: {
-  title: string;
-  description: string;
-  path: string;
-}): Metadata {
-  const fullTitle = `${title} | ${site.name}`;
+export function pageMetadata(
+  {
+    title,
+    description,
+    path,
+  }: {
+    title: string;
+    description: string;
+    path: string;
+  },
+  locale: Locale = "en",
+): Metadata {
+  const url = localePath(locale, path);
+  const fullTitle = `${title} | ${locale === "ar" ? uiAr.site.name : site.name}`;
   return {
     title,
     description,
     alternates: {
-      canonical: path,
+      canonical: url,
+      languages: languageAlternates(path),
       types: { "application/rss+xml": "/feed.xml" },
     },
     openGraph: {
       title: fullTitle,
       description,
-      url: absoluteUrl(path),
+      url: absoluteUrl(url),
       siteName: site.siteName,
-      locale: "en_US",
+      locale: locale === "ar" ? "ar_EG" : "en_US",
+      alternateLocale: locale === "ar" ? "en_US" : "ar_EG",
       type: "website",
     },
     twitter: {
@@ -47,29 +61,38 @@ export function pageMetadata({
 
 const PERSON_ID = `${site.url}/#person`;
 const WEBSITE_ID = `${site.url}/#website`;
-const projectId = (p: Project) => `${site.url}/portfolio#${p.slug}`;
+const localUrl = (locale: Locale, path: string) => absoluteUrl(localePath(locale, path));
+const projectId = (p: Project, locale: Locale) => `${localUrl(locale, "/portfolio")}#${p.slug}`;
+// Engagement is display text and is translated on the Arabic site, so who
+// created what is read from the English records.
+const independent = new Set(getContent("en").projects.filter((p) => p.engagement === "Independent").map((p) => p.slug));
 
-function projectEntity(p: Project) {
+function projectEntity(p: Project, locale: Locale) {
   return {
     "@type": "SoftwareApplication",
-    "@id": projectId(p),
+    "@id": projectId(p, locale),
     name: p.title,
     alternateName: p.tagline,
     description: p.description,
     applicationCategory: p.category === "Security" ? "SecurityApplication" : "BusinessApplication",
     keywords: p.techStack.join(", "),
-    ...(p.live ? { url: p.live } : p.caseStudy ? { url: absoluteUrl(p.caseStudy) } : {}),
+    ...(p.live ? { url: p.live } : p.caseStudy ? { url: localUrl(locale, p.caseStudy) } : {}),
     ...(p.github ? { sameAs: [p.github] } : {}),
     ...(p.openSource ? { license: `https://spdx.org/licenses/${p.openSource.license}.html` } : {}),
-    ...(p.caseStudy ? { subjectOf: { "@type": "WebPage", "@id": absoluteUrl(p.caseStudy) } } : {}),
+    ...(p.caseStudy ? { subjectOf: { "@type": "WebPage", "@id": localUrl(locale, p.caseStudy) } } : {}),
     // Only independent work is attributed as created by the person; employer
     // and client projects are described as contributions.
-    ...(p.engagement === "Independent" ? { creator: { "@id": PERSON_ID } } : { contributor: { "@id": PERSON_ID } }),
+    ...(independent.has(p.slug) ? { creator: { "@id": PERSON_ID } } : { contributor: { "@id": PERSON_ID } }),
   };
 }
 
-export function personJsonLd() {
+export function personJsonLd(locale: Locale = "en") {
+  const { career, projects } = getContent(locale);
   const current = career.experience[0];
+  const description =
+    locale === "ar"
+      ? `${site.nameArabic} (${site.nameFull})، مقيم في ${uiAr.site.location}. ${career.summary}`
+      : `${site.nameFull} (${site.nameArabic}) is a ${site.jobTitle} based in ${site.location.city}, ${site.location.country}. ${career.summary}`;
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -78,7 +101,7 @@ export function personJsonLd() {
         "@id": PERSON_ID,
         name: site.name,
         alternateName: [...site.alternateNames],
-        description: `${site.nameFull} (${site.nameArabic}) is a ${site.jobTitle} based in ${site.location.city}, ${site.location.country}. ${career.summary}`,
+        description,
         url: site.url,
         jobTitle: site.jobTitle,
         worksFor: { "@type": "Organization", name: current.company },
@@ -91,7 +114,7 @@ export function personJsonLd() {
         alumniOf: { "@type": "CollegeOrUniversity", name: career.education.school },
         sameAs: [site.social.github, site.social.linkedin, site.social.x],
         knowsAbout: [...site.knowsAbout],
-        mainEntityOfPage: absoluteUrl("/about"),
+        mainEntityOfPage: localUrl(locale, "/about"),
       },
       {
         "@type": "WebSite",
@@ -100,19 +123,20 @@ export function personJsonLd() {
         name: site.siteName,
         description: site.description,
         publisher: { "@id": PERSON_ID },
-        inLanguage: "en",
+        inLanguage: ["en", "ar"],
       },
-      ...projects.filter((p) => p.featured).map(projectEntity),
+      ...projects.filter((p) => p.featured).map((p) => projectEntity(p, locale)),
     ],
   };
 }
 
-export function profilePageJsonLd() {
+export function profilePageJsonLd(locale: Locale = "en") {
   return {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
-    url: absoluteUrl("/about"),
-    name: `About ${site.name}`,
+    url: localUrl(locale, "/about"),
+    name: locale === "ar" ? `عن ${uiAr.site.name}` : `About ${site.name}`,
+    inLanguage: locale,
     mainEntity: { "@id": PERSON_ID },
   };
 }
@@ -130,8 +154,8 @@ export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
   };
 }
 
-export function blogPostingJsonLd(post: Post) {
-  const url = absoluteUrl(`/blog/${post.slug}`);
+export function blogPostingJsonLd(post: Post, locale: Locale = "en") {
+  const url = localUrl(locale, `/blog/${post.slug}`);
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -143,16 +167,16 @@ export function blogPostingJsonLd(post: Post) {
     url,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
     keywords: post.tags.join(", "),
-    inLanguage: "en",
+    inLanguage: locale,
     author: { "@id": PERSON_ID },
     publisher: { "@id": PERSON_ID },
     isPartOf: { "@id": WEBSITE_ID },
   };
 }
 
-export function caseStudyJsonLd(study: CaseStudy) {
-  const url = absoluteUrl(`/case-studies/${study.slug}`);
-  const project = projects.find((p) => p.caseStudy === `/case-studies/${study.slug}`);
+export function caseStudyJsonLd(study: CaseStudy, locale: Locale = "en") {
+  const url = localUrl(locale, `/case-studies/${study.slug}`);
+  const project = getContent(locale).projects.find((p) => p.caseStudy === `/case-studies/${study.slug}`);
   return {
     "@context": "https://schema.org",
     "@type": "TechArticle",
@@ -162,41 +186,46 @@ export function caseStudyJsonLd(study: CaseStudy) {
     url,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
     keywords: study.tags.join(", "),
-    inLanguage: "en",
+    inLanguage: locale,
     author: { "@id": PERSON_ID },
     publisher: { "@id": PERSON_ID },
     isPartOf: { "@id": WEBSITE_ID },
-    ...(project ? { about: projectEntity(project) } : {}),
+    ...(project ? { about: projectEntity(project, locale) } : {}),
   };
 }
 
-export function portfolioJsonLd(list: Project[]) {
+export function portfolioJsonLd(list: Project[], locale: Locale = "en") {
+  const { pages } = getContent(locale);
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "@id": `${site.url}/portfolio#projects`,
-    name: `Projects by ${site.name}`,
-    description: `Platforms, products, and integrations that ${site.name} has led, built, or founded.`,
+    "@id": `${localUrl(locale, "/portfolio")}#projects`,
+    name: locale === "ar" ? `${pages.portfolio.title} | ${uiAr.site.name}` : `Projects by ${site.name}`,
+    description:
+      locale === "ar"
+        ? pages.portfolio.description
+        : `Platforms, products, and integrations that ${site.name} has led, built, or founded.`,
     numberOfItems: list.length,
     itemListElement: list.map((p, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      item: projectEntity(p),
+      item: projectEntity(p, locale),
     })),
   };
 }
 
-export function openSourceJsonLd(list: Project[]) {
+export function openSourceJsonLd(list: Project[], locale: Locale = "en") {
+  const { pages } = getContent(locale);
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "@id": `${site.url}/open-source#projects`,
-    name: `Open-source projects by ${site.name}`,
+    "@id": `${localUrl(locale, "/open-source")}#projects`,
+    name: locale === "ar" ? `${pages.openSource.title} | ${uiAr.site.name}` : `Open-source projects by ${site.name}`,
     numberOfItems: list.length,
     itemListElement: list.map((p, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      item: projectEntity(p),
+      item: projectEntity(p, locale),
     })),
   };
 }
@@ -213,22 +242,24 @@ export function faqJsonLd(faqs: { q: string; a: string }[]) {
   };
 }
 
-export function blogIndexJsonLd(posts: Post[]) {
+export function blogIndexJsonLd(posts: Post[], locale: Locale = "en") {
   return {
     "@context": "https://schema.org",
     "@type": "Blog",
-    "@id": `${site.url}/blog/#blog`,
-    url: absoluteUrl("/blog"),
-    name: `${site.name} — Engineering Blog`,
+    "@id": `${localUrl(locale, "/blog")}/#blog`,
+    url: localUrl(locale, "/blog"),
+    name: locale === "ar" ? `${getContent(locale).pages.blog.title} | ${uiAr.site.name}` : `${site.name} — Engineering Blog`,
     description:
-      "Engineering articles on backend systems, observability, scaling, geospatial data, and security tooling.",
+      locale === "ar"
+        ? getContent(locale).pages.blog.description
+        : "Engineering articles on backend systems, observability, scaling, geospatial data, and security tooling.",
     author: { "@id": PERSON_ID },
     publisher: { "@id": PERSON_ID },
-    inLanguage: "en",
+    inLanguage: locale,
     blogPost: posts.map((post) => ({
       "@type": "BlogPosting",
       headline: post.title,
-      url: absoluteUrl(`/blog/${post.slug}`),
+      url: localUrl(locale, `/blog/${post.slug}`),
       datePublished: post.date,
       description: post.summary,
     })),

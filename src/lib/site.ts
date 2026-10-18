@@ -81,3 +81,8 @@ export const site = {
 export function absoluteUrl(path: string): string {
   return `${site.url}${path === "/" ? "" : path}`;
 }
+
+/** The résumé PDF for a locale; the Arabic one is /ar/resume printed the same way. */
+export function resumePdf(locale: "en" | "ar"): string {
+  return locale === "ar" ? "/assets/Abdelrahman_Saied_resume_ar.pdf" : site.resumePdf;
+}

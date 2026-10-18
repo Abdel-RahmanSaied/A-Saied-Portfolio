@@ -2,7 +2,7 @@ import { career } from "@/lib/career";
 import { caseStudies } from "@/lib/case-studies";
 import { posts } from "@/lib/posts";
 import { projects } from "@/lib/projects";
-import { absoluteUrl, site } from "@/lib/site";
+import { absoluteUrl, resumePdf, site } from "@/lib/site";
 
 export const dynamic = "force-static";
 
@@ -81,6 +81,7 @@ ${caseStudies.map((c) => `- [${c.title}](${absoluteUrl(`/case-studies/${c.slug}`
 - [Portfolio](${absoluteUrl("/portfolio")}): all projects
 - [Open source](${absoluteUrl("/open-source")}): projects with public source, their licences and status
 - [Contact](${absoluteUrl("/lets-talk")}): availability and contact details
+- [Arabic version](${absoluteUrl("/ar")}): the whole site in Egyptian Arabic at /ar, with the same pages, case studies and articles (Arabic résumé PDF: ${absoluteUrl(resumePdf("ar"))})
 
 ## Blog
 

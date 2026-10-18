@@ -3,11 +3,13 @@ import { ArrowRight, ChevronLeft, ExternalLink } from "lucide-react";
 import GlowCard from "@/components/GlowCard";
 import ArchitectureDiagram from "./ArchitectureDiagram";
 import type { CaseStudy } from "@/lib/case-study-types";
+import { localePath, type Locale } from "@/lib/i18n";
+import type { Ui } from "@/lib/ui";
 
 function SectionLabel({ number, label }: { number: number; label: string }) {
   return (
     <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-3">
-      <span aria-hidden="true" className="text-fg-faint mr-2">
+      <span aria-hidden="true" className="text-fg-faint me-2">
         {String(number).padStart(2, "0")}
       </span>
       {label}
@@ -39,7 +41,19 @@ function Section({
   );
 }
 
-export default function CaseStudyView({ study, next }: { study: CaseStudy; next?: CaseStudy }) {
+export default function CaseStudyView({
+  locale,
+  ui,
+  study,
+  next,
+}: {
+  locale: Locale;
+  ui: Ui;
+  study: CaseStudy;
+  next?: CaseStudy;
+}) {
+  const t = ui.caseStudies;
+  const s = t.sections;
   let n = 0;
   const num = () => ++n;
 
@@ -49,11 +63,11 @@ export default function CaseStudyView({ study, next }: { study: CaseStudy; next?
 
       <article className="relative max-w-4xl mx-auto px-5 sm:px-6 py-16 sm:py-24 space-y-20">
         <Link
-          href="/case-studies"
+          href={localePath(locale, "/case-studies")}
           className="inline-flex items-center gap-1.5 text-sm text-fg-muted hover:text-zinc-200 transition-colors"
         >
-          <ChevronLeft className="w-4 h-4" aria-hidden="true" />
-          All case studies
+          <ChevronLeft className="w-4 h-4 rtl:-scale-x-100" aria-hidden="true" />
+          {t.back}
         </Link>
 
         {/* ── Header ── */}
@@ -93,7 +107,7 @@ export default function CaseStudyView({ study, next }: { study: CaseStudy; next?
           )}
         </header>
 
-        <Section number={num()} label="The problem" title="What needed solving">
+        <Section number={num()} label={s.problem.label} title={s.problem.title}>
           <div className="space-y-4 text-zinc-400 leading-relaxed max-w-3xl">
             {study.problem.map((p) => (
               <p key={p}>{p}</p>
@@ -101,20 +115,20 @@ export default function CaseStudyView({ study, next }: { study: CaseStudy; next?
           </div>
         </Section>
 
-        <Section number={num()} label="Constraints" title="What the design had to respect">
+        <Section number={num()} label={s.constraints.label} title={s.constraints.title}>
           <ul className="grid gap-3 sm:grid-cols-2">
             {study.constraints.map((c) => (
               <li key={c} className="flex gap-3 rounded-xl border border-zinc-800 bg-zinc-900/30 p-4 text-sm text-zinc-300 leading-relaxed">
-                <ArrowRight className="w-4 h-4 mt-0.5 shrink-0 text-fg-faint" aria-hidden="true" />
+                <ArrowRight className="w-4 h-4 mt-0.5 shrink-0 text-fg-faint rtl:-scale-x-100" aria-hidden="true" />
                 {c}
               </li>
             ))}
           </ul>
         </Section>
 
-        <Section number={num()} label="Architecture" title="How the system fits together">
+        <Section number={num()} label={s.architecture.label} title={s.architecture.title}>
           <p className="text-zinc-400 leading-relaxed max-w-3xl mb-6">{study.architecture.intro}</p>
-          <ArchitectureDiagram layers={study.architecture.layers} label={`${study.title} architecture`} />
+          <ArchitectureDiagram layers={study.architecture.layers} label={t.architectureLabel.replace("{title}", study.title)} />
           {study.architecture.notes && (
             <ul className="mt-5 space-y-2 text-sm text-fg-muted leading-relaxed">
               {study.architecture.notes.map((note) => (
@@ -128,7 +142,7 @@ export default function CaseStudyView({ study, next }: { study: CaseStudy; next?
         </Section>
 
         {study.products && (
-          <Section number={num()} label="Products" title="What runs on the platform">
+          <Section number={num()} label={s.products.label} title={s.products.title}>
             <div className="grid gap-4 md:grid-cols-2">
               {study.products.map((p) => (
                 <GlowCard key={p.name} className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6">
@@ -137,7 +151,7 @@ export default function CaseStudyView({ study, next }: { study: CaseStudy; next?
                   <ul className="space-y-2">
                     {p.points.map((pt) => (
                       <li key={pt} className="flex gap-2 text-sm text-fg-muted leading-relaxed">
-                        <ArrowRight className="w-3.5 h-3.5 mt-1 shrink-0 text-zinc-600" aria-hidden="true" />
+                        <ArrowRight className="w-3.5 h-3.5 mt-1 shrink-0 text-zinc-600 rtl:-scale-x-100" aria-hidden="true" />
                         {pt}
                       </li>
                     ))}
@@ -150,7 +164,7 @@ export default function CaseStudyView({ study, next }: { study: CaseStudy; next?
         )}
 
         {study.features && (
-          <Section number={num()} label="Features" title="Everything it can do" id="features">
+          <Section number={num()} label={s.features.label} title={s.features.title} id="features">
             <div className="grid gap-4 md:grid-cols-2">
               {study.features.map((f) => (
                 <div key={f.group} className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6">
@@ -158,7 +172,7 @@ export default function CaseStudyView({ study, next }: { study: CaseStudy; next?
                   <ul className="space-y-2">
                     {f.items.map((item) => (
                       <li key={item} className="flex gap-2 text-sm text-fg-muted leading-relaxed">
-                        <ArrowRight className="w-3.5 h-3.5 mt-1 shrink-0 text-zinc-600" aria-hidden="true" />
+                        <ArrowRight className="w-3.5 h-3.5 mt-1 shrink-0 text-zinc-600 rtl:-scale-x-100" aria-hidden="true" />
                         {item}
                       </li>
                     ))}
@@ -169,7 +183,7 @@ export default function CaseStudyView({ study, next }: { study: CaseStudy; next?
           </Section>
         )}
 
-        <Section number={num()} label="Engineering decisions" title="What was chosen, and why">
+        <Section number={num()} label={s.decisions.label} title={s.decisions.title}>
           <ol className="space-y-3">
             {study.decisions.map((d, i) => (
               <li key={d.title}>
@@ -189,18 +203,18 @@ export default function CaseStudyView({ study, next }: { study: CaseStudy; next?
           </ol>
         </Section>
 
-        <Section number={num()} label="Trade-offs" title="What those choices cost">
+        <Section number={num()} label={s.tradeoffs.label} title={s.tradeoffs.title}>
           <div className="rounded-2xl border border-zinc-800 overflow-hidden divide-y divide-zinc-800">
-            {study.tradeoffs.map((t) => (
-              <div key={t.choice} className="grid sm:grid-cols-[1fr_1.3fr] gap-2 sm:gap-6 p-5 bg-zinc-900/20">
-                <p className="text-sm font-semibold text-zinc-200">{t.choice}</p>
-                <p className="text-sm text-fg-muted leading-relaxed">{t.cost}</p>
+            {study.tradeoffs.map((tr) => (
+              <div key={tr.choice} className="grid sm:grid-cols-[1fr_1.3fr] gap-2 sm:gap-6 p-5 bg-zinc-900/20">
+                <p className="text-sm font-semibold text-zinc-200">{tr.choice}</p>
+                <p className="text-sm text-fg-muted leading-relaxed">{tr.cost}</p>
               </div>
             ))}
           </div>
         </Section>
 
-        <Section number={num()} label="Outcomes" title="What it delivered">
+        <Section number={num()} label={s.outcomes.label} title={s.outcomes.title}>
           <div className="grid gap-4 sm:grid-cols-2">
             {study.outcomes.map((o) => (
               <div key={o.title} className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6">
@@ -214,19 +228,19 @@ export default function CaseStudyView({ study, next }: { study: CaseStudy; next?
         <section aria-labelledby="my-role" className="grid gap-6 md:grid-cols-2">
           <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-6">
             <h2 id="my-role" className="text-xs font-semibold uppercase tracking-widest text-zinc-300 mb-4">
-              My role
+              {t.myRole}
             </h2>
             <ul className="space-y-2.5">
               {study.myRole.map((r) => (
                 <li key={r} className="flex gap-2 text-sm text-zinc-400 leading-relaxed">
-                  <ArrowRight className="w-3.5 h-3.5 mt-1 shrink-0 text-zinc-600" aria-hidden="true" />
+                  <ArrowRight className="w-3.5 h-3.5 mt-1 shrink-0 text-zinc-600 rtl:-scale-x-100" aria-hidden="true" />
                   {r}
                 </li>
               ))}
             </ul>
           </div>
           <div className="rounded-2xl border border-zinc-800 bg-zinc-900/20 p-6">
-            <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-300 mb-4">Scope notes</h2>
+            <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-300 mb-4">{t.scopeNotes}</h2>
             <ul className="space-y-2.5">
               {study.scopeNotes.map((s) => (
                 <li key={s} className="text-sm text-fg-muted leading-relaxed">
@@ -238,23 +252,27 @@ export default function CaseStudyView({ study, next }: { study: CaseStudy; next?
         </section>
 
         <footer className="flex flex-wrap gap-2">
-          {study.tags.map((t) => (
-            <span key={t} className="text-xs px-2.5 py-1 rounded-md bg-zinc-800 text-zinc-300 font-mono border border-zinc-700/50">
-              {t}
+          {study.tags.map((tag) => (
+            <span key={tag} className="text-xs px-2.5 py-1 rounded-md bg-zinc-800 text-zinc-300 font-mono border border-zinc-700/50">
+              {tag}
             </span>
           ))}
         </footer>
 
         {next && (
           <Link
-            href={`/case-studies/${next.slug}`}
+            href={localePath(locale, `/case-studies/${next.slug}`)}
             className="group block rounded-2xl border border-zinc-800 bg-zinc-900/40 p-8 hover:border-zinc-600 transition-colors"
           >
-            <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-2">Next case study</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-2">{t.next}</p>
             <p className="text-xl font-bold text-white mb-1">{next.title}</p>
             <p className="text-sm text-fg-muted mb-4">{next.summary}</p>
             <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-200">
-              Read it <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+              {ui.common.readIt}{" "}
+              <ArrowRight
+                className="w-4 h-4 rtl:-scale-x-100 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform"
+                aria-hidden="true"
+              />
             </span>
           </Link>
         )}

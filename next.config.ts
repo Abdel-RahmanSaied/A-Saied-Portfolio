@@ -9,6 +9,10 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  experimental: {
+    // Two root layouts (English and /ar), so unmatched URLs need app/global-not-found.tsx.
+    globalNotFound: true,
+  },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
   },
