@@ -55,7 +55,7 @@ export default function Navbar({ locale, nav }: { locale: Locale; nav: Ui["nav"]
       hrefLang={nav.switchLang}
       lang={nav.switchLang}
       aria-label={nav.switchAria}
-      className="px-3 py-1.5 rounded-lg border border-zinc-700/70 text-sm text-zinc-300 hover:text-white hover:border-zinc-500 transition-colors"
+      className="shrink-0 whitespace-nowrap px-3 py-1.5 rounded-lg border border-zinc-700/70 text-sm text-zinc-300 hover:text-white hover:border-zinc-500 transition-colors"
     >
       {nav.switchLabel}
     </a>
@@ -67,11 +67,11 @@ export default function Navbar({ locale, nav }: { locale: Locale; nav: Ui["nav"]
         ? "bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-800/60 shadow-xl shadow-black/40"
         : "bg-transparent"
     }`}>
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
 
           {/* Logo */}
-          <Link href={localePath(locale, "/")} className="flex items-center gap-2.5 group">
+          <Link href={localePath(locale, "/")} className="shrink-0 flex items-center gap-2.5 group">
             <svg
               aria-hidden="true"
               viewBox={asIconSmall.viewBox}
@@ -84,8 +84,8 @@ export default function Navbar({ locale, nav }: { locale: Locale; nav: Ui["nav"]
             </span>
           </Link>
 
-          {/* Desktop: nine items plus the language switch need ~1000px, so below lg tablets get the menu button. */}
-          <div className="hidden lg:flex items-center gap-1">
+          {/* Desktop: keep all labels on one line; narrower viewports use the compact menu. */}
+          <div className="hidden xl:flex items-center gap-1">
             {navItems.map((item) => {
               const href = localePath(locale, item.href);
               const active = pathname === href;
@@ -94,7 +94,7 @@ export default function Navbar({ locale, nav }: { locale: Locale; nav: Ui["nav"]
                   key={item.key}
                   href={href}
                   aria-current={active ? "page" : undefined}
-                  className={`relative px-2.5 xl:px-4 py-2 rounded-lg text-sm transition-colors duration-200 ${
+                  className={`relative shrink-0 whitespace-nowrap px-3 py-2 rounded-lg text-sm transition-colors duration-200 ${
                     active ? "text-white font-medium" : "text-fg-muted hover:text-zinc-200 font-normal"
                   }`}
                 >
@@ -113,7 +113,7 @@ export default function Navbar({ locale, nav }: { locale: Locale; nav: Ui["nav"]
           </div>
 
           {/* Tablet and phone: the language switch stays visible next to the menu button */}
-          <div className="lg:hidden flex items-center gap-2">
+          <div className="xl:hidden flex items-center gap-2">
             {languageSwitch}
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -137,9 +137,9 @@ export default function Navbar({ locale, nav }: { locale: Locale; nav: Ui["nav"]
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.15 }}
-            className="lg:hidden border-t border-zinc-800/60 bg-zinc-950/95 backdrop-blur-xl"
+            className="xl:hidden border-t border-zinc-800/60 bg-zinc-950/95 backdrop-blur-xl"
           >
-            <div className="max-w-5xl mx-auto px-6 py-3 space-y-1">
+            <div className="max-w-7xl mx-auto px-6 py-3 space-y-1">
               {navItems.map((item) => {
                 const href = localePath(locale, item.href);
                 const active = pathname === href;
