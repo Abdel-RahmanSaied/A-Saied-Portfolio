@@ -13,7 +13,7 @@ export const faqsAr: Faq[] = [
   },
   {
     q: "إيه هو Sanad AI؟",
-    a: "Sanad AI مساعد في Twiscope بيستخدم RAG للإجابة عن الأسئلة من تقارير التحليلات. بيجاوب على الأسئلة بالعربي والإنجليزي بـ hybrid retrieval بيجمع بين BM25 في Elasticsearch والـ vector retrieval على embeddings من BGE-M3، والنتايج بتتدمج بـ reciprocal rank fusion، والتحكم في الصلاحيات (access control) بيتطبّق بالكود، مش بموديل اللغة. عبدالرحمن بيقود الفريق، وبنى فيه الـ ingestion pipeline والـ deployment والـ tracing؛ والـ retrieval core بناه زمايله في الفريق.",
+    a: "Sanad AI مساعد في Twiscope بيستخدم RAG للإجابة عن الأسئلة من تقارير التحليلات. بيجاوب على الأسئلة بالعربي والإنجليزي بـ hybrid retrieval بيجمع بين BM25 في Elasticsearch والـ vector retrieval على embeddings من BGE-M3، والنتايج بتتدمج بـ reciprocal rank fusion، والتحكم في الصلاحيات (access control) بيتطبّق بالكود، مش بموديل اللغة. عبدالرحمن قاد تصميم النظام والبحث مع مهندسي الـ AI اللي نفّذوا مكوّنات البحث، وبنى بنفسه مسار تجهيز التقارير وربط الخدمات والنشر والتتبّع.",
   },
   {
     q: "إيه هي Fendix؟",

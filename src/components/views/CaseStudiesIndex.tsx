@@ -4,9 +4,12 @@ import GlowCard from "@/components/GlowCard";
 import type { CaseStudy } from "@/lib/case-study-types";
 import { localePath, type Locale } from "@/lib/i18n";
 import type { Ui } from "@/lib/ui";
+import { projects } from "@/lib/projects";
+import { projectsAr } from "@/lib/ar/projects";
 
 export default function CaseStudiesIndex({ locale, ui, caseStudies }: { locale: Locale; ui: Ui; caseStudies: CaseStudy[] }) {
   const t = ui.caseStudies;
+  const featured = (locale === "ar" ? projectsAr : projects).filter((p) => p.featured);
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
       <div className="fixed inset-0 bg-[linear-gradient(to_right,#ffffff04_1px,transparent_1px),linear-gradient(to_bottom,#ffffff04_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none" />
@@ -21,6 +24,16 @@ export default function CaseStudiesIndex({ locale, ui, caseStudies }: { locale: 
           </h1>
           <p className="text-zinc-400 max-w-2xl leading-relaxed">{t.intro}</p>
         </header>
+
+        <div className="grid gap-4 md:grid-cols-3 mb-12">
+          {featured.map((project) => (
+            <Link key={project.slug} href={localePath(locale, project.caseStudy!)} className="rounded-2xl border border-zinc-700 bg-zinc-900/50 p-5 hover:border-zinc-500 transition-colors">
+              <span dir="ltr" className="block font-semibold text-white mb-2">{project.title}</span>
+              <span className="text-sm text-zinc-400 leading-relaxed">{project.caseStudyHook}</span>
+              <span className="block mt-4 text-xs text-zinc-200">{ui.common.caseStudy} <ArrowRight aria-hidden="true" className="inline h-3 w-3 rtl:-scale-x-100" /></span>
+            </Link>
+          ))}
+        </div>
 
         <ul className="space-y-5">
           {caseStudies.map((c) => (

@@ -21,6 +21,12 @@ const twiscope: CaseStudy = {
     { value: "2 yrs", label: "As sole backend developer" },
     { value: "Kong", label: "Gateway in front of 4 services" },
   ],
+  overview: [
+    { label: "The problem", body: "Turn data from multiple sources into useful reports and decision dashboards without blocking user requests during collection and analysis." },
+    { label: "My role", body: "Built the original backend, then built and directly managed a team of up to 13 engineers. Remained hands-on in architecture, code and production while owning hiring, performance reviews and delivery." },
+    { label: "A key decision", body: "Run collection and analysis in background jobs, reuse collection windows, and validate versioned snapshots before publishing AI-assisted analysis." },
+    { label: "The result", body: "Internal production logs showed a comparable workflow of about 100,000 posts falling from over five hours to around three minutes on unchanged server resources. This includes workflow and caching improvements, not just sentiment inference." },
+  ],
   problem: [
     "Communications and research teams in the region need to understand conversations about keywords, accounts, influencers and brands on X and other networks — in Arabic as well as English. Generic social-listening tools handle Arabic poorly and don't map to how these teams work.",
     "The backend scope covered by this study had five product areas on one platform: deep on-demand reports, influencer monitoring by quarter, decision dashboards that score a brand against its competitors, scheduled alerts and notifications — all sharing the same data collection, subscriptions and organisation permissions.",
@@ -168,7 +174,7 @@ const twiscope: CaseStudy = {
     { choice: "Self-managed Elasticsearch on EC2", cost: "Full control and lower cost, at the price of operating backups and upgrades ourselves." },
   ],
   outcomes: [
-    { title: "Faster end-to-end processing", body: "I led workflow and caching optimizations that reduced a comparable collection-and-analysis workload of approximately 100,000 posts from over five hours to around three minutes on unchanged server resources. This is an owner-reported observation from internal production logs, not an independently reproduced benchmark. It includes caching and broader workflow changes; it is not a measure of sentiment inference speed alone." },
+    { title: "Faster end-to-end processing", body: "I led workflow and caching optimizations that reduced a comparable collection-and-analysis workload of approximately 100,000 posts from over five hours to around three minutes on unchanged server resources. The timings come from internal production logs for this workload. It includes caching and broader workflow changes; it is not a measure of sentiment inference speed alone." },
     { title: "Five backend product areas, one platform", body: "In the scope covered here, Deep-In, Influencer Impact, Decision Hub, the Alert System and notifications share collection, subscriptions, permissions and infrastructure." },
     { title: "Six data sources", body: "X API v2, EnsembleData for Instagram and TikTok, Google Custom Search, LinkedIn, and a news feed indexed into Elasticsearch every five minutes." },
     { title: "A secured service edge", body: "Every request passes JWT verification and rate limiting at the gateway; services sit in private subnets behind internal load balancers." },
@@ -186,7 +192,7 @@ const twiscope: CaseStudy = {
     "The approximately 100,000-post timing comparison is based on internal production logs reported by me. Cache state and cache-hit rates are not published, so it should not be read as a cold-cache benchmark or a platform-wide performance guarantee. No availability percentage is claimed.",
     "There is no WebSocket or push channel: alerts run on schedules, and the realtime service answers live lookups on request.",
     "Sentiment comes from pretrained Hugging Face models served by a separate service; no models are trained in this platform.",
-    "The repositories contain large test suites (about 3,300 test functions). The reviewed deployment workflows enforce security checks on the release commit. Application testing is part of the broader delivery process; those test workflows have not been independently verified here as mandatory deployment gates.",
+    "The repositories contain large test suites (about 3,300 test functions). The security gate is a mandatory deployment dependency and checks the release commit. Application testing is part of pre-release validation; this case study makes no claim that every test suite automatically blocks deployment.",
     "Twiscope is an ASAS IT product; this study stays at architecture level and omits internal configuration.",
     "Twiscope's public product suite has evolved beyond the five backend areas covered here; twiscope.net is the source of truth for current product names and availability.",
   ],
@@ -199,7 +205,7 @@ const sanad: CaseStudy = {
   kicker: "RAG analytics assistant",
   headline: "Sanad AI: grounded Arabic and English answers over Twiscope reports",
   summary:
-    "Twiscope's retrieval-augmented assistant answers questions about social-media analytics reports in Arabic or English, with the sources it used. I lead the team that builds it and personally own its ingestion pipeline, deployment, and tracing; this study is explicit about which parts were mine.",
+    "Twiscope's assistant answers questions about analytics reports in Arabic and English, with supporting sources. I led the architecture, retrieval and prompt design with the AI engineers who implemented the retrieval components. My hands-on work covered the service foundation, ingestion, API integration, deployment and tracing.",
   readTime: "9 min read",
   role: "Software Team Lead · ASAS IT · repo owner and reviewer",
   links: [],
@@ -308,12 +314,12 @@ const sanad: CaseStudy = {
     "Built the deployment workflows (GitHub Actions → systemd, with backup and rollback, then machine-image refresh).",
     "Added Elastic APM tracing to the API and both queue workers.",
     "Built a separate GPU sentiment service for Arabic dialects (three Hugging Face models, batched fp16 inference); it is deployed alongside Sanad but not used by chat.",
-    "As team lead and repo owner, reviewed and merged the team's work, including the router and hybrid-retrieval changes. The retrieval core — classifier, LLM router, hybrid search and RRF, prompts, and the embedding and LLM clients — was designed and written by two teammates.",
+    "Led the architecture, retrieval strategy, prompt and vector-search design, and reviewed the implementation. Two AI teammates implemented the retrieval core: classifier, router, hybrid search, RRF, prompts and model clients. I also contributed to agent orchestration and connected the service to the platform.",
   ],
   scopeNotes: [
-    "The sentiment throughput figures come from the repository’s development benchmark, recorded on April 27, 2026; I have not independently rerun it for this case study. Label parity covers the 24-text sample, not a general accuracy guarantee. No RAG latency, accuracy, cost or traffic measurements are published here.",
+    "The sentiment throughput figures come from the repository’s development benchmark, recorded on April 27, 2026. Label parity covers the 24-text sample, not a general accuracy guarantee. No RAG latency, accuracy, cost or traffic measurements are published here.",
     "Answers are not streamed, and the system is not real-time: reports are ingested asynchronously.",
-    "Observability is Elastic APM plus logs in Elasticsearch; there is no Prometheus or Grafana for this service.",
+    "The API and ingestion workers use Elastic APM and Elasticsearch logs. The wider operating setup also includes Prometheus, Grafana and custom monitoring.",
     "The repository has a large unit-test suite that CI does not yet run. Next improvements: run tests in CI, tighten ingestion error handling and queue visibility windows, and bound fan-out for very large multi-report requests.",
   ],
   next: "fendix",
@@ -458,6 +464,24 @@ const muri: CaseStudy = {
     { value: "Double-entry", label: "Driver wallet ledger" },
     { value: "AR / EN", label: "Bilingual end to end" },
   ],
+  overview: [
+  {
+    "label": "The problem",
+    "body": "Turn a paid subscription into real seats and trips, even when payment confirmation arrives late or more than once."
+  },
+  {
+    "label": "My role",
+    "body": "Led the team; built the backend foundation, authentication, delivery pipeline, geography models and trip start/end validation. Teammates implemented payments, wallets, seat allocation and the client apps."
+  },
+  {
+    "label": "A key decision",
+    "body": "Allocate seats inside a database transaction with row locks, and re-check payment status with the gateway before activating a subscription."
+  },
+  {
+    "label": "The result and its limits",
+    "body": "The implementation covers subscriptions, payments, generated trips and driver wallets, with recovery for charged but inactive subscriptions. No usage or measured business-impact figures are published here."
+  }
+],
   problem: [
     "Families subscribe students to daily transport on fixed routes. Behind that simple promise the operator has to sell seats without overselling vehicles, generate every trip for the subscription period, take card payments, track drivers, and pay them — across students, drivers and administrators.",
     "Payments make it harder: a gateway confirmation can arrive late, twice, or not at all, and a paid subscription that never activates is worse than a failed payment.",
@@ -504,7 +528,7 @@ const muri: CaseStudy = {
   decisions: [
     {
       title: "Allocate seats under row locks, in a fixed order",
-      body: "Seat allocation runs in one transaction that locks the route's trip rows with SELECT … FOR UPDATE, always in the same (priority, id) order so concurrent purchases can't deadlock, then checks remaining seats per slot and fails cleanly when a route is full. Payment confirmation also locks the subscription and does nothing if it isn't awaiting payment, so a duplicate confirmation is harmless.",
+      body: "Seat allocation runs in one transaction that locks the route's trip rows with SELECT … FOR UPDATE, always in the same (priority, id) order to reduce lock-order conflicts between concurrent purchases, then checks remaining seats per slot and fails cleanly when a route is full. Payment confirmation also locks the subscription and does nothing if it isn't awaiting payment, so a duplicate confirmation is harmless.",
     },
     {
       title: "Webhooks trigger work; the gateway decides",
@@ -520,7 +544,7 @@ const muri: CaseStudy = {
     },
     {
       title: "Validate trip actions by place and time",
-      body: "Geography is stored as PostGIS geography (SRID 4326). A driver can start a trip only within 100 m of the route start and between 20 minutes early and 10 minutes late, and can end it only within 100 m of the route end; QR pickups must happen within 50 m of the stop, in order.",
+      body: "Geography is stored as PostGIS geography (SRID 4326). A driver can start within 100 m of the route start or first active passenger stop, between 20 minutes early and 10 minutes late, and end within 100 m of the route end or last active passenger stop; QR pickups must happen within 50 m of the stop, in order.",
     },
     {
       title: "Server-driven app copy",
@@ -537,7 +561,7 @@ const muri: CaseStudy = {
   outcomes: [
     { title: "End-to-end subscriptions", body: "Choose a package, pay, get seats allocated, and receive generated trips for the whole period — with expiry and renewal reminders." },
     { title: "Driver operations", body: "Geofenced trip start and end, QR pickups, absence marking, SOS reports with an admin workflow, and wallet withdrawals." },
-    { title: "Payments that self-heal", body: "Webhook re-fetch, scheduled reconciliation and automatic refunds cover the delayed, duplicated and missing-notification cases." },
+    { title: "Payment recovery", body: "Gateway re-checks and scheduled reconciliation recover delayed or missing confirmations. Allocation failures trigger a refund path; failures during refund handling require manual reconciliation." },
     { title: "Shipped apps", body: "The student and driver apps are published on Google Play and the App Store." },
   ],
   myRole: [
@@ -548,7 +572,7 @@ const muri: CaseStudy = {
     "Teammates built the apps and admin portal, the Terraform, payments, the wallet ledger, notifications, route ordering, QR pickup, SOS and almost all of the tests; I describe those as team features.",
   ],
   scopeNotes: [
-    "No user or traffic numbers are claimed. The public marketing domain wasn't reachable when this was written, so there is no link.",
+    "No user counts, traffic figures or measured business outcomes are published here.",
     "There are no WebSockets: live location is REST uploads plus polling.",
     "The repository has several hundred tests, but CI runs deployments and a security scan, not the test suite.",
   ],

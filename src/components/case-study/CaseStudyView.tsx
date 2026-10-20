@@ -107,6 +107,17 @@ export default function CaseStudyView({
           )}
         </header>
 
+        {study.overview && (
+          <dl className="grid gap-4 sm:grid-cols-2">
+            {study.overview.map((item) => (
+              <div key={item.label} className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-5">
+                <dt className="font-semibold text-white mb-2">{item.label}</dt>
+                <dd className="text-sm text-zinc-400 leading-relaxed">{item.body}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+
         <Section number={num()} label={s.problem.label} title={s.problem.title}>
           <div className="space-y-4 text-zinc-400 leading-relaxed max-w-3xl">
             {study.problem.map((p) => (

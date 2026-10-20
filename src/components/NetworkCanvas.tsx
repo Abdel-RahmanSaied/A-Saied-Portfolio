@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const NODE_COUNT = 65;
 const PACKET_COUNT = 22;
@@ -8,6 +8,18 @@ const CONNECTION_DIST = 125;
 const BOUNDS = { x: 310, y: 210, z: 140 };
 
 export default function NetworkCanvas() {
+  const [enabled, setEnabled] = useState(false);
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 1024px) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
+    const update = () => setEnabled(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+  return enabled ? <NetworkScene /> : null;
+}
+
+function NetworkScene() {
   const mountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

@@ -68,7 +68,7 @@ export default function LetsTalkClient({ locale, ui }: { locale: Locale; ui: Ui 
                     href={c.href}
                     target={c.href.startsWith("http") ? "_blank" : undefined}
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-5 p-5 rounded-2xl border border-zinc-800 bg-zinc-900/40 hover:border-zinc-700 hover:bg-zinc-900/70 transition-all duration-300 relative"
+                    className="group flex items-center gap-3 sm:gap-5 p-4 sm:p-5 rounded-2xl border border-zinc-800 bg-zinc-900/40 hover:border-zinc-700 hover:bg-zinc-900/70 transition-all duration-300 relative"
                     whileHover={{ y: -2 }}
                   >
                     <motion.div
@@ -80,7 +80,7 @@ export default function LetsTalkClient({ locale, ui }: { locale: Locale; ui: Ui 
                     </motion.div>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-0.5">{c.label}</p>
-                      <p className="font-semibold text-zinc-200 text-sm truncate">{c.value}</p>
+                      <p dir="ltr" className="font-semibold text-zinc-200 text-xs sm:text-sm break-all text-start rtl:text-right">{c.value}</p>
                       <p className="text-xs text-fg-faint mt-0.5">{c.desc}</p>
                     </div>
                     <motion.div

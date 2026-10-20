@@ -6,6 +6,7 @@ import type { Project } from "@/lib/projects";
 export const projectsAr: Project[] = [
   {
     slug: "twiscope",
+    cardSummary: "منصة للرصد والتحليل الإعلامي ودعم القرار. بنيت الـ backend من البداية، وبعدها قُدت الفريق وتطوير مسارات جمع البيانات ومعالجتها وتشغيلها.",
     title: "Twiscope",
     tagline: "منصة للرصد والتحليل الإعلامي ودعم القرار",
     caseStudyHook: "إزاي backend مشترك بيدعم منصة للرصد والتحليل الإعلامي وهي بتتوسع",
@@ -22,11 +23,12 @@ export const projectsAr: Project[] = [
   },
   {
     slug: "sanad-ai",
+    cardSummary: "مساعد بيجاوب من تقارير Twiscope بالعربي والإنجليزي، مع مصادر الإجابة. قُدت التصميم مع مهندسي الـ AI، وبنيت تجهيز التقارير وربط الخدمة وتشغيلها؛ وصلاحيات الوصول بيتحقق منها الكود.",
     title: "Sanad AI",
     tagline: "مساعد التحليلات بالـ RAG في Twiscope",
     caseStudyHook: "إزاي بنينا RAG بالعربي والإنجليزي والصلاحيات مفروضة برّه موديل اللغة",
     description:
-      "مساعد RAG في Twiscope لتقارير التحليلات، بالعربي والإنجليزي: hybrid retrieval بـ BM25 + kNN على embeddings من BGE-M3، والنتايج بتتدمج بـ reciprocal rank fusion، والـ LLM بيختار نطاق البحث داخل allow-lists بيفرضها الكود، و ingestion للتقارير على SQS. بقود الفريق، وأنا شخصيًا مسؤول عن الـ ingestion والـ deployment والـ tracing.",
+      "مساعد RAG في Twiscope لتقارير التحليلات، بالعربي والإنجليزي: hybrid retrieval بـ BM25 + kNN على embeddings من BGE-M3، والنتايج بتتدمج بـ reciprocal rank fusion، والـ LLM بيختار نطاق البحث داخل allow-lists بيفرضها الكود، و ingestion للتقارير على SQS. قُدت تصميم النظام والبحث مع مهندسي الـ AI، وبنيت بنفسي مسار تجهيز التقارير وربط الخدمات والنشر والتتبّع.",
     techStack: ["FastAPI", "Elasticsearch", "BGE-M3", "AWS SQS", "OpenRouter", "Elastic APM"],
     category: "AI / ML",
     engagement: "ASAS IT",
@@ -36,6 +38,7 @@ export const projectsAr: Project[] = [
   },
   {
     slug: "fendix",
+    cardSummary: "مشروعي المستقل لتحويل نتائج فحوصات الأمان لقرار إصدار واضح وقابل للتفسير. بنيت وبطوّر أداة Go مفتوحة المصدر ومنصة مستضافة، مع مراعاة الفحوصات اللي ما اتنفّذتش.",
     title: "Fendix",
     tagline: "منصة لقرارات أمان التطبيقات",
     caseStudyHook: "إزاي Fendix بيحوّل نتايج أدوات الفحص لقرار إصدار واضح وقابل للتفسير",

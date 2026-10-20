@@ -26,7 +26,7 @@ Note: the reviewed deployment workflows do not establish mandatory application-t
 |---|---|---|
 | Title "Software Team Lead \| Senior Backend Engineer" | Owner | Owner's 2026 CV drafts |
 | 6+ years of professional experience (from Aug 2020) | Owner — confirmed 2026-10-17 | Owner's CV dates |
-| Leads a cross-functional team of up to 13 (backend, frontend, mobile, AI, QA) | Owner — confirmed 2026-10-17 | Not derivable from code; contributors across Twiscope/MURI/Sanad repos are consistent with a multi-disciplinary team |
+| Built and directly manages a cross-functional team of up to 13 (backend, frontend, mobile, AI, QA); owns hiring, performance reviews, promotions, planning and delivery; works directly with the CEO | Owner — confirmed 2026-10-17 | Not derivable from code; contributors across Twiscope/MURI/Sanad repos are consistent with a multi-disciplinary team |
 | ASAS IT: Senior Software Engineer Sep 2023 – Aug 2024; Team Lead Aug 2024 – present | Owner | 2026 CV drafts say Sep 2023; the 2024 PDF said Aug 2023 — confirm |
 | Check-In (Hayyak): freelance, Apr 2024 – Jan 2026 | Owner — confirmed 2026-10-17 | Matches repo activity (Apr 2024 – Jan 2026) |
 | ClouDev Sep 2022 – Jul 2023; Co-Source Aug 2020 – May 2022; B.Sc. HTI 2022 | Owner | CV drafts |
@@ -163,3 +163,10 @@ Checked on 2026-10-18 against `Abdel-RahmanSaied/Qatf` (default branch, last pus
 | Maxpeak: chat, contact protection, replacement-guarantee flow, payments, ~60% workload cut, shadow-mode calibration | Not implemented (planned in the product docs) |
 | Gymawy, ElevenLabs Dubbing, Deep Linkup listings | Overstated relative to the code; removed from the site |
 | Rotating titles "Systems Architect", "AI Infrastructure Lead"; "Staff Backend Engineer" as a held title | Not titles held; Staff-level appears only as a career target |
+
+### Recruiting review — 2026-10-20
+
+- Sanad ownership: owner confirms leadership of architecture, retrieval, prompts and vector-search design; AI teammates implemented the retrieval components. Personal service bootstrap, ingestion, integrations, delivery and tracing remain distinct from team implementation. Owner also confirms Prometheus/Grafana/custom monitoring in the wider operating setup; repository APM traces do not enumerate all production tooling.
+- MURI reread at `942a22490f97b2f8bfcb3b0d78d607c851ba4451`: docs/architecture/package-driven-round-trip.md; Trips/services/seat_allocation_service.py; Payments/views/webhook_views.py and services/update_transaction_service.py; SubscriptionsModules/subscription/tasks.py; Accounts/services/journal_entry_service.py. Ordered row locks reduce lock-order conflicts, not a proof of freedom from all deadlocks. Refund handling has a manual-reconciliation failure path and is not generally idempotent.
+- MURI deployment workflow checks out the Production branch and has no security-job dependency or application-test command. Do not transfer Twiscope exact-commit gate claims to MURI. This was source inspection, not a test run or production audit. Current operating scale and personal ownership of seat/payment design remain questions for the owner.
+- Current MURI driver serializers also permit start/end proximity to the first/last active passenger stop, respectively. Updated both languages to retain this fallback rather than claiming route endpoints are the only valid locations.

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight, Github, Linkedin, Mail, MessageCircleMore, Twitter,
   Shield, Database, Server, Cloud, ExternalLink, ChevronDown,
@@ -8,6 +8,7 @@ import {
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import GlowCard from "@/components/GlowCard";
+import ProjectFlow from "@/components/ProjectFlow";
 import AnimatedNumber from "@/components/AnimatedNumber";
 import type { Career } from "@/lib/career";
 import { localePath, type Locale } from "@/lib/i18n";
@@ -19,6 +20,8 @@ const NetworkCanvas = dynamic(() => import("@/components/NetworkCanvas"), { ssr:
 
 // ── Word-by-word reveal ──────────────────────────────────────
 function WordReveal({ text, className }: { text: string; className?: string }) {
+  const reducedMotion = useReducedMotion();
+  if (reducedMotion) return <span className={className}>{text}</span>;
   const words = text.split(" ");
   return (
     <span className={className}>
@@ -136,18 +139,18 @@ export default function HomeScreen({
     <div className="bg-zinc-950 text-zinc-100 min-h-screen overflow-x-clip">
 
       {/* ── Hero ──────────────────────────────────────────────── */}
-      <section className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center px-5 sm:px-6 overflow-hidden">
+      <section className="relative  flex items-center justify-center px-5 sm:px-6 overflow-hidden">
         <NetworkCanvas />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff04_1px,transparent_1px),linear-gradient(to_bottom,#ffffff04_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none" />
         <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-zinc-950 to-transparent pointer-events-none" />
 
         <motion.div
-          className="relative z-10 w-full min-w-0 max-w-3xl mx-auto text-center py-16"
+          className="relative z-10 w-full min-w-0 max-w-3xl mx-auto text-center py-10 sm:py-14"
           initial="hidden"
           animate="show"
           variants={{ show: { transition: { staggerChildren: 0.08 } } }}
         >
-          <motion.div variants={fadeUp} custom={0} className="mb-8">
+          <motion.div variants={fadeUp} custom={0} className="mb-5">
             <span className="inline-flex max-w-full items-center justify-center gap-2 px-3.5 py-1.5 rounded-full border border-zinc-700/60 bg-zinc-900/70 backdrop-blur-sm text-zinc-300 text-center text-xs font-medium leading-relaxed">
               <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               {t.badge}
@@ -156,9 +159,9 @@ export default function HomeScreen({
 
           {/* The name, title and intro paint immediately (they are the
               page's largest content); only the surrounding UI animates in. */}
-          <h1 className="text-5xl sm:text-7xl font-black tracking-tight leading-[1.02] mb-5 text-white">
+          <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-[1.02] mb-5 text-white">
             {t.nameFirst}
-            <br />
+            {" "}
             <span className="text-zinc-400">{t.nameLast}</span>
           </h1>
 
@@ -166,22 +169,22 @@ export default function HomeScreen({
             {career.headline}
           </p>
 
-          <p className="text-2xl sm:text-3xl font-bold text-white max-w-2xl mx-auto leading-tight mb-5">
+          <p className="text-xl sm:text-2xl font-bold text-white max-w-2xl mx-auto leading-tight mb-5">
             {t.valueTitle}
           </p>
 
-          <p className="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-10">{t.intro}</p>
+          <p className="text-sm sm:text-base text-zinc-300 max-w-2xl mx-auto leading-relaxed mb-6">{t.intro}</p>
 
-          <motion.div variants={fadeUp} custom={4} className="flex flex-col sm:flex-row gap-3 justify-center mb-9">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
             <Link href={lp("/case-studies")} className={primaryBtn}>
               {ui.common.readCaseStudies} <ArrowRight className={`w-4 h-4 ${arrow}`} aria-hidden="true" />
             </Link>
             <Link href={lp("/lets-talk")} className={secondaryBtn}>
               {ui.common.discussRole}
             </Link>
-          </motion.div>
+          </div>
 
-          <motion.ul variants={fadeUp} custom={5} className="flex gap-3 justify-center mb-14">
+          <motion.ul variants={fadeUp} custom={5} className="flex gap-3 justify-center mb-5">
             {socials.map((s) => (
               <li key={s.href}>
                 <a
@@ -223,67 +226,10 @@ export default function HomeScreen({
 
       <TechMarquee />
 
-      {/* ── Operating model ───────────────────────────────────── */}
-      <section className="py-24 sm:py-28 px-5 sm:px-6 relative overflow-hidden">
-        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-zinc-700/40 to-transparent" />
-        <motion.div className="max-w-5xl mx-auto" initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
-          <GlowCard className="relative overflow-hidden rounded-[2rem] border border-zinc-800 bg-zinc-950/90 shadow-2xl shadow-black/60" glowSize={620}>
-            <div className="absolute inset-0 bg-[linear-gradient(135deg,#ffffff0d,transparent_34%),radial-gradient(circle_at_85%_20%,#ffffff12,transparent_26%),radial-gradient(circle_at_15%_90%,#22c55e12,transparent_24%)] pointer-events-none" />
-            <div className="relative grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr]">
-              <div className="p-7 sm:p-10 md:p-12 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-3 mb-7">
-                    <span aria-hidden="true" className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_24px_rgba(52,211,153,0.8)]" />
-                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-fg-muted">{t.howIWork}</p>
-                  </div>
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-[1.03] tracking-tight mb-6">
-                    {t.howTitle}
-                  </h2>
-                  <p className="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-xl">{t.howBody}</p>
-                </div>
-                <ul className="mt-9 flex flex-wrap gap-2">
-                  {t.principles.map((principle) => (
-                    <li key={principle} className="px-3 py-1.5 rounded-full border border-zinc-700/70 bg-zinc-900/80 text-xs font-semibold text-zinc-300">
-                      {principle}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="relative border-t lg:border-t-0 lg:border-s border-zinc-800 bg-zinc-900/30 p-7 sm:p-10 md:p-12">
-                <ol className="space-y-3">
-                  {t.steps.map((item, i) => (
-                    <li
-                      key={item.title}
-                      className="group flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-950/70 p-4 hover:border-zinc-600 hover:bg-zinc-900/80 transition-colors duration-300"
-                    >
-                      <div aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-zinc-800 text-zinc-300 group-hover:text-white group-hover:bg-zinc-700 transition-colors">
-                        {stepIcons[i]}
-                      </div>
-                      <div>
-                        <h3 className="text-sm font-semibold text-zinc-200">{item.title}</h3>
-                        <p className="text-xs text-fg-muted mt-0.5">{item.body}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ol>
-                <Link
-                  href={lp("/engineering-philosophy")}
-                  className="group mt-7 inline-flex w-full items-center justify-between rounded-2xl border border-zinc-700 bg-zinc-100 px-5 py-3 text-sm font-bold text-zinc-950 hover:bg-white transition-colors"
-                >
-                  {t.readPhilosophy}
-                  <ArrowRight className={`w-4 h-4 ${arrow} ${nudge}`} aria-hidden="true" />
-                </Link>
-              </div>
-            </div>
-          </GlowCard>
-        </motion.div>
-      </section>
-
       {/* ── Featured work ─────────────────────────────────────── */}
-      <section className="py-24 px-5 sm:px-6 border-t border-zinc-800/40">
+      <section className="py-14 sm:py-20 px-5 sm:px-6 border-t border-zinc-800/40">
         <div className="max-w-5xl mx-auto">
-          <motion.div className="mb-12 flex items-end justify-between gap-4" initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
+          <motion.div className="mb-8 flex items-end justify-between gap-4" initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
             <div>
               <SectionLabel number="01" label={t.featuredLabel} />
               <h2 className="text-2xl sm:text-3xl font-bold text-white">
@@ -298,13 +244,14 @@ export default function HomeScreen({
           <div className="space-y-4">
             {featured.map((p) => (
               <GlowCard key={p.slug} className="rounded-2xl border border-zinc-800 bg-zinc-900/40 hover:border-zinc-700 hover:bg-zinc-900/70 transition-colors duration-300">
-                <article className="p-6 sm:p-8 flex flex-col lg:flex-row lg:items-start gap-6 lg:gap-8">
-                  <div className="flex-1 min-w-0">
+                <article className="p-5 sm:p-7 grid gap-6 md:grid-cols-[220px_minmax(0,1fr)]">
+                  <ProjectFlow slug={p.slug} locale={locale} />
+                  <div className="min-w-0">
                     <p className="text-xs font-semibold uppercase tracking-widest text-fg-faint mb-2">
                       {p.title} · {p.engagement}
                     </p>
-                    <h3 className="text-xl sm:text-2xl font-bold text-white leading-snug mb-3">{p.caseStudyHook ?? p.tagline}</h3>
-                    <p className="text-sm text-zinc-400 leading-relaxed mb-5">{p.description}</p>
+                    <h3 className="text-lg sm:text-xl font-bold text-white leading-snug mb-3">{p.caseStudyHook ?? p.tagline}</h3>
+                    <p className="text-sm text-zinc-400 leading-relaxed mb-5">{p.cardSummary ?? p.description}</p>
                     <ul className="flex flex-wrap gap-2" aria-label={ui.common.technology}>
                       {p.techStack.map((tech) => (
                         <li key={tech} className="text-xs px-2.5 py-1 rounded-md bg-zinc-800 text-zinc-300 font-mono border border-zinc-700/50">
@@ -312,8 +259,7 @@ export default function HomeScreen({
                         </li>
                       ))}
                     </ul>
-                  </div>
-                  <div className="flex flex-wrap lg:flex-col gap-2.5 lg:shrink-0">
+                  <div className="mt-5 flex flex-wrap gap-2.5">
                     {p.caseStudy && (
                       <Link
                         href={lp(p.caseStudy)}
@@ -343,6 +289,7 @@ export default function HomeScreen({
                       </a>
                     )}
                   </div>
+                  </div>
                 </article>
               </GlowCard>
             ))}
@@ -350,10 +297,67 @@ export default function HomeScreen({
         </div>
       </section>
 
+      {/* ── Operating model ───────────────────────────────────── */}
+      <section className="py-14 sm:py-20 px-5 sm:px-6 relative overflow-hidden">
+        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-zinc-700/40 to-transparent" />
+        <motion.div className="max-w-5xl mx-auto" initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
+          <div className="relative">
+
+            <div className="relative grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr]">
+              <div className="py-4 lg:pe-12 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-3 mb-7">
+                    <span aria-hidden="true" className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_24px_rgba(52,211,153,0.8)]" />
+                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-fg-muted">{t.howIWork}</p>
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-black text-white leading-[1.03] tracking-tight mb-6">
+                    {t.howTitle}
+                  </h2>
+                  <p className="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-xl">{t.howBody}</p>
+                </div>
+                <ul className="mt-9 flex flex-wrap gap-2">
+                  {t.principles.map((principle) => (
+                    <li key={principle} className="px-3 py-1.5 rounded-full border border-zinc-700/70 bg-zinc-900/80 text-xs font-semibold text-zinc-300">
+                      {principle}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="relative mt-8 lg:mt-0 lg:border-s border-zinc-800 lg:ps-10">
+                <ol className="divide-y divide-zinc-800">
+                  {t.steps.map((item, i) => (
+                    <li
+                      key={item.title}
+                      className="group flex items-center gap-4 py-5"
+                    >
+                      <div aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-zinc-800 text-zinc-300 group-hover:text-white group-hover:bg-zinc-700 transition-colors">
+                        {stepIcons[i]}
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-semibold text-zinc-200">{item.title}</h3>
+                        <p className="text-xs text-fg-muted mt-0.5">{item.body}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+                <Link
+                  href={lp("/engineering-philosophy")}
+                  className="group mt-7 inline-flex w-full items-center justify-between rounded-2xl border border-zinc-700 bg-zinc-100 px-5 py-3 text-sm font-bold text-zinc-950 hover:bg-white transition-colors"
+                >
+                  {t.readPhilosophy}
+                  <ArrowRight className={`w-4 h-4 ${arrow} ${nudge}`} aria-hidden="true" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
       {/* ── All work ──────────────────────────────────────────── */}
-      <section className="py-24 px-5 sm:px-6 border-t border-zinc-800/40">
+      <section className="py-14 sm:py-20 px-5 sm:px-6 border-t border-zinc-800/40">
         <div className="max-w-5xl mx-auto">
-          <motion.div className="mb-12 flex items-end justify-between gap-4" initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
+          <motion.div className="mb-8 flex items-end justify-between gap-4" initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
             <div>
               <SectionLabel number="02" label={t.allWorkLabel} />
               <h2 className="text-2xl sm:text-3xl font-bold text-white">
@@ -391,9 +395,9 @@ export default function HomeScreen({
       </section>
 
       {/* ── Expertise ─────────────────────────────────────────── */}
-      <section className="py-24 px-5 sm:px-6 border-t border-zinc-800/40">
+      <section className="py-14 sm:py-20 px-5 sm:px-6 border-t border-zinc-800/40">
         <div className="max-w-5xl mx-auto">
-          <motion.div className="mb-12" initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
+          <motion.div className="mb-8" initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
             <SectionLabel number="03" label={t.expertiseLabel} />
             <h2 className="text-2xl sm:text-3xl font-bold text-white">
               <WordReveal text={t.expertiseTitle} />
@@ -403,7 +407,7 @@ export default function HomeScreen({
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {t.services.map((s, i) => (
               <li key={s.title}>
-                <GlowCard className="p-6 rounded-2xl border border-zinc-800 bg-zinc-900/30 hover:border-zinc-700 hover:bg-zinc-900/60 transition-colors duration-300 h-full">
+                <GlowCard className="py-5 pe-5 border-t border-zinc-700 h-full">
                   <div aria-hidden="true" className="p-2.5 rounded-xl bg-zinc-800 inline-flex mb-4 text-zinc-300">{serviceIcons[i]}</div>
                   <h3 className="font-semibold text-zinc-100 text-sm mb-2">{s.title}</h3>
                   <p className="text-xs text-fg-muted leading-relaxed">{s.desc}</p>
@@ -415,9 +419,9 @@ export default function HomeScreen({
       </section>
 
       {/* ── Stack ─────────────────────────────────────────────── */}
-      <section className="py-24 px-5 sm:px-6 border-t border-zinc-800/40">
+      <section className="py-14 sm:py-20 px-5 sm:px-6 border-t border-zinc-800/40">
         <div className="max-w-5xl mx-auto">
-          <motion.div className="mb-12" initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
+          <motion.div className="mb-8" initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
             <SectionLabel number="04" label={t.stackLabel} />
             <h2 className="text-2xl sm:text-3xl font-bold text-white">
               <WordReveal text={t.stackTitle} />
@@ -444,7 +448,7 @@ export default function HomeScreen({
       </section>
 
       {/* ── CTA ───────────────────────────────────────────────── */}
-      <section className="py-28 sm:py-32 px-5 sm:px-6 border-t border-zinc-800/40">
+      <section className="py-16 sm:py-20 px-5 sm:px-6 border-t border-zinc-800/40">
         <motion.div className="max-w-2xl mx-auto text-center" initial="hidden" whileInView="show" viewport={{ once: true }} variants={inView}>
           <SectionLabel number="05" label={t.ctaLabel} />
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-5 mt-2">{t.ctaTitle}</h2>

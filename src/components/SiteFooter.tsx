@@ -25,10 +25,10 @@ export default function SiteFooter({ locale, ui }: { locale: Locale; ui: Ui }) {
               <path fill="currentColor" fillRule="evenodd" d={asIconSmall.d} />
             </svg>
             <span dir="ltr" className="font-semibold tracking-tight">
-              asaied<span className="text-zinc-500">.dev</span>
+              asaied<span className="text-fg-muted">.dev</span>
             </span>
           </Link>
-          <p className="mt-4 max-w-xl text-sm leading-relaxed text-zinc-500">{ui.site.description}</p>
+          <p className="mt-4 max-w-xl text-sm leading-relaxed text-fg-muted">{ui.site.description}</p>
         </div>
 
         <nav aria-label={locale === "ar" ? "روابط الموقع" : "Site links"}>
@@ -47,7 +47,7 @@ export default function SiteFooter({ locale, ui }: { locale: Locale; ui: Ui }) {
         </nav>
       </div>
 
-      <div className="mx-auto mt-10 flex max-w-7xl flex-col gap-2 border-t border-zinc-800/60 pt-6 text-xs text-zinc-600 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mx-auto mt-10 flex max-w-7xl flex-col gap-2 border-t border-zinc-800/60 pt-6 text-xs text-fg-faint sm:flex-row sm:items-center sm:justify-between">
         <p>© {new Date().getFullYear()} {ui.site.name}</p>
         <a href={`mailto:${site.email}`} className="transition-colors hover:text-zinc-300">{site.email}</a>
       </div>

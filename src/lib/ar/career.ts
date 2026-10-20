@@ -11,7 +11,7 @@ export const careerAr: Career = {
     "متاح لفرص كمهندس برمجيات أول، أو مهندس Backend أول، أو قائد تقني، أو Staff Engineer — حضوري في الرياض، أو عن بُعد، أو مع الانتقال لمكان الشغل.",
 
   summary:
-    "قائد فريق برمجيات ومهندس برمجيات أول، عندي خبرة مهنية أكتر من 6 سنين في بناء منصات SaaS وخدمات backend وأنظمة موزّعة بأكتر من stack. بختار اللغة والأدوات حسب المشكلة وقيود التشغيل، وبقود فريق متعدد التخصصات بيوصل لـ 13 مهندس وبشارك بنفسي في تصميم الأنظمة ومراجعة الكود وتنفيذها وتشغيلها.",
+    "قائد فريق برمجيات ومهندس برمجيات أول بخبرة أكتر من 6 سنين في بناء منصات SaaS وأنظمة backend موزّعة. بنيت وبُدير مباشرةً فريق بيوصل لـ 13 مهندس، ومسؤول عن التوظيف وتقييم الأداء والتسليم. بحدد الأولويات الهندسية مع الـ CEO، وبشارك بنفسي في التصميم والكود والتشغيل، وبختار الأدوات حسب المشكلة.",
 
   skills: [
     { label: "Backend", items: ["Python", "Go", "Django", "Django REST Framework", "FastAPI", "Celery", "تصميم REST API", "الـ Authentication والـ RBAC"] },
@@ -29,10 +29,11 @@ export const careerAr: Career = {
       start: "أغسطس 2024",
       end: "لحد دلوقتي",
       summary:
-        "بقود فريق متعدد التخصصات بيوصل لـ 13 مهندس (backend، frontend، mobile، AI، QA)؛ ومسؤول عن الـ architecture ومراجعة الكود والتخطيط والـ delivery على الـ production لـ Twiscope و MURI.",
+        "بُدير مباشرةً فريق بيوصل لـ 13 مهندس في الـ backend والـ frontend والـ mobile والـ AI والـ QA. مسؤول عن التوظيف وتقييم الأداء والترقيات والتخطيط وتسليم Twiscope و MURI، بجانب تصميم الأنظمة ومراجعة الكود.",
       highlights: [
-        "Twiscope: كنت مطور الـ backend الوحيد لحد أكتوبر 2025، وتولّيت قيادة الفريق من أغسطس 2024 بالتوازي مع دوري في الـ backend، على منصة عربية وإنجليزية للرصد والتحليل الإعلامي ودعم القرار (Django/DRF، Celery، PostgreSQL، Elasticsearch). بنيت Decision Hub (pipelines بـ Celery chords، و scoring deterministic، و snapshots في Elasticsearch)، ومحرك تنبيهات X، والاشتراكات والـ RBAC، و gateway بـ Kong معاه auth service بـ FastAPI، والـ infrastructure على AWS اللي بتتدار بـ Terraform.",
-        "Sanad AI: بقود الفريق اللي بيبني مساعد RAG بالعربي والإنجليزي لـ Twiscope (FastAPI، BGE-M3، BM25 + kNN في Elasticsearch مع reciprocal rank fusion، و index routing بالـ LLM محكوم بـ allow-list)؛ وبنيت فيه بنفسي الـ ingestion pipeline على SQS، والـ deployment workflows، والـ tracing بـ Elastic APM.",
+        "Twiscope: بنيت الـ backend من البداية، وقُدت تحسينات خفّضت وقت جمع وتحليل حوالي 100 ألف منشور من أكتر من 5 ساعات لحوالي 3 دقايق على نفس الموارد، حسب سجلات الإنتاج لعمليتين متقاربتين. التحسن شمل مسار المعالجة والـ caching.",
+        "Sanad AI: قُدت تصميم مساعد RAG بالعربي والإنجليزي مع مهندسي الـ AI، وبنيت بنفسي مسار تجهيز التقارير على SQS، وربط الخدمات، والنشر والتتبّع.",
+        "النشر: صمّمت وشغّلت GitHub Actions باستخدام self-hosted runners؛ نشر Twiscope للإنتاج مشروط بنجاح فحوصات SAST/SCA لنفس الـ commit اللي هينزل.",
         "MURI: قُدت الفريق اللي كان بيبني منصة لنقل الطلاب (Django/DRF، PostGIS، Celery، HyperPay)؛ وأسست بنفسي الـ backend والـ auth بـ JWT/OTP والـ deployment pipeline، وبنيت فيها الـ geography models على PostGIS والتحقق من الرحلات بالـ geofencing.",
       ],
     },

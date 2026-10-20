@@ -14,7 +14,7 @@ export const faqs: Faq[] = [
   },
   {
     q: "What is Sanad AI?",
-    a: "Sanad AI is Twiscope's retrieval-augmented assistant for analytics reports. It answers Arabic and English questions using hybrid Elasticsearch BM25 and vector retrieval over BGE-M3 embeddings, fused with reciprocal rank fusion, with access control enforced by code rather than the language model. Abdel-Rahman leads the team and built its ingestion pipeline, deployment and tracing; teammates built the retrieval core.",
+    a: "Sanad AI is Twiscope's retrieval-augmented assistant for analytics reports. It answers Arabic and English questions using hybrid Elasticsearch BM25 and vector retrieval over BGE-M3 embeddings, fused with reciprocal rank fusion, with access control enforced by code rather than the language model. Abdel-Rahman led architecture and retrieval design with the AI engineers who implemented the retrieval components; he built report ingestion, service integration, deployment and tracing.",
   },
   {
     q: "What is Fendix?",

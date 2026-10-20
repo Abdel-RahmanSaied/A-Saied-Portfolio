@@ -8,6 +8,8 @@ export type Project = {
   /** Outcome-led headline used when this project is featured on the homepage. */
   caseStudyHook?: string;
   description: string;
+  /** Concise introduction for project cards; full context stays in the case study. */
+  cardSummary?: string;
   /** One line for the résumé's "Selected projects" section. */
   resume?: string;
   techStack: string[];
@@ -32,6 +34,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: "twiscope",
+    cardSummary: "Media intelligence and decision support. I built the original backend, then led the team and improvements to data collection, processing and production operations.",
     title: "Twiscope",
     tagline: "Media intelligence and decision-support platform",
     caseStudyHook: "How shared collection, permissions, and queues support a growing media-intelligence platform",
@@ -48,11 +51,12 @@ export const projects: Project[] = [
   },
   {
     slug: "sanad-ai",
+    cardSummary: "An Arabic/English assistant that answers from Twiscope reports and cites its sources. I led design with AI engineers and built ingestion, integrations and delivery; code enforces access permissions.",
     title: "Sanad AI",
     tagline: "Twiscope's RAG analytics assistant",
     caseStudyHook: "How we built Arabic and English RAG with access control enforced outside the language model",
     description:
-      "Twiscope's Arabic/English retrieval-augmented assistant for analytics reports: hybrid BM25 + kNN retrieval over BGE-M3 embeddings fused with reciprocal rank fusion, LLM index routing bounded by deterministic allow-lists, and SQS-based report ingestion. I lead the team and personally own ingestion, deployment and tracing.",
+      "Twiscope's Arabic/English retrieval-augmented assistant for analytics reports: hybrid BM25 + kNN retrieval over BGE-M3 embeddings fused with reciprocal rank fusion, LLM index routing bounded by deterministic allow-lists, and SQS-based report ingestion. I led architecture and retrieval design with AI engineers and personally built report ingestion, service integration, deployment and tracing.",
     techStack: ["FastAPI", "Elasticsearch", "BGE-M3", "AWS SQS", "OpenRouter", "Elastic APM"],
     category: "AI / ML",
     engagement: "ASAS IT",
@@ -62,6 +66,7 @@ export const projects: Project[] = [
   },
   {
     slug: "fendix",
+    cardSummary: "My independent security project turns scanner findings into explainable release decisions, accounting for missing checks. I build and maintain its open-source Go CLI and hosted platform.",
     title: "Fendix",
     tagline: "Application security decision platform",
     caseStudyHook: "How Fendix turns noisy scanner output into deterministic release decisions",

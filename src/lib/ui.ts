@@ -64,7 +64,7 @@ export const uiEn = {
     nameLast: "Saied",
     valueTitle: "I build software systems that stay reliable as products and teams grow.",
     intro:
-      "I help product teams turn complex backend problems into clear, operable systems. The language and stack follow the problem, the team, and production constraints; I stay close to the code while leading delivery.",
+      "I build backend and distributed systems and directly manage a multidisciplinary team of up to 13 engineers. My work spans architecture, hands-on development, hiring and delivery. I choose languages and tools around the problem and the team.",
     scroll: "Scroll",
     howIWork: "How I work",
     howTitle: "Build systems the team can trust under pressure.",
@@ -90,7 +90,7 @@ export const uiEn = {
       { title: "Backend & distributed systems", desc: "APIs, async pipelines, data models, and services across stacks, designed around domain and operational constraints." },
       { title: "Search, data & AI services", desc: "Elasticsearch, PostgreSQL/PostGIS, and retrieval-augmented analytics wired into real products." },
       { title: "Product architecture", desc: "Service boundaries, gateways, payments and third-party integrations, deployment flow, and failure handling." },
-      { title: "Technical leadership", desc: "Architecture reviews, code review, planning, and mentoring across backend, frontend, mobile, AI, and QA." },
+      { title: "Technical leadership", desc: "Architecture and code reviews, hiring, performance management, mentoring and delivery across backend, frontend, mobile, AI and QA." },
     ],
     stackLabel: "Stack",
     stackTitle: "Technologies I work with",
@@ -111,7 +111,7 @@ export const uiEn = {
         "I started by shipping Python desktop software end to end at Co-Source, where reliability was visible in every user workflow. That shaped how I approach backends: clear domain boundaries, observable operations, and designing for the people who maintain the system after launch.",
       ],
       [
-        "Since 2022 my work has been backend platforms — REST APIs and integrations at ClouDev Solutions, then ASAS IT in Riyadh, where I moved from Senior Software Engineer to Software Team Lead. I lead a cross-functional team of up to 13 engineers across backend, frontend, mobile, AI, and QA, working on ",
+        "Since 2022 my work has been backend platforms — REST APIs and integrations at ClouDev Solutions, then ASAS IT in Riyadh, where I moved from Senior Software Engineer to Software Team Lead. I built and directly manage a team of up to 13 engineers across backend, frontend, mobile, AI and QA. I own hiring, performance reviews, promotions and delivery planning, and work with the CEO to turn business goals into engineering priorities. Our work includes ",
         { href: "/case-studies/twiscope", text: "Twiscope" },
         " — a media-intelligence and decision-support platform and its ",
         { href: "/case-studies/sanad-ai", text: "Sanad AI" },

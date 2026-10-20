@@ -18,6 +18,8 @@ export type CaseStudy = {
   tags: string[];
   /** Small, verifiable facts for the index card (counts, scope, stack) — never unmeasured performance numbers. */
   facts: { value: string; label: string }[];
+  /** Short, localized overview for readers scanning before the technical detail. */
+  overview?: { label: string; body: string }[];
 
   problem: string[];
   constraints: string[];

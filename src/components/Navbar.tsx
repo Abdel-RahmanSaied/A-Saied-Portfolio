@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -20,6 +20,8 @@ const navItems = [
 export default function Navbar({ locale, nav }: { locale: Locale; nav: Ui["nav"] }) {
   const [isOpen,   setIsOpen]   = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
   const other: Locale = locale === "ar" ? "en" : "ar";
   // The same page in the other language; every page exists in both.
@@ -32,9 +34,32 @@ export default function Navbar({ locale, nav }: { locale: Locale; nav: Ui["nav"]
   }, []);
 
   useEffect(() => {
-    const fn = (e: KeyboardEvent) => { if (e.key === "Escape") setIsOpen(false); };
+    if (!isOpen) return;
+    navRef.current?.querySelector<HTMLAnchorElement>("#mobile-menu a")?.focus();
+    const fn = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsOpen(false);
+        toggleRef.current?.focus();
+      }
+      if (e.key !== "Tab") return;
+      const items = Array.from(navRef.current?.querySelectorAll<HTMLElement>("a[href], button") ?? [])
+        .filter((el) => el.getClientRects().length > 0);
+      const first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault(); last?.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault(); first?.focus();
+      }
+    };
     document.addEventListener("keydown", fn);
     return () => document.removeEventListener("keydown", fn);
+  }, [isOpen]);
+
+  useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    const closeOnDesktop = () => { if (desktop.matches) setIsOpen(false); };
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => desktop.removeEventListener("change", closeOnDesktop);
   }, []);
 
   useEffect(() => {
@@ -58,7 +83,7 @@ export default function Navbar({ locale, nav }: { locale: Locale; nav: Ui["nav"]
   );
 
   return (
-    <nav className={`print:hidden fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+    <nav ref={navRef} className={`print:hidden fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
       scrolled
         ? "bg-zinc-950/90 backdrop-blur-xl border-b border-zinc-800/60 shadow-xl shadow-black/40"
         : "bg-transparent"
@@ -84,7 +109,7 @@ export default function Navbar({ locale, nav }: { locale: Locale; nav: Ui["nav"]
           <div className="hidden lg:flex items-center gap-1 mx-auto">
             {navItems.map((item) => {
               const href = localePath(locale, item.href);
-              const active = pathname === href;
+              const active = pathname === href || (item.href !== "/" && pathname.startsWith(`${href}/`));
               return (
                 <Link
                   key={item.key}
@@ -121,6 +146,7 @@ export default function Navbar({ locale, nav }: { locale: Locale; nav: Ui["nav"]
           <div className="lg:hidden ms-auto flex items-center gap-2">
             {languageSwitch}
             <button
+              ref={toggleRef}
               onClick={() => setIsOpen(!isOpen)}
               aria-expanded={isOpen}
               aria-controls="mobile-menu"
@@ -147,11 +173,12 @@ export default function Navbar({ locale, nav }: { locale: Locale; nav: Ui["nav"]
             <div className="max-w-7xl mx-auto px-6 py-3 space-y-1">
               {navItems.map((item) => {
                 const href = localePath(locale, item.href);
-                const active = pathname === href;
+                const active = pathname === href || (item.href !== "/" && pathname.startsWith(`${href}/`));
                 return (
                   <Link
                     key={item.key}
                     href={href}
+                    aria-current={active ? "page" : undefined}
                     className={`block px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                       active
                         ? "bg-zinc-800 text-white"

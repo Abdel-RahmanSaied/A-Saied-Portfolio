@@ -47,7 +47,7 @@ export const career = {
   availability: "Open to Senior Software Engineer, Senior Backend, Technical Lead, and Staff-level roles — on-site in Riyadh, remote, or relocation.",
 
   summary:
-    "Software Team Lead and Senior Software Engineer with 6+ years building SaaS platforms, backend services, and distributed systems across stacks. I choose languages and tools around the problem and operating constraints, and lead a cross-functional team of up to 13 engineers while staying hands-on with architecture, code review, delivery, and production.",
+    "Software Team Lead and Senior Software Engineer with 6+ years building SaaS and distributed backend systems. Built and directly manage a team of up to 13 engineers, with responsibility for hiring, performance reviews and delivery. Partner with the CEO on engineering priorities while remaining hands-on in architecture, code and production. Choose languages and tools to suit the problem.",
 
   skills: [
     { label: "Backend", items: ["Python", "Go", "Django", "Django REST Framework", "FastAPI", "Celery", "REST API design", "Authentication & RBAC"] },
@@ -65,10 +65,11 @@ export const career = {
       start: "Aug 2024",
       end: "Present",
       summary:
-        "Lead a cross-functional team of up to 13 engineers (backend, frontend, mobile, AI, QA); own architecture, code review, planning, and production delivery for Twiscope and MURI.",
+        "Directly manage up to 13 engineers across backend, frontend, mobile, AI and QA. Own hiring, performance reviews, promotions, planning and production delivery for Twiscope and MURI, alongside architecture and code review.",
       highlights: [
-        "Twiscope: sole backend developer until Oct 2025, with team leadership beginning in Aug 2024 alongside the backend role, on an Arabic/English media-intelligence and decision-support platform (Django/DRF, Celery, PostgreSQL, Elasticsearch). Built Decision Hub (Celery-chord pipelines, deterministic scoring, Elasticsearch snapshots), the X alert engine, subscriptions and RBAC, a Kong gateway with a FastAPI auth service, and Terraform-managed AWS infrastructure.",
-        "Sanad AI: lead the team building Twiscope's Arabic/English RAG assistant (FastAPI, BGE-M3, Elasticsearch BM25 + kNN with reciprocal rank fusion, allow-list-bounded LLM index routing); personally built its SQS ingestion pipeline, deployment workflows, and Elastic APM tracing.",
+        "Twiscope: built the original backend and led workflow and caching improvements. Internal production logs showed a comparable ~100,000-post collection and analysis job falling from over five hours to around three minutes on unchanged resources.",
+        "Sanad AI: led architecture and retrieval design with AI engineers; personally built SQS report ingestion, service integration, deployment and tracing.",
+        "Delivery: designed and operated GitHub Actions with self-hosted runners. Twiscope production deployment requires passing SAST/SCA security gates for the exact release commit.",
         "MURI: led the team building a student-transportation platform (Django/DRF, PostGIS, Celery, HyperPay); personally set up the backend, JWT/OTP auth and deployment pipeline, and built its PostGIS geography models and geofenced trip validation.",
       ],
     },

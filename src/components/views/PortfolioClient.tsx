@@ -69,7 +69,8 @@ export default function PortfolioClient({ locale, ui, projects }: { locale: Loca
                     </p>
                     <h2 className="text-xl font-bold text-white">{project.title}</h2>
                     <p className="text-sm text-zinc-300 mb-3">{project.tagline}</p>
-                    <p className="text-sm text-fg-muted leading-relaxed mb-5">{project.description}</p>
+                    {project.caseStudyHook && <p className="text-sm font-medium text-zinc-200 mb-3">{project.caseStudyHook}</p>}
+                    <p className="text-sm text-fg-muted leading-relaxed mb-5">{project.cardSummary ?? project.description}</p>
                     <ul aria-label={ui.common.technology} className="flex flex-wrap gap-1.5 mb-6">
                       {project.techStack.map((tech) => (
                         <li key={tech} className="text-xs px-2.5 py-1 rounded-md bg-zinc-800 text-zinc-300 font-mono border border-zinc-700/50">
