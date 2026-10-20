@@ -1,19 +1,19 @@
 import type { Post } from "@/lib/posts";
 
 // Invisible left-to-right marks (U+200E) sit before ".NET", the --fail-on and
-// --enforce-confidence flags and the /case-studies/fendix path, so the browser
+// --enforce-confidence flags and the /ar/case-studies/fendix path, so the browser
 // does not move their leading "." "--" or "/" to the other end.
 
 export const postsPart3: Post[] = [
   {
     slug:     "serverless-architecture-limits",
-    title:    "الـ Serverless Architecture وحدودها: اللي بيحصل فعلًا ورا الكواليس",
+    title:    "الـ serverless: إمكانياته وحدود استخدامه",
     date:     "2024-11-05",
     updated:  "2026-10-17",
-    readTime: "قراءة 5 دقايق",
+    readTime: "مدة القراءة: 5 دقايق",
     tags:     ["Serverless", "AWS Lambda", "Cloud", "Architecture"],
     summary:
-      "الـ serverless بيدّي مرونة حقيقية و scaling تلقائي — بس معاه قيود أغلب الـ tutorials بتفوّتها. هنا بشرح الـ cold starts وحدود وقت التنفيذ والـ statelessness معناها إيه في الشغل الحقيقي، وإزاي نصمم وإحنا عاملين حسابها.",
+      "الـ serverless بيدّي مرونة حقيقية و scaling تلقائي — بس معاه قيود لازم نفهمها قبل الاستخدام. هنا بشرح الـ cold starts وحدود وقت التنفيذ والـ statelessness معناها إيه في الشغل الحقيقي، وإزاي نصمم وإحنا عاملين حسابها.",
     content: [
       {
         type: "p",
@@ -25,7 +25,7 @@ export const postsPart3: Post[] = [
       },
       {
         type: "p",
-        text: "الـ serverless مش معناه إن مفيش سيرفرات — معناه إنكم مش اللي بتديروها. الـ function بتاعتكم بتشتغل جوه container، الـ cloud provider بيقوّمه عند الطلب، وينفّذ فيه الـ function، وبعدين يشيله. AWS Lambda و Azure Functions و Google Cloud Functions كلهم ماشيين بالنموذج ده. إنتو بتكتبوا الـ function؛ والـ provider بيتولّى الـ provisioning والـ scaling والصيانة.",
+        text: "الـ serverless مش معناه إن مفيش سيرفرات — معناه إنكم مش اللي بتديروها. الـ function بتاعتكم بتشتغل جوه container، الـ cloud provider بيشغّله عند الطلب، وينفّذ فيه الـ function، وبعدين يشيله. AWS Lambda و Azure Functions و Google Cloud Functions كلهم ماشيين بالنموذج ده. إنتو بتكتبوا الـ function؛ والـ provider بيتولّى الـ provisioning والـ scaling والصيانة.",
       },
       {
         type: "p",
@@ -37,7 +37,7 @@ export const postsPart3: Post[] = [
       },
       {
         type: "p",
-        text: "لما الـ function متكونش اتنادت من فترة قريبة، الـ provider محتاج يقوّم container جديد قبل ما ينفّذها. الـ latency بتاعة التهيئة دي — اللي هي الـ cold start — ممكن تبقى من 100ms لحد كذا ثانية، على حسب الـ runtime وحجم الـ function.",
+        text: "لما الـ function متكونش اتنادت من فترة قريبة، الـ provider محتاج يجهّز container جديد قبل ما ينفّذها. الـ latency بتاعة التهيئة دي — اللي هي الـ cold start — ممكن تبقى من 100ms لحد كذا ثانية، على حسب الـ runtime وحجم الـ function.",
       },
       {
         type: "list",
@@ -82,7 +82,7 @@ def handler(event, context):
       },
       {
         type: "p",
-        text: "الحل هو التقسيم: قسّموا المهام الكبيرة لوحدات أصغر، كل وحدة فيها تخلص جوه الحد، وبعدين اربطوها ورا بعض بالـ event triggers أو الـ step functions.",
+        text: "الحل هو التقسيم: قسّموا المهام الكبيرة لوحدات أصغر، كل وحدة تخلص خلال الوقت المسموح، وبعدين اربطوها ورا بعض بالـ event triggers أو الـ step functions.",
       },
       {
         type: "code",
@@ -121,7 +121,7 @@ def process_batch(event, context):
       },
       {
         type: "p",
-        text: "الـ statelessness هي اللي بتسهّل الـ horizontal scaling، لكن التوسع نفسه بيقف عند quotas وحدود كل provider. وكل state لازم تعيش بين invocation والتاني تتحط في storage خارجي، مش في memory الـ function.",
+        text: "الـ statelessness هي اللي بتسهّل الـ horizontal scaling، لكن التوسع نفسه بيقف عند quotas وحدود كل provider. وأي state محتاجين نحتفظ بيها بين invocation والتاني لازم تتحط في storage خارجي، مش في memory الـ function.",
       },
       {
         type: "list",
@@ -168,26 +168,26 @@ def process_batch(event, context):
     slug:     "false-positive-problem",
     title:    "الدليل، مش الخطورة: إزاي Fendix بيقرر إيه اللي يوقّف الـ build",
     date:     "2026-10-17",
-    readTime: "قراءة 7 دقايق",
+    readTime: "مدة القراءة: 7 دقايق",
     tags:     ["Security", "Go", "CI/CD", "Open Source"],
     summary:
-      "بوابات الأمان اللي بتعتمد على الخطورة (severity) بس بتفشّل الـ builds بسبب findings مش مُثبتة، والـ scanner اللي مشتغلش من غير ما يدّي أي إشارة بيبان كأنه pass نضيف. هنا بشرح إزاي Fendix بيقيّم الأدلة، وبيتابع التغطية (coverage)، وبيقرر إيه اللي يوقّف الـ build — وإيه اللي غلطت فيه في أول نسخة.",
+      "بوابات الأمان اللي بتعتمد على الخطورة (severity) بس بتفشّل الـ builds بسبب findings مش مُثبتة، والـ scanner اللي مشتغلش من غير ما يدّي أي إشارة بيبان كأنه فحص ناجح من غير مشاكل. هنا بشرح إزاي Fendix بيقيّم الأدلة، وبيتابع التغطية (coverage)، وبيقرر إيه اللي يوقّف الـ build — وإيه اللي غلطت فيه في أول نسخة.",
     content: [
       {
         type: "callout",
-        text: "المقال ده اتكتب من جديد في أكتوبر 2026. نسخة أقدم منه كانت بتوصف بوابة correlation أشد، وكانت بتذكر رقم لتقليل الـ false positives. ولا واحدة فيهم كانت دقيقة: أول إصدار كانت البوابة فيه معتمدة على الخطورة بس، وتأثير الـ correlation على الـ false positives عمره ما اتقاس. النسخة دي بتشرح البوابة بتشتغل إزاي فعلًا.",
+        text: "المقال ده اتكتب من جديد في أكتوبر 2026. نسخة أقدم منه كانت بتوصف بوابة correlation أشد، وكانت بتذكر رقم لتقليل الـ false positives. ولا الوصف ولا الرقم كانوا دقيقين: أول إصدار كانت البوابة فيه معتمدة على الخطورة بس، وتأثير الـ correlation على الـ false positives عمره ما اتقاس. النسخة دي بتشرح البوابة بتشتغل إزاي فعلًا.",
       },
       {
         type: "p",
-        text: "أغلب بوابات الأمان في الـ CI بتاخد قرار واحد: هل فيه أي finding خطورته (severity) عند threshold معيّن أو أعلى؟ لو أيوه، الـ build بيفشل. القاعدة دي سهل تتشرح، وسهل اللف حواليها. الـ findings اللي مش مُثبتة بتوقّف الإصدارات، والفِرق بتتعلم تعمل override للبوابة، والبوابة بتبطّل يبقى ليها أي معنى.",
+        text: "أغلب بوابات الأمان في الـ CI بتاخد قرار واحد: هل فيه أي finding خطورته (severity) عند threshold معيّن أو أعلى؟ لو أيوه، الـ build بيفشل. القاعدة دي سهل تتشرح، وسهل تجاوزها. الـ findings اللي مش مُثبتة بتوقّف الإصدارات، والفِرق بتتعلم تعمل override للبوابة، وقيمة البوابة بتقل مع الوقت.",
       },
       {
         type: "p",
-        text: "وفيه كمان فشل أهدى. لو scanner مشتغلش — الأداة مكانتش متسطّبة، أو الـ target مكانش ينفع يتوصل له، أو الـ configuration كانت غلط — مبيطلّعش أي findings، وغياب الـ findings شكله بالظبط زي pass نضيف.",
+        text: "وفيه كمان فشل أصعب في الملاحظة. لو scanner مشتغلش — الأداة مكانتش متسطّبة، أو الـ target مكانش ينفع يتوصل له، أو الـ configuration كانت غلط — مبيطلّعش أي findings، وغياب الـ findings شكله بالضبط زي فحص ناجح من غير مشاكل.",
       },
       {
         type: "h2",
-        text: "الخطورة بتجاوب على السؤال الغلط",
+        text: "درجة الخطورة لوحدها مش كفاية",
       },
       {
         type: "list",
@@ -232,15 +232,15 @@ func sameIssue(w, b Finding) bool {
       },
       {
         type: "p",
-        text: "اتفاق الـ engines مع بعض دليل قوي، بس هو إشارة واحدة من سبع إشارات مستقلة. route اتعمله confirm، أو taint path ممكن يتوصل له، أو payload اتعمله validation، أو أداة مستقلة بتبلّغ عن نفس الـ CWE في نفس المكان — دول كمان بيتحسبوا. وفيه أدلة بتثبت نفسها بنفسها: live response بيبيّن المشكلة، أو credential حقيقي اتعمله commit في كود الـ production، ممكن يوقّف الـ build من غير engine تاني. والـ correlation عمره ما بيشيل finding؛ كل حاجة بتفضل في التقرير.",
+        text: "اتفاق الـ engines مع بعض دليل قوي، بس هو إشارة واحدة من سبع إشارات مستقلة. route اتعمله confirm، أو taint path ممكن يتوصل له، أو payload اتعمله validation، أو أداة مستقلة بتبلّغ عن نفس الـ CWE في نفس المكان — دول كمان بيتحسبوا. وفيه أدلة كفاية لوحدها: رد فعلي من الـ API بيبيّن المشكلة، أو credential حقيقي اتعمله commit في كود الـ production، ممكن يوقّف الـ build من غير engine تاني. والـ correlation عمره ما بيشيل finding؛ كل حاجة بتفضل في التقرير.",
       },
       {
         type: "h2",
-        text: "score تقدروا تراجعوه",
+        text: "درجة ثقة نقدر نراجع أسبابها",
       },
       {
         type: "p",
-        text: "كل finding بياخد درجة ثقة (confidence score) deterministic من 0 لـ 100. بتبدأ من قيمة أساسية (base)، وكل قاعدة بتنطبق بتزوّد أو بتنقّص مقدار ثابت، ومعاها سبب مكتوب بكلام بسيط. وفيه اختبارات بتضمن إن الأسباب لما تتجمع تطلع نفس الـ score، عشان محدش يبقى مضطر يثق في black box.",
+        text: "كل finding بياخد درجة ثقة (confidence score) deterministic من 0 لـ 100. بتبدأ من قيمة أساسية (base)، وكل قاعدة بتنطبق بتزوّد أو بتنقّص مقدار ثابت، ومعاها سبب مكتوب بكلام بسيط. وفيه اختبارات بتضمن إن مجموع النقاط المرتبطة بالأسباب يساوي الـ score، عشان محدش يبقى مضطر يثق في black box.",
       },
       {
         type: "code",
@@ -256,7 +256,7 @@ bands: HIGH >= 70, MEDIUM >= 40, LOW < 40`,
       },
       {
         type: "h2",
-        text: "إيه اللي بيوقّف فعلًا",
+        text: "إيه اللي بيوقّف الـ build فعلًا",
       },
       {
         type: "list",
@@ -269,7 +269,7 @@ bands: HIGH >= 70, MEDIUM >= 40, LOW < 40`,
       },
       {
         type: "p",
-        text: "بوابة الثقة دي نزلت في v2.0 كـ breaking change: فيه builds كانت بتفشل وبقت دلوقتي بتعدّي. عشان كده ‎--enforce-confidence=false بيرجّع بالظبط السلوك القديم اللي كان معتمد على الخطورة بس، وفيه اختبار بيغطي 54 تركيبة من الخطورة والـ threshold بيضمن إن الـ escape hatch ده يفضل بيعمل اللي بيوعد بيه. والقرارات اللي بتتاخد بالطريقة دي بتظهر في التقرير متعلّم عليها إنها policy overrides.",
+        text: "بوابة الثقة دي نزلت في v2.0 كـ breaking change: فيه builds كانت بتفشل وبقت دلوقتي بتعدّي. عشان كده ‎--enforce-confidence=false بيرجّع بالضبط السلوك القديم اللي كان معتمد على الخطورة بس، وفيه اختبار بيغطي 54 تركيبة من الخطورة والـ threshold بيضمن إن الخيار ده يفضل محافظ على السلوك القديم. والقرارات اللي بتتاخد بالطريقة دي بتظهر في التقرير بعلامة بتوضّح إنها policy overrides.",
       },
       {
         type: "h2",
@@ -287,13 +287,13 @@ bands: HIGH >= 70, MEDIUM >= 40, LOW < 40`,
         type: "list",
         items: [
           "اكتب الـ semantics بتاعة البوابة كاختبارات قبل ما تكتب الـ README. أول README كان بيوصف قاعدة الكود مكانش بينفّذها.",
-          "انشر الـ benchmarks ومعاها حدودها. الـ corpus المتنقّي بعناية بيقيس القواعد على حالات إنت اللي كاتبها، مش معدل اكتشاف (detection rate) في الواقع.",
-          "أي تغيير يخلّي البوابة أشد أو أخف اعتبره breaking change، ونزّل معاه escape hatch بيرجّع السلوك القديم بالظبط.",
+          "انشر الـ benchmarks ومعاها حدودها. الـ corpus المختار بعناية بيقيس القواعد على حالات إنت اللي كاتبها، مش معدل اكتشاف (detection rate) في الواقع.",
+          "أي تغيير يخلّي البوابة أشد أو أخف اعتبره breaking change، ونزّل معاه escape hatch بيرجّع السلوك القديم بالضبط.",
         ],
       },
       {
         type: "callout",
-        text: "الـ engine بتاع Fendix مفتوح المصدر (MIT) على github.com/Fendix-app/Fendix؛ والـ hosted workspace على fendix.dev. دراسة الحالة كاملة على ‎/case-studies/fendix",
+        text: "الـ engine بتاع Fendix مفتوح المصدر (MIT) على github.com/Fendix-app/Fendix؛ والـ hosted workspace على fendix.dev. دراسة الحالة كاملة على ‎/ar/case-studies/fendix",
       },
     ],
   },

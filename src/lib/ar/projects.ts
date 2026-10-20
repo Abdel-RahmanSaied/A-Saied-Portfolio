@@ -10,11 +10,11 @@ export const projectsAr: Project[] = [
     tagline: "منصة للرصد والتحليل الإعلامي ودعم القرار",
     caseStudyHook: "إزاي backend مشترك بيدعم منصة للرصد والتحليل الإعلامي وهي بتتوسع",
     description:
-      "منصة بالعربي والإنجليزي للرصد والتحليل الإعلامي، بتحلل الحسابات والمواضيع والهاشتاجات والمؤثرين والقنوات، وبتحوّل التقارير لمعلومات تساعد في القرار من خلال منتجات منها Deep-In، ومؤشر تويسكوب للتأثير، و Sanad AI. شغلي كان في الـ backend المشترك بـ Django/DRF و Celery ورا Kong gateway: Deep-In، ومتابعة المؤثرين، و Decision Hub، والتنبيهات، والاشتراكات والصلاحيات، مع PostgreSQL و Elasticsearch و AWS بيتدار بـ Terraform. فضلت مطور الـ backend الوحيد لمدة سنتين قبل ما أنتقل لقيادة الفريق.",
+      "منصة بالعربي والإنجليزي للرصد والتحليل الإعلامي، بتحلل الحسابات والمواضيع والهاشتاجات والمؤثرين والقنوات، وبتحوّل التقارير لمعلومات تساعد في القرار من خلال منتجات منها Deep-In، ومؤشر تويسكوب للتأثير، و Sanad AI. شغلي كان في الـ backend المشترك بـ Django/DRF و Celery ورا Kong gateway: Deep-In، ومتابعة المؤثرين، و Decision Hub، والتنبيهات، والاشتراكات والصلاحيات، مع PostgreSQL و Elasticsearch و AWS بيتدار بـ Terraform. كنت مطور الـ backend الوحيد من أكتوبر 2023 لحد أكتوبر 2025، وبدأت قيادة الفريق في أغسطس 2024 بالتوازي مع دوري في الـ backend.",
     techStack: ["Django / DRF", "Celery", "Redis", "PostgreSQL", "Elasticsearch", "Kong", "FastAPI", "Terraform", "AWS"],
     category: "Platform",
     engagement: "ASAS IT",
-    role: "قائد الـ backend ← قائد الفريق",
+    role: "مطور الـ backend وقائد الفريق",
     live: "https://twiscope.net/",
     caseStudy: "/case-studies/twiscope",
     featured: true,
@@ -26,7 +26,7 @@ export const projectsAr: Project[] = [
     tagline: "مساعد التحليلات بالـ RAG في Twiscope",
     caseStudyHook: "إزاي بنينا RAG بالعربي والإنجليزي والصلاحيات مفروضة برّه موديل اللغة",
     description:
-      "مساعد RAG في Twiscope لتقارير التحليلات، بالعربي والإنجليزي: hybrid retrieval بـ BM25 + kNN على embeddings من BGE-M3، والنتايج بتتدمج بـ reciprocal rank fusion، و index routing بالـ LLM محكوم بـ allow-lists deterministic، و ingestion للتقارير على SQS. بقود الفريق، وأنا شخصيًا مسؤول عن الـ ingestion والـ deployment والـ tracing.",
+      "مساعد RAG في Twiscope لتقارير التحليلات، بالعربي والإنجليزي: hybrid retrieval بـ BM25 + kNN على embeddings من BGE-M3، والنتايج بتتدمج بـ reciprocal rank fusion، والـ LLM بيختار نطاق البحث داخل allow-lists بيفرضها الكود، و ingestion للتقارير على SQS. بقود الفريق، وأنا شخصيًا مسؤول عن الـ ingestion والـ deployment والـ tracing.",
     techStack: ["FastAPI", "Elasticsearch", "BGE-M3", "AWS SQS", "OpenRouter", "Elastic APM"],
     category: "AI / ML",
     engagement: "ASAS IT",
@@ -40,7 +40,7 @@ export const projectsAr: Project[] = [
     tagline: "منصة لقرارات أمان التطبيقات",
     caseStudyHook: "إزاي Fendix بيحوّل نتايج أدوات الفحص لقرار إصدار واضح وقابل للتفسير",
     description:
-      "بتحوّل نتايج SAST و DAST و SCA، ونتايج SARIF المستوردة، لـ findings deterministic ليها درجة ثقة (confidence)، ولقرار إصدار للـ CI بياخد التغطية (coverage) في الحسبان. عبارة عن CLI مفتوح المصدر بـ Go (MIT) بإصدارات موقّعة و SBOMs، وكمان workspace تجاري hosted.",
+      "بتحوّل نتايج SAST و DAST و SCA، ونتايج SARIF المستوردة، لـ findings بتتقيّم بقواعد ثابتة (deterministic)، وليها درجة ثقة (confidence)، ولقرار إصدار للـ CI بياخد التغطية (coverage) في الحسبان. عبارة عن CLI مفتوح المصدر بـ Go (MIT) بإصدارات موقّعة و SBOMs، وكمان workspace تجاري مُستضاف.",
     resume:
       "مشروع مستقل أنشأته وأنا الـ maintainer بتاعه — منصة لقرارات أمان التطبيقات: findings من SAST/DAST/SCA ليها درجة ثقة (confidence)، وقرارات إصدار بتاخد التغطية (coverage) في الحسبان؛ CLI مفتوح المصدر بـ Go (MIT) بإصدارات موقّعة، وكمان منصة hosted (fendix.dev).",
     techStack: ["Go", "Python", "Semgrep", "Django", "Next.js", "Sigstore cosign"],
@@ -56,8 +56,8 @@ export const projectsAr: Project[] = [
       status: "53 إصدار من أبريل 2026 لحد دلوقتي",
       highlights: [
         "findings ليها درجة ثقة (confidence) من SAST و DAST و SCA، وكمان من نتايج SARIF 2.1.0 المستوردة من أدوات زي CodeQL و Semgrep و Trivy.",
-        "بيقرر يعدّي الإصدار ولا يوقفه على أساس الثقة، مش الخطورة (severity) بس، وكل نقطة في الـ score بتاع أي finding ليها سبب مكتوب.",
-        "بياخد التغطية (coverage) في الحسبان: الـ scanner اللي ما اشتغلش بيتسجل skipped أو failed، وعمره ما بيتحسب بالغلط pass نضيف.",
+        "بيحدد السماح بالإصدار أو إيقافه بناءً على درجة الثقة في الأدلة، إلى جانب الخطورة (severity)، وكل نقطة في الـ score بتاع أي finding ليها سبب مكتوب.",
+        "بياخد التغطية (coverage) في الحسبان: الـ scanner اللي ما اشتغلش بيتسجل skipped أو failed، ومش بيتحسب بالغلط على إنه فحص ناجح من غير مشاكل.",
         "Deterministic: مفيش أي موديل machine learning في الاكتشاف، ولا في الـ scoring، ولا في القرارات.",
         "إصدارات موقّعة معاها SBOMs بصيغة CycloneDX و SPDX، و SLSA provenance، ومفيش أي telemetry من الـ CLI.",
       ],
@@ -66,9 +66,9 @@ export const projectsAr: Project[] = [
   {
     slug: "qatf",
     title: "Qatf",
-    tagline: "فيديوهات طويلة لمقاطع بالطول، والعربي أولًا",
+    tagline: "من فيديوهات طويلة لمقاطع رأسية، مع دعم العربي",
     description:
-      "أداة مفتوحة المصدر بتحوّل الفيديو الطويل لمقاطع 9:16 عليها captions كلمة بكلمة لـ Reels و Shorts و TikTok. Whisper بيعمل التفريغ، وموديل لغة ممكن يتبدّل بيختار اللحظات، وكل cut بيتظبط على حدود كلمة حقيقية. والـ captions بالعربي من اليمين للشمال جزء أساسي من الأداة. فيها CLI و service بـ FastAPI وواجهة ويب بـ React، وهي نموذج أولي شغال.",
+      "أداة مفتوحة المصدر بتحوّل الفيديو الطويل لمقاطع 9:16 عليها captions كلمة بكلمة لـ Reels و Shorts و TikTok. Whisper بيعمل التفريغ، وموديل لغة ممكن يتبدّل بيختار اللحظات، وكل cut بيتظبط على بداية أو نهاية كلمة في التفريغ. والـ captions بالعربي من اليمين للشمال جزء أساسي من الأداة. فيها CLI و service بـ FastAPI وواجهة ويب بـ React، وهي نموذج أولي شغال.",
     techStack: ["Python", "FastAPI", "faster-whisper", "ffmpeg", "React", "TypeScript", "SQLite", "Docker"],
     category: "AI / ML",
     engagement: "مستقل",
@@ -79,11 +79,11 @@ export const projectsAr: Project[] = [
       license: "Apache-2.0",
       status: "نموذج أولي شغال",
       highlights: [
-        "Whisper بيعمل التفريغ، وموديل لغة بيختار اللحظات، وكل cut بيتظبط على حدود كلمة حقيقية.",
-        "captions كلمة بكلمة للعربي من اليمين للشمال وللإنجليزي كمان، بأربع styles، والتحقق منها على frames بعد الـ render.",
+        "Whisper بيعمل التفريغ، وموديل لغة بيختار اللحظات، وكل cut بيتظبط على بداية أو نهاية كلمة في التفريغ.",
+        "captions كلمة بكلمة للعربي من اليمين للشمال وللإنجليزي كمان، بأربعة أشكال، وبيتراجع ترتيبها على frames بعد الـ render.",
         "أي موديل بإعداد واحد: Anthropic أو OpenAI أو Kimi أو GLM أو OpenRouter، أو Ollama و vLLM شغالين local.",
         "مراجعة قبل الـ render: ممكن تعديل الاختيارات والعناوين والترتيب؛ والـ cuts اللي اتعدّلت بتتظبط تاني على الكلمات.",
-        "CLI و HTTP API وواجهة ويب بالإنجليزي والعربي، وكلهم بيشتغلوا بـ docker compose up واحد.",
+        "CLI و HTTP API وواجهة ويب بالإنجليزي والعربي، وكلهم بيشتغلوا بأمر واحد: docker compose up.",
       ],
     },
   },
@@ -116,7 +116,7 @@ export const projectsAr: Project[] = [
     title: "Maxpeak",
     tagline: "marketplace للتوظيف التقني (قبل الإطلاق)",
     description:
-      "marketplace لسه ما اتطلقش، بيربط شركات سعودية بمهندسين من مصر. API بـ Django فيه authentication بـ RS256/JWKS و social sign-in، وكمان مرحلة الفرز الأولى، وهي آلية: pipeline بـ Celery بيطلّع النص من الـ CV ويديله score بـ LLM.",
+      "marketplace لسه ما اتطلقش، بيربط شركات سعودية بمهندسين من مصر. API بـ Django فيه authentication بـ RS256/JWKS و social sign-in، ومرحلة أولى لفرز المرشحين تلقائيًا: pipeline بـ Celery بيطلّع النص من الـ CV ويديله score بـ LLM.",
     techStack: ["Django 5.2", "DRF", "Celery", "Redis", "PostgreSQL", "OpenRouter", "Next.js"],
     category: "Marketplace",
     engagement: "مستقل",

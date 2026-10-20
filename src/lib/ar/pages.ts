@@ -8,10 +8,10 @@ export const pagesAr: Record<keyof typeof pages, PageCopy> = {
     path: "/about",
     title: "عنّي",
     description:
-      "قائد فريق برمجيات ومهندس برمجيات أول في الرياض، السعودية — أنظمة backend وأنظمة موزّعة بأكتر من stack، وقيادة تقنية، وخبرة، وأسلوب شغل.",
+      "قائد فريق برمجيات ومهندس برمجيات أول في الرياض، السعودية — خبرتي في بناء أنظمة الـ backend والأنظمة الموزّعة بأدوات مختلفة، وطريقتي في الشغل وقيادة الفرق.",
     og: {
       eyebrow: "عنّي",
-      title: "إزاي ببني وبقود",
+      title: "إزاي ببني الأنظمة وبقود الفريق",
       subtitle: "قائد فريق برمجيات | مهندس برمجيات أول متخصص في الـ Backend · الرياض، السعودية",
       tags: ["هندسة برمجيات", "Backend architecture", "أنظمة موزّعة", "Cloud", "قيادة هندسية"],
     },
@@ -23,7 +23,7 @@ export const pagesAr: Record<keyof typeof pages, PageCopy> = {
       "مشاريع عبدالرحمن سعيد: منصة Twiscope للرصد والتحليل الإعلامي، و Sanad AI، والـ backend بتاع MURI للنقل، ومنصة الضيافة Check-In (Hayyak)، و Fendix، و Qatf.",
     og: {
       eyebrow: "أعمالي",
-      title: "أنظمة production ومنتجات",
+      title: "منتجات وأنظمة اشتغلت عليها",
       subtitle: "Twiscope · Sanad AI · MURI · Check-In (Hayyak) · Fendix · Qatf",
     },
   },
@@ -42,7 +42,7 @@ export const pagesAr: Record<keyof typeof pages, PageCopy> = {
     path: "/open-source",
     title: "مفتوح المصدر",
     description:
-      "مشاريع عبدالرحمن سعيد المفتوحة المصدر: Qatf، أداة معمولة للعربي أولًا بتحوّل الفيديوهات الطويلة لمقاطع بالطول (Apache-2.0)، ومحرك أمان التطبيقات Fendix (MIT). الرخص، والحالة، والمميزات، ودراسات الحالة.",
+      "مشاريع عبدالرحمن سعيد المفتوحة المصدر: Qatf، أداة بتحوّل الفيديوهات الطويلة لمقاطع رأسية، مع دعم العربي من البداية (Apache-2.0)، ومحرك أمان التطبيقات Fendix (MIT). الرخص، والحالة، والمميزات، ودراسات الحالة.",
     og: {
       eyebrow: "مفتوح المصدر",
       title: "كود بنشره ومتاح للكل",
@@ -54,11 +54,11 @@ export const pagesAr: Record<keyof typeof pages, PageCopy> = {
     path: "/engineering-philosophy",
     title: "فلسفتي الهندسية",
     description:
-      "إزاي عبدالرحمن سعيد بيتعامل مع أنظمة backend موثوقة، والـ observability، والـ scaling، والأمان، والأثر على المنتج، والقيادة التقنية العملية (hands-on).",
+      "مبادئ عبدالرحمن سعيد في تصميم أنظمة الـ backend: الاعتمادية، والـ observability، والتوسّع، والأمان، وتأثير القرارات على المنتج، وقيادة الفريق مع المشاركة في التنفيذ.",
     og: {
       eyebrow: "فلسفتي الهندسية",
       title: "أنظمة واضحة وموثوقة ومفيدة",
-      subtitle: "مبادئ للـ backend architecture والقيادة التقنية العملية (hands-on)",
+      subtitle: "مبادئ للـ backend architecture والقيادة التقنية مع المشاركة في التنفيذ",
     },
   },
   blog: {
@@ -76,7 +76,7 @@ export const pagesAr: Record<keyof typeof pages, PageCopy> = {
     path: "/resume",
     title: "السيرة الذاتية",
     description:
-      "السيرة الذاتية لعبدالرحمن سعيد في صفحة واحدة، قائد فريق برمجيات ومهندس برمجيات أول في الرياض — backend architecture، وأنظمة موزّعة، وcloud delivery، وبيانات، وAI، وقيادة تقنية.",
+      "السيرة الذاتية لعبدالرحمن سعيد في صفحة واحدة، قائد فريق برمجيات ومهندس برمجيات أول في الرياض — تصميم أنظمة الـ backend والأنظمة الموزّعة، وتشغيلها على الـ cloud، والبيانات والـ AI، وقيادة الفرق.",
     og: {
       eyebrow: "السيرة الذاتية",
       title: "عبدالرحمن سعيد",

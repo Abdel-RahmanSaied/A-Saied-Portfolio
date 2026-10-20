@@ -5,7 +5,7 @@ export const postsPart4: Post[] = [
     slug:     "twiscope-architecture",
     title:    "دروس في الـ architecture من بناء الـ backend بتاع Twiscope",
     date:     "2026-10-17",
-    readTime: "قراءة 8 دقايق",
+    readTime: "مدة القراءة: 8 دقايق",
     tags:     ["Django", "Celery", "Elasticsearch", "Architecture"],
     summary:
       "سنتين كمطور الـ backend الوحيد على منصة للرصد والتحليل الإعلامي فيها كذا منتج، ومع توسّع الشغل تولّيت قيادة الفريق كمان. اللي أثبت نفسه: شغل async من أول endpoint، واستراتيجية جمع واحدة لكذا نطاق في المنتج، و chords عشان الـ scores تبقى قابلة للمقارنة، ومنع التكرار (deduplication) جوه قاعدة البيانات.",
@@ -16,11 +16,11 @@ export const postsPart4: Post[] = [
       },
       {
         type: "p",
-        text: "Twiscope منصة بالعربي والإنجليزي للرصد والتحليل الإعلامي ودعم القرار. بدأت مطور الـ backend الوحيد فيها في أكتوبر 2023، وتولّيت قيادة الفريق في أغسطس 2024، مع استمراري مطور الـ backend الوحيد لحد أكتوبر 2025. في الفترة اللي بيغطيها المقال، كان الـ backend المشترك بـ Django/DRF و Celery بيدعم خمس نطاقات: تقارير عند الطلب (Deep-In)، ومتابعة المؤثرين، ولوحات تحكم لاتخاذ القرار بتقيّم البراندات قصاد المنافسين (Sadeed / Decision Hub)، ومحرك تنبيهات، والإشعارات. مجموعة المنتجات اللي بتظهر للناس استمرت تتطور بعد الفترة دي.",
+        text: "Twiscope منصة بالعربي والإنجليزي للرصد والتحليل الإعلامي ودعم القرار. بدأت مطور الـ backend الوحيد فيها في أكتوبر 2023، وتولّيت قيادة الفريق في أغسطس 2024، مع استمراري مطور الـ backend الوحيد لحد أكتوبر 2025. في الفترة اللي بيغطيها المقال، كان الـ backend المشترك بـ Django/DRF و Celery بيدعم خمسة نطاقات: تقارير عند الطلب (Deep-In)، ومتابعة المؤثرين، ولوحات تحكم لاتخاذ القرار بتقيّم البراندات قصاد المنافسين (Sadeed / Decision Hub)، ومحرك تنبيهات، وخدمة إشعارات. مجموعة المنتجات اللي بتظهر للناس استمرت تتطور بعد الفترة دي.",
       },
       {
         type: "p",
-        text: "دي القرارات اللي أثبتت نفسها، والقرارات اللي المرة الجاية هاخدها بدري عن كده.",
+        text: "دي القرارات اللي أثبتت نفسها، والخطوات اللي كنت أفضّل أبدأ بيها بدري.",
       },
       {
         type: "h2",
@@ -79,7 +79,7 @@ def keyword_analysis(report_id):
       },
       {
         type: "p",
-        text: "الـ centre في Decision Hub بيقارن براند بمنافسينه. لو كل entity اتجمعت واتحسب لها score على الـ schedule بتاعها لوحدها، الـ scores هتوصف فترات زمنية مختلفة. عشان كده كل run بيعمل fan-out للجمع على كل الـ entities بالتوازي، وبيحسب الـ scores بتاعتهم كلهم في callback واحد، في نفس اللحظة.",
+        text: "الـ centre في Decision Hub بيقارن براند بمنافسينه. لو بيانات كل entity اتجمعت واتحسب لها score في معاد مختلف، الـ scores هتوصف فترات زمنية مختلفة. عشان كده كل run بيعمل fan-out للجمع على كل الـ entities بالتوازي، وبيحسب الـ scores بتاعتهم كلهم في callback واحد، في نفس اللحظة.",
       },
       {
         type: "code",
@@ -92,15 +92,15 @@ def run_center(center_id):
       },
       {
         type: "p",
-        text: "الـ scores نفسها معادلات deterministic بأوزان، مبنية على components متعمل لها normalization — sentiment share، authority، volume، engagement، momentum — مش موديل متدرّب. لما component مينفعش يتحسب، بيتعلّم عليه إنه غايب، والأوزان الباقية بيتعمل لها normalization من جديد، بدل ما يتحسب صفر من غير ما حد ياخد باله.",
+        text: "الـ scores نفسها معادلات deterministic بأوزان، مبنية على components متعمل لها normalization — sentiment share، authority، volume، engagement، momentum — مش موديل متدرّب. لما component مينفعش يتحسب، بيتسجّل على إنه غير متاح، والأوزان الباقية بيتعمل لها normalization من جديد، بدل ما يتحسب صفر من غير ما حد ياخد باله.",
       },
       {
         type: "h2",
-        text: "الـ deduplication مكان ما البيانات موجودة",
+        text: "منع التكرار في قاعدة البيانات",
       },
       {
         type: "p",
-        text: "الـ scans بتاعة التنبيهات بتتداخل مع بعض عن قصد، فممكن نفس البوست يتطابق مرتين. الـ deduplication هنا عبارة عن unique constraint على (alert, item) في PostgreSQL، وكل insert بيتعمل في savepoint خاص بيه، فالـ insert المكرر بيبقى no-op تكلفته قليلة. بعد كده الـ events بتتعمل لها index في Elasticsearch بالـ id بتاعها في قاعدة البيانات، وده بيخلّي الـ re-indexing عملية idempotent، وفيه repair command بيعمل re-index لأي حاجة الكتابة بتاعتها في Elasticsearch فشلت.",
+        text: "الـ scans بتاعة التنبيهات بتتداخل مع بعض عن قصد، فممكن نفس البوست يطابق شروط التنبيه أكتر من مرة. الـ deduplication هنا عبارة عن unique constraint على (alert, item) في PostgreSQL، وكل insert بيتعمل في savepoint خاص بيه، فالـ insert المكرر بيبقى no-op تكلفته قليلة. بعد كده الـ events بتتعمل لها index في Elasticsearch بالـ id بتاعها في قاعدة البيانات، وده بيخلّي الـ re-indexing عملية idempotent، وفيه repair command بيعمل re-index لأي حاجة الكتابة بتاعتها في Elasticsearch فشلت.",
       },
       {
         type: "h2",
@@ -108,7 +108,7 @@ def run_center(center_id):
       },
       {
         type: "p",
-        text: "أبطأ الشاشات كانت لوحات تحكم المؤثرين اللي بتعمل aggregation لـ categories كاملة. الحل كان ممل بس فعّال: composite indexes اتبنت concurrently، و response cache في Redis لكل مستخدم بـ TTLs مدتها 5–15 دقيقة للـ aggregates اللي مبتتغيرش غير لما تقارير جديدة توصل، و burst throttle، و metrics للـ cache hit/miss عشان قيمة الـ cache تبقى باينة بدل ما تبقى مجرد افتراض.",
+        text: "أبطأ الشاشات كانت لوحات تحكم المؤثرين اللي بتعمل aggregation لـ categories كاملة. الحل كان بسيط وفعّال: composite indexes اتبنت concurrently، و response cache في Redis لكل مستخدم بـ TTLs مدتها 5–15 دقيقة للـ aggregates اللي مبتتغيرش غير لما تقارير جديدة توصل، و burst throttle، و metrics للـ cache hit/miss عشان نقدر نقيس فايدة الـ cache.",
       },
       {
         type: "h2",
@@ -117,9 +117,9 @@ def run_center(center_id):
       {
         type: "list",
         items: [
-          "أشغّل الـ test suite في الـ CI من أول شهر. الـ repository فيه آلاف الاختبارات، بس الـ CI لسه مش بيشغّل غير الـ security scans والـ deployments.",
+          "أخلّي نجاح اختبارات التطبيق شرط واضح للنشر من أول شهر. الـ workflows اللي اتراجعت بتفرض الفحص الأمني على نفس الـ commit اللي هينزل؛ واختبارات التطبيق جزء من عملية التسليم الأوسع، لكن ما اتأكدش هنا بشكل مستقل إنها بوابة إلزامية للنشر.",
           "أدّي الـ queues التقيلة workers خاصة بيها من بدري. لسه فيه worker container واحد بيستهلك من كل الـ queues الرئيسية، فأي burst في نوع واحد من الشغل ممكن يأخّر الباقي.",
-          "أحدد الأرقام اللي هعوز أذكرها قبل ما أحتاجها، وأجهّز الـ instrumentation اللي يقيسها. أي ادعاء مينفعش يتقاس، في الآخر بيبقى ادعاء مش المفروض يتقال.",
+          "أحدد من بدري المؤشرات اللي محتاج أتابعها، وأجهّز الـ instrumentation لقياسها، عشان تقييم النتايج يبقى مبني على بيانات أقدر أرجع لها.",
           "أعمل signing للـ webhooks الطالعة من البداية، بدل ما أضيفه بعدين.",
         ],
       },
@@ -128,19 +128,19 @@ def run_center(center_id):
       },
       {
         type: "callout",
-        text: "دراسة الحالة كاملة، وفيها الـ architecture بتاع الـ gateway و AWS: /case-studies/twiscope",
+        text: "تفاصيل تصميم الـ gateway والبنية التحتية على AWS في دراسة الحالة: /ar/case-studies/twiscope",
       },
     ],
   },
 
   {
     slug:     "when-to-use-postgis",
-    title:    "PostGIS ولا إحداثيات عادية: إمتى الـ extension يستاهل مكانه",
+    title:    "PostGIS ولا إحداثيات عادية: إمتى نحتاج الـ extension؟",
     date:     "2026-10-17",
-    readTime: "قراءة 6 دقايق",
+    readTime: "مدة القراءة: 6 دقايق",
     tags:     ["PostgreSQL", "GIS", "Backend"],
     summary:
-      "عمودين float كفاية، لحد ما تحتاجوا تدوّروا في جدول بالمسافة، أو تختبروا نقط واقعة جوه polygons ولا لأ. هنا هنشوف إزاي نفرّق بين الحالتين، والـ queries اللي بتحافظ على استخدام الـ index بتاع PostGIS، والمطب اللي في Django مع الـ geography fields.",
+      "عمودين float كفاية، لحد ما تحتاجوا تدوّروا في جدول بالمسافة، أو تتحققوا إذا كانت النقط جوه polygons ولا لأ. هنا هنشوف إزاي نفرّق بين الحالتين، والـ queries اللي بتحافظ على استخدام الـ index بتاع PostGIS، والتفصيلة اللي محتاجة انتباه في Django مع الـ geography fields.",
     content: [
       {
         type: "callout",
@@ -148,11 +148,11 @@ def run_center(center_id):
       },
       {
         type: "p",
-        text: "كل backend بيتعامل مع المواقع بييجي عليه وقت ويسأل: نخزّن الـ latitude والـ longitude كرقمين، ولا نستخدم PostGIS؟ الإجابة بصراحة بتعتمد على الأسئلة اللي بتسألوها للبيانات، مش على عدد الصفوف اللي عندكم.",
+        text: "وقت تصميم backend بيتعامل مع المواقع، فيه سؤال بيتكرر: نخزّن الـ latitude والـ longitude كرقمين، ولا نستخدم PostGIS؟ الإجابة بصراحة بتعتمد على الأسئلة اللي بتسألوها للبيانات، مش على عدد الصفوف اللي عندكم.",
       },
       {
         type: "h2",
-        text: "مقارنة نقطتين معروفين: الإحداثيات العادية مفيهاش مشكلة",
+        text: "مقارنة نقطتين معروفتين: الإحداثيات العادية مفيهاش مشكلة",
       },
       {
         type: "p",
@@ -160,7 +160,7 @@ def run_center(center_id):
       },
       {
         type: "h2",
-        text: "البحث في جدول بالمسافة: هنا PostGIS يستاهل مكانه",
+        text: "البحث في جدول بالمسافة: هنا PostGIS بيفيد",
       },
       {
         type: "p",
@@ -185,7 +185,7 @@ LIMIT 20;`,
       },
       {
         type: "p",
-        text: "مع PostGIS، خزّنوا الموقع في عمود geography عليه GiST index، واسألوا السؤال مباشرةً بصيغة الـ index يقدر يستخدمها. فيه تفصيلتين مهمين: ابنوا نقطة البحث بـ SRID صريح، واعملوا query على عمود الـ geography زي ما هو — لف العمود اللي عليه الـ index جوه cast أو function ممكن يخلّي الـ planner ميستخدمش الـ index.",
+        text: "مع PostGIS، خزّنوا الموقع في عمود geography عليه GiST index، واسألوا السؤال مباشرةً بصيغة تخلّي قاعدة البيانات تقدر تستخدم الـ index. فيه تفصيلتين مهمين: ابنوا نقطة البحث بـ SRID صريح، واعملوا query على عمود الـ geography زي ما هو — استخدام cast أو function على العمود اللي عليه الـ index ممكن يخلّي الـ planner ميستخدمش الـ index.",
       },
       {
         type: "code",
@@ -203,7 +203,7 @@ LIMIT 20;`,
       },
       {
         type: "p",
-        text: "قد إيه ده أسرع بيعتمد على البيانات بتاعتكم، فقيسوه: شغّلوا النسختين بـ EXPLAIN (ANALYZE, BUFFERS) على جدول ببيانات واقعية، ودوّروا على الـ index scan في الـ plan بتاع PostGIS.",
+        text: "فرق السرعة بيعتمد على بياناتكم، فلازم تقيسوه: شغّلوا النسختين بـ EXPLAIN (ANALYZE, BUFFERS) على جدول ببيانات واقعية، ودوّروا على الـ index scan في الـ plan بتاع PostGIS.",
       },
       {
         type: "h2",
@@ -211,7 +211,7 @@ LIMIT 20;`,
       },
       {
         type: "p",
-        text: "«أنهي منطقة خدمة فيها العنوان ده؟» دي الحالة التانية اللي PostGIS بيكسب فيها بوضوح. تنفيذ الـ point-in-polygon بنفسكم معناه ray casting في كود التطبيق؛ في PostGIS هو predicate واحد. على أعمدة الـ geography استخدموا ST_Covers؛ ST_Contains دي function للـ geometry.",
+        text: "«أنهي منطقة خدمة فيها العنوان ده؟» دي حالة تانية PostGIS بيسهّل التعامل معاها. تنفيذ الـ point-in-polygon بنفسكم معناه ray casting في كود التطبيق؛ في PostGIS هو predicate واحد. على أعمدة الـ geography استخدموا ST_Covers؛ ST_Contains دي function للـ geometry.",
       },
       {
         type: "code",
@@ -252,7 +252,7 @@ district = District.objects.filter(boundary__covers=point).first()`,
       },
       {
         type: "p",
-        text: "استخدموا PostGIS لما تحتاجوا تدوّروا في الصفوف بالمسافة أو تربطوا نقط بمناطق؛ أما لو المطلوب مقارنة نقطة معروفة بنقطة تانية، فالحسابات العادية في التطبيق بتاعكم كفاية. وفي الحالتين، خزّنوا الإحداثيات بـ SRID صريح من أول يوم — ده القرار الوحيد اللي تغييره بعدين بيبقى مؤلم.",
+        text: "استخدموا PostGIS لما تحتاجوا تدوّروا في الصفوف بالمسافة أو تربطوا نقط بمناطق؛ أما لو المطلوب مقارنة نقطة معروفة بنقطة تانية، فالحسابات العادية في التطبيق بتاعكم كفاية. وفي الحالتين، خزّنوا الإحداثيات بـ SRID صريح من أول يوم — وتغيير المرجع الجغرافي بعد تراكم البيانات ممكن يبقى مكلف.",
       },
     ],
   },

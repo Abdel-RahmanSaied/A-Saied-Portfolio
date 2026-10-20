@@ -1,26 +1,23 @@
 import type { Post } from "@/lib/posts";
 
-// The backend-depths title has an invisible right-to-left mark (U+200F) after
-// "backend:" so the "8" stays with the Arabic words that follow it.
-
 export const postsPart2: Post[] = [
   {
     slug:     "django-caching-performance",
-    title:    "الـ caching عشان الأداء: سرّعوا تطبيق Django بتاعكم بالـ caching framework المدمج فيه",
+    title:    "تحسين أداء Django باستخدام الـ caching المدمج",
     date:     "2024-01-10",
     updated:  "2026-10-17",
-    readTime: "قراءة 6 دقايق",
+    readTime: "مدة القراءة: 6 دقايق",
     tags:     ["Django", "Redis", "Performance", "Backend"],
     summary:
       "Django جاي معاه caching framework مرن، والمقال ده بيشرح إمتى يفيد وإزاي نستخدمه — من cache للـ view كله لحد نتائج functions بعينها — مع invalidation واضح وقياس للـ hit rate.",
     content: [
       {
         type: "p",
-        text: "أغلب الكلام عن أداء Django بيروح على طول لتحسين الـ queries على قاعدة البيانات — إضافة indexes، واستخدام select_related، وتجنّب مشاكل الـ N+1. ده مهم، بس فيه طبقة فوقه غالبًا بيبقى تأثيرها أكبر وتقدروا تطلّعوها أسرع: الـ caching. الـ caching framework المدمج في Django ناضج ومرن وبيشتغل مع أي backend. السؤال هو إمتى وإزاي نستخدمه.",
+        text: "أغلب الكلام عن أداء Django بيروح على طول لتحسين الـ queries على قاعدة البيانات — إضافة indexes، واستخدام select_related، وتجنّب مشاكل الـ N+1. ده مهم، بس فيه طبقة فوقه غالبًا بيبقى تأثيرها أكبر وتقدروا تنفّذوها بسرعة: الـ caching. الـ caching framework المدمج في Django ناضج ومرن وبيشتغل مع أي backend. السؤال هو إمتى وإزاي نستخدمه.",
       },
       {
         type: "p",
-        text: "مثلًا، في لوحات التحكم الخاصة بالمؤثرين في Twiscope، حل مشكلة endpoint بطيء بيحسب aggregates كان مزيج من composite indexes و response cache على Redis لكل مستخدم مع TTLs قصيرة — من غير إعادة تصميم للـ schema. وتحت هنشرح الـ framework والطريقة.",
+        text: "مثلًا، في لوحات التحكم الخاصة بالمؤثرين في Twiscope، حل مشكلة endpoint بطيء بيحسب aggregates كان مزيج من composite indexes و response cache على Redis لكل مستخدم مع TTLs قصيرة — من غير إعادة تصميم للـ schema. الأجزاء الجاية بتشرح طرق استخدام الـ framework وإمتى نختار كل طريقة.",
       },
       {
         type: "h2",
@@ -64,7 +61,7 @@ CACHES = {
       },
       {
         type: "p",
-        text: "أسرع مكسب إنكم تعملوا cache للـ response بتاع الـ view كله. لو الـ view بيرجّع نفس الـ response لأي مستخدم مش عامل login خلال فترة زمنية معينة، اعملوا cache للـ response كله.",
+        text: "أبسط بداية إنكم تعملوا cache للـ response بتاع الـ view كله. لو الـ view بيرجّع نفس الـ response لأي مستخدم مش عامل login خلال فترة زمنية معينة، اعملوا cache للـ response كله.",
       },
       {
         type: "code",
@@ -157,7 +154,7 @@ def get_top_influencers(platform: str, limit: int = 10) -> list:
       },
       {
         type: "p",
-        text: "الجزء السهل هو تخزين القيمة؛ القرار الأصعب هو إمتى تبقى قديمة. في Django عندكم اختيارين أساسيين: expiry بمدة TTL، أو invalidation صريح لما البيانات تتغيّر.",
+        text: "الجزء السهل هو تخزين القيمة؛ القرار الأصعب هو إمتى ما ينفعش نعتمد عليها. في Django عندكم اختيارين أساسيين: expiry بمدة TTL، أو invalidation صريح لما البيانات تتغيّر.",
       },
       {
         type: "code",
@@ -197,7 +194,7 @@ def versioned_cache_key(platform: str, limit: int) -> str:
       },
       {
         type: "p",
-        text: "الإبطال المرتبط بكتابة في قاعدة البيانات يتنفّذ بعد نجاح الـ transaction، مش قبلها؛ وإلا request تاني ممكن يقرأ البيانات القديمة ويخزّنها من جديد قبل الـ commit. ولو هتستخدموا versioned keys، لازم الـ version يدخل فعلًا في الـ cache key، ويتعمله initialization قبل أول incr، ويفضل من غير expiry.",
+        text: "الـ invalidation المرتبط بتغيير في قاعدة البيانات يتنفّذ بعد نجاح الـ transaction، مش قبلها؛ وإلا request تاني ممكن يقرأ البيانات القديمة ويخزّنها من جديد قبل الـ commit. ولو هتستخدموا versioned keys، لازم الـ version يدخل فعلًا في الـ cache key، ويتعمله initialization قبل أول incr، ويفضل من غير expiry.",
       },
       {
         type: "h2",
@@ -231,23 +228,23 @@ redis-cli INFO stats | grep -E "keyspace_hits|keyspace_misses"
       },
       {
         type: "p",
-        text: "الـ caching framework في Django ممكن يدي نتيجة سريعة لما نفس الشغل المكلف بيتكرر، لكنه مش بديل عن query سليمة أو index ناقص. ابدأوا بأغلى queries المتكررة، قيسوا النتيجة، وحددوا بوضوح قد إيه البيانات مسموح لها تبقى قديمة قبل ما توسّعوا استخدام الـ cache.",
+        text: "الـ caching framework في Django ممكن يدي نتيجة سريعة لما نفس الشغل المكلف بيتكرر، لكنه مش بديل عن تحسين الـ query أو إضافة index ناقص. ابدأوا بأغلى queries المتكررة، قيسوا النتيجة، وحددوا بوضوح قد إيه البيانات مسموح لها تبقى قديمة قبل ما توسّعوا استخدام الـ cache.",
       },
     ],
   },
 
   {
     slug:     "backend-depths-techniques",
-    title:    "رحلة في أعماق الـ backend:‏ 8 تقنيات لازم تعرفوها",
+    title:    "8 مجالات مهمة في هندسة الـ backend",
     date:     "2024-10-18",
-    readTime: "قراءة 8 دقايق",
+    readTime: "مدة القراءة: 8 دقايق",
     tags:     ["Backend", "Distributed Systems", "Architecture", "Security"],
     summary:
       "شغل الـ backend أكبر من كتابة APIs. المقال بيجمع 8 مجالات بتظهر أهميتها مع نمو الأنظمة — من الأنظمة الموزّعة ونماذج الـ consistency، لحد الـ serverless والـ disaster recovery.",
     content: [
       {
         type: "p",
-        text: "كتابة الـ APIs جزء واحد من شغل الـ backend. أول ما النظام يكبر، بتظهر أسئلة عن توزيع البيانات، والـ consistency، والـ caching، والأمان، والتشغيل وقت الأعطال. المجالات التمانية الجايين مش checklist للخبرة؛ هم أساس كويس لفهم القرارات اللي بتظهر في أنظمة production.",
+        text: "كتابة الـ APIs جزء واحد من شغل الـ backend. أول ما النظام يكبر، بتظهر أسئلة عن توزيع البيانات، والـ consistency، والـ caching، والأمان، والتشغيل وقت الأعطال. المجالات التمانية الجاية مش checklist للخبرة؛ هم أساس كويس لفهم القرارات اللي بتظهر في أنظمة production.",
       },
       {
         type: "h2",
@@ -271,7 +268,7 @@ redis-cli INFO stats | grep -E "keyspace_hits|keyspace_misses"
       },
       {
         type: "p",
-        text: "الـ strong consistency — إن كل read يشوف آخر write — مكلفة. في حالات استخدام كتير، الـ eventual consistency مقبولة: كل الـ nodes هتوصل في الآخر لنفس الحالة، بس الـ reads ممكن تشوف بيانات قديمة بشكل مؤقت. التحدي الهندسي إنكم تعرفوا أنهي بيانات محتاجة strong consistency (المعاملات المالية، أعداد المخزون) وأنهي بيانات تستحمل eventual consistency (الـ feed بتاع المستخدم، الـ aggregates بتاعة الـ analytics).",
+        text: "الـ strong consistency — إن كل read يشوف آخر write — مكلفة. في حالات استخدام كتير، الـ eventual consistency مقبولة: كل الـ nodes هتوصل في الآخر لنفس الحالة، بس الـ reads ممكن تشوف بيانات قديمة بشكل مؤقت. التحدي الهندسي إنكم تعرفوا أنهي بيانات محتاجة strong consistency (المعاملات المالية، كميات المخزون) وأنهي بيانات تستحمل eventual consistency (الـ feed بتاع المستخدم، الـ aggregates بتاعة الـ analytics).",
       },
       {
         type: "callout",
@@ -299,12 +296,12 @@ redis-cli INFO stats | grep -E "keyspace_hits|keyspace_misses"
       },
       {
         type: "p",
-        text: "الأمان مش ميزة بتضيفوها في الآخر — دي خاصية بتتبني في التصميم من الأول. فيه تلات مجالات مش اختيارية لأي backend على الـ production:",
+        text: "الأمان مش ميزة بتضيفوها في الآخر — ده جزء من التصميم من البداية. فيه تلات مجالات مش اختيارية لأي backend على الـ production:",
       },
       {
         type: "list",
         items: [
-          "الـ OAuth2 والـ JWT: افهموا الفرق بين الـ authentication (مين ده؟) والـ authorization (مسموحله يعمل إيه؟)، وإمتى تستخدموا JWT وإمتى تستخدموا sessions على السيرفر (server-side sessions)",
+          "الـ OAuth2 والـ JWT: افهموا الفرق بين الـ authentication (مين ده؟) والـ authorization (مسموح له يعمل إيه؟)، وإمتى تستخدموا JWT وإمتى تستخدموا sessions على السيرفر (server-side sessions)",
           "التشفير أثناء النقل (encryption in transit): TLS في كل مكان، من غير استثناءات — حتى في الاتصال الداخلي بين الـ services وبعضها",
           "الـ hashing لكلمات السر: bcrypt أو Argon2، ومش SHA-256 أو MD5 أبدًا — لازم الـ work factor يخلي الـ brute force مكلف حسابيًا",
         ],
@@ -315,11 +312,11 @@ redis-cli INFO stats | grep -E "keyspace_hits|keyspace_misses"
       },
       {
         type: "p",
-        text: "الـ microservices بتضحّي ببساطة الـ deployment عشان تكسب مرونة تشغيلية. قبل ما تعتمدوها، افهموا التمن: الـ network calls بتاخد مكان الـ function calls، والـ distributed tracing بيبقى ضروري، وبقى عندكم services كتير لازم تعملولها deploy وتراقبوها. ولما تكون هي الاختيار الصح، الـ containers و Kubernetes بيتكفلوا بالـ deployment والـ scaling، و gRPC بيوفر تواصل كفء و typed بين الـ services وبعضها.",
+        text: "الـ microservices بتدي مرونة في تشغيل كل خدمة بشكل مستقل، لكن بتخلّي الـ deployment أكثر تعقيدًا. قبل ما تعتمدوها، افهموا التمن: الـ network calls بتاخد مكان الـ function calls، والـ distributed tracing بيبقى ضروري، وبقى عندكم services كتير لازم تعملولها deploy وتراقبوها. ولما تكون هي الاختيار الصح، الـ containers و Kubernetes بيتكفلوا بالـ deployment والـ scaling، و gRPC بيوفر تواصل كفء و typed بين الـ services وبعضها.",
       },
       {
         type: "callout",
-        text: "متبدأوش بالـ microservices. ابدأوا بنظام monolith متقسم كويس. وافصلوا منه services بس لما يكون عندكم سبب واضح يخص الـ scaling أو ملكية الفرق (team ownership) — مش عشان الـ microservices بتدي إحساس إنها أكتر احترافية.",
+        text: "متبدأوش بالـ microservices. ابدأوا بنظام monolith متقسم كويس. وافصلوا منه services بس لما يكون عندكم سبب واضح يخص الـ scaling أو توزيع المسؤوليات بين الفرق (team ownership) — مش عشان الـ microservices بتدي إحساس إنها أكتر احترافية.",
       },
       {
         type: "h2",
@@ -343,7 +340,7 @@ redis-cli INFO stats | grep -E "keyspace_hits|keyspace_misses"
       },
       {
         type: "p",
-        text: "الـ backups اللي عمركم ما اختبرتوها مش backups — دي أمنيات. خطة الـ disaster recovery الحقيقية فيها رقمين: الـ RPO (Recovery Point Objective، يعني قد إيه بيانات تقدروا تستحملوا تخسروها) والـ RTO (Recovery Time Objective، يعني الـ recovery ممكن ياخد قد إيه). الاتنين لازم يتختبروا بانتظام بإجراءات restore حقيقية، مش يتفترضوا على أساس الـ logs اللي بتقول إن الـ backup خلص.",
+        text: "نجاح الـ backup لوحده مش كفاية؛ لازم نختبر إننا نقدر نسترجع البيانات منه. خطة الـ disaster recovery الحقيقية فيها رقمين: الـ RPO (Recovery Point Objective، يعني قد إيه بيانات تقدروا تستحملوا تخسروها) والـ RTO (Recovery Time Objective، يعني الـ recovery ممكن ياخد قد إيه). الاتنين لازم يتختبروا بانتظام بإجراءات restore حقيقية، مش يتفترضوا على أساس الـ logs اللي بتقول إن الـ backup خلص.",
       },
       {
         type: "h2",
@@ -351,11 +348,11 @@ redis-cli INFO stats | grep -E "keyspace_hits|keyspace_misses"
       },
       {
         type: "p",
-        text: "الـ serverless (AWS Lambda، Google Cloud Functions، Azure Functions) بيشيل عنكم إدارة الـ infrastructure، بس بيجيب معاه قيوده الخاصة: الـ cold starts، وحدود لوقت التنفيذ، وإنه stateless. اختيار ممتاز للـ workloads المعتمدة على الـ events واللي الحمل فيها بيجي على دفعات مفاجئة (bursty)، ومش اختيار كويس للـ processes اللي بتشتغل وقت طويل أو للـ hot paths الحساسة للـ latency. فهم المفاضلات دي هو اللي بيفرق بين المهندسين اللي بينجحوا في الـ deployment بالـ serverless واللي بيحاربوه.",
+        text: "الـ serverless (AWS Lambda، Google Cloud Functions، Azure Functions) بيشيل عنكم إدارة الـ infrastructure، بس بيجيب معاه قيوده الخاصة: الـ cold starts، وحدود لوقت التنفيذ، وإنه stateless. اختيار ممتاز للـ workloads المعتمدة على الـ events واللي الحمل فيها بيجي على دفعات مفاجئة (bursty)، ومش اختيار كويس للـ processes اللي بتشتغل وقت طويل أو للـ hot paths الحساسة للـ latency. فهم المفاضلات دي بيساعدكم تختاروا الـ workloads المناسبة للـ serverless من البداية.",
       },
       {
         type: "p",
-        text: "مفيش مجال من دول بيخلص في كورس مدته أسبوع. كل واحد فيهم تخصص بيفضل الواحد يتعلم فيه طول مسيرته المهنية. بس المهندسين اللي فاهمين التمانية كلهم — مش بس اللي احتاجوهم بنفسهم لحد دلوقتي — هما اللي يقدروا يبصوا على architecture ويشوفوا المخاطر قبل ما تبقى incidents.",
+        text: "كل مجال من دول محتاج دراسة وتجربة، ومش لازم تتعمقوا فيهم كلهم مرة واحدة. فهم الأساسيات بيساعدكم تسألوا الأسئلة المناسبة وقت مراجعة التصميم، وتلاحظوا مخاطر ممكن ما تكونش ظهرت في شغلكم قبل كده.",
       },
     ],
   },

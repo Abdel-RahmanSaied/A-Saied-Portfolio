@@ -18,8 +18,7 @@ kept privately by the owner.
 | Documented | Stated in docs/README only; not independently verified |
 | Owner | Not derivable from code; rests on the owner's statement (marked "confirmed" once the owner has explicitly confirmed it) |
 
-Note: Twiscope, Sanad AI, MURI and Check-In have large test suites, but their CI
-runs deployments and security scans only, so none of their claims is rated **Tests**.
+Note: the reviewed deployment workflows do not establish mandatory application-test gates for Twiscope, Sanad AI, MURI or Check-In. Twiscope’s owner confirms application testing in the broader delivery process; its workflow implementation has not been independently reviewed. Do not classify implementation claims as **Tests** solely from test-suite presence or security scans.
 
 ## Career and identity
 
@@ -63,6 +62,21 @@ runs deployments and security scans only, so none of their claims is rated **Tes
 | Three chat scopes; seven report types | Implementation | Chat endpoints and platform enum |
 | Owner built: service bootstrap, first SQS ingestion pipeline, JWT verification, deploy workflows, Elastic APM, sentiment microservice; reviewed/merged team PRs | Implementation | git history and blame |
 | Deploy pipeline runs and completes | Production | GitHub Actions runs (e.g. 2026-10-15) |
+
+### Sentiment and processing performance — clarified 2026-10-20
+
+| Claim | Class | Evidence / boundary |
+|---|---|---|
+| Model-grouped batched sentiment inference and threadpool execution | Implementation | `Sanad-AI-Agent` at `a69493850e2e3b926f421ab700acea4c38713bfc`: `SentimentAnalysis/services/core/sentiment_service.py::batch_analyze_sentiment`, business analysis service, and `unified_sentiment_api.py`. Owner confirms leading this work. Separate sentiment service, not the RAG chat path. |
+| About 3× development throughput; 142 → 441 texts/s at N=100; roughly 460 texts/s for larger batches | Documented benchmark | `BENCHMARKS.md`, Perf-3, captured 2026-04-27 on darwin/MPS, fp16, torch 2.10.0. N=200/500 have no matching baseline sweep. N=1 is slower on the batched path. Recorded parity check: identical labels for 24 texts, confidence tolerance 1e-3. Harness and implementation inspected, benchmark not independently rerun. Not production throughput or a general accuracy claim. |
+| Comparable ~100K-post collection-and-analysis workflow: >5 hours → ~3 minutes on unchanged server resources | Owner — confirmed 2026-10-20 | User reports internal production logs and comparable post/classification/influencer counts. Includes caching and broader workflow optimizations; cache state and hit rate unspecified. Logs not inspected independently. Do not attribute this reduction solely to inference batching or extrapolate platform-wide throughput. |
+
+### Twiscope delivery — clarified 2026-10-20
+
+- **Implementation:** `TwiScope-backend` at `3824e98bcfe54aa77b92d4f5e9bbf6853df07bae`: `.github/workflows/Production-runner.yml` calls `security.yml` with `gate-only: true`; deployment has `needs: security` and checks out `github.sha`. Deployment uses a self-hosted runner; the security job uses GitHub-hosted infrastructure. SAST/SCA checks enforce configured policy/baseline and required analyzer coverage, not an absence-of-all-findings guarantee.
+- **Implementation:** `fendix-dast.yml` provides additional pre-production security validation. Do not describe it as a mandatory production dependency.
+- **Owner — confirmed:** designed and operated these workflows, with additional application testing in the delivery process. Application-test workflow locations and mandatory gate status remain unverified; do not claim that unit/integration/API/E2E tests all automatically block production.
+- These workflow findings do not make the performance benchmarks CI-tested, and do not establish the same gate wiring for Sanad’s separate repository.
 
 ## Fendix (independent)
 

@@ -11,7 +11,7 @@ export const careerAr: Career = {
     "متاح لفرص كمهندس برمجيات أول، أو مهندس Backend أول، أو قائد تقني، أو Staff Engineer — حضوري في الرياض، أو عن بُعد، أو مع الانتقال لمكان الشغل.",
 
   summary:
-    "قائد فريق برمجيات ومهندس برمجيات أول، عندي خبرة مهنية 6 سنين وأكتر في بناء منصات SaaS وخدمات backend وأنظمة موزّعة بأكتر من stack. بختار اللغة والأدوات حسب المشكلة وقيود التشغيل، وبقود فريق متعدد التخصصات بيوصل لـ 13 مهندس مع استمرار شغلي العملي في الـ architecture ومراجعة الكود والـ delivery والـ production.",
+    "قائد فريق برمجيات ومهندس برمجيات أول، عندي خبرة مهنية أكتر من 6 سنين في بناء منصات SaaS وخدمات backend وأنظمة موزّعة بأكتر من stack. بختار اللغة والأدوات حسب المشكلة وقيود التشغيل، وبقود فريق متعدد التخصصات بيوصل لـ 13 مهندس وبشارك بنفسي في تصميم الأنظمة ومراجعة الكود وتنفيذها وتشغيلها.",
 
   skills: [
     { label: "Backend", items: ["Python", "Go", "Django", "Django REST Framework", "FastAPI", "Celery", "تصميم REST API", "الـ Authentication والـ RBAC"] },
@@ -55,7 +55,7 @@ export const careerAr: Career = {
       start: "أبريل 2024",
       end: "يناير 2026",
       summary:
-        "قائد الـ backend والمساهم الأساسي في منصة تسجيل وصول ذاتي (self check-in) لضيوف الفنادق: data model بيدعم أكتر من فندق، وربط مع Oracle OPERA Cloud (OHIP) فيه تسوية الـ folio عند تسجيل المغادرة (check-out)، و Tap Payments و HyperPay ورا طبقة gateway واحدة، وشات للدعم، و adapter بـ FastAPI لتقارير Shomoos في السعودية.",
+        "قُدت شغل الـ backend وكنت المساهم الأساسي في منصة تسجيل وصول ذاتي (self check-in) لضيوف الفنادق: data model بيدعم أكتر من فندق، وربط مع Oracle OPERA Cloud (OHIP) فيه تسوية الـ folio عند تسجيل المغادرة (check-out)، و Tap Payments و HyperPay ورا طبقة gateway واحدة، وشات للدعم، و adapter بـ FastAPI لتقارير Shomoos في السعودية.",
       highlights: [],
     },
     {
@@ -84,7 +84,7 @@ export const careerAr: Career = {
       engagement: "Full-time",
       start: "أغسطس 2020",
       end: "مايو 2022",
-      summary: "طورت تطبيقات desktop بـ Python (PyQt/PySide)، و workflows آلية للتقارير.",
+      summary: "طورت تطبيقات desktop بـ Python (PyQt/PySide)، وأدوات لإعداد التقارير تلقائيًا.",
       highlights: [],
     },
   ],
@@ -102,8 +102,8 @@ export const careerAr: Career = {
 
   highlights: [
     { value: 6, suffix: "+", label: "سنين في بناء برمجيات للـ production" },
-    { value: 13, suffix: "", label: "مهندس في خمس تخصصات تحت قيادتي" },
+    { value: 13, suffix: "", label: "مهندس في خمسة تخصصات في الفريق اللي بقوده" },
     { value: 2, suffix: " سنة", label: "كمطور الـ backend الوحيد في Twiscope" },
-    { value: 2, suffix: "", label: "بوابات دفع متربطة (Tap، HyperPay)" },
+    { value: 2, suffix: "", label: "بوابات دفع اشتغلت على ربطها (Tap، HyperPay)" },
   ],
 };

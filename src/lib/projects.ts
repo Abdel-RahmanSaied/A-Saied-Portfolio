@@ -36,11 +36,11 @@ export const projects: Project[] = [
     tagline: "Media intelligence and decision-support platform",
     caseStudyHook: "How shared collection, permissions, and queues support a growing media-intelligence platform",
     description:
-      "Arabic/English media-intelligence platform for monitoring and analysing accounts, topics, hashtags, influencers and channels, then turning reports into decision support through products including Deep-In, Twiscope Influence Index and Sanad AI. My work covered the shared Django/DRF and Celery backend behind Deep-In, influencer monitoring, Decision Hub, alerts, subscriptions and access control, plus Kong, PostgreSQL, Elasticsearch and Terraform-managed AWS. I was its sole backend developer for two years before moving into team leadership.",
+      "Arabic/English media-intelligence platform for monitoring and analysing accounts, topics, hashtags, influencers and channels, then turning reports into decision support through products including Deep-In, Twiscope Influence Index and Sanad AI. My work covered the shared Django/DRF and Celery backend behind Deep-In, influencer monitoring, Decision Hub, alerts, subscriptions and access control, plus Kong, PostgreSQL, Elasticsearch and Terraform-managed AWS. I was its sole backend developer from October 2023 to October 2025 and began leading the team in August 2024 alongside that role.",
     techStack: ["Django / DRF", "Celery", "Redis", "PostgreSQL", "Elasticsearch", "Kong", "FastAPI", "Terraform", "AWS"],
     category: "Platform",
     engagement: "ASAS IT",
-    role: "Backend lead → Team Lead",
+    role: "Backend developer & team lead",
     live: "https://twiscope.net/",
     caseStudy: "/case-studies/twiscope",
     featured: true,

@@ -1135,7 +1135,7 @@ def run_center(center_id):
       {
         type: "list",
         items: [
-          "Run the test suite in CI from the first month. The repository has thousands of tests, but CI still runs only security scans and deployments.",
+          "Make application-test results an explicit deployment gate from the first month. The reviewed workflows enforce commit-bound security checks; application testing is part of the broader delivery process, but its status as a mandatory deployment gate is not independently verified here.",
           "Give heavy queues their own workers early. One worker container still consumes every main queue, so a burst of one kind of work can delay the others.",
           "Decide which numbers you'll want to quote before you need them, and instrument for them. Claims you can't measure end up being claims you shouldn't make.",
           "Sign outgoing webhooks from the start rather than retrofitting it.",

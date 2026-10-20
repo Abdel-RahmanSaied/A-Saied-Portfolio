@@ -43,6 +43,14 @@ But keep it professional:
 
 - No jokes, no slang (جامد، أوي، يا جماعة، اشطة, etc.), no emojis.
 - "جدًا" is fine. Short, direct sentences are better than long chained ones.
+- Prefer concrete actions over literal translations or slogans: "تحديد مسؤولية
+  كل خدمة", not "المسؤولية عن الحدود"; "معالجة تلقائية لمشاكل الدفع",
+  not "مدفوعات بتصلّح نفسها". Read every sentence aloud.
+- Egyptian Arabic still needs agreement and clear spelling: "خمسة نطاقات",
+  "سبعة أنواع", "أربعة مؤشرات", "الكلمات العربية", "بالضبط".
+- Keep English for technical precision, not ordinary connecting prose.
+  Prefer "قيادة التنفيذ" to "قيادة الـ delivery" and explain an unfamiliar term
+  briefly on first use when its meaning matters to the reader.
 - Avoid assuming the reader's gender. Prefer impersonal phrasing ("لو الـ API
   بطيء...") or the plural ("لو عندكم...") over masculine "إنت".
 
@@ -122,7 +130,7 @@ Use these fixed Arabic forms for common words, so the whole site is consistent:
 | by default | افتراضيًا |
 | pre-launch | قبل الإطلاق |
 | right-to-left | من اليمين للشمال |
-| vertical clips | مقاطع بالطول (not طولية, which reads like طويلة) |
+| vertical clips | مقاطع رأسية (9:16 when the aspect ratio helps) |
 | on-site / remote / relocation | حضوري / عن بُعد / الانتقال لمكان الشغل |
 | Creator & maintainer | منشئ المشروع والـ maintainer |
 | Desktop Software Engineer | مهندس برمجيات Desktop |
@@ -193,3 +201,7 @@ Month names use the Egyptian forms: يناير، فبراير، مارس، أب�
 4. It reads as natural Egyptian Arabic out loud, with no MSA-only connectors
    (الذي، ليس، سوف، يقوم بـ، حيث).
 5. Code blocks, URLs and identifiers are byte-for-byte unchanged.
+6. Narrative links to this site's pages use `/ar/...` in Arabic copy; structured
+   link fields keep the base path when the renderer already localizes them.
+7. Check overlapping roles against the career timeline. Do not turn concurrent
+   responsibilities into a sequence of jobs.
